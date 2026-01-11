@@ -1,0 +1,26 @@
+[
+  {
+    "user_id": "1",
+    "username": "TestUser",
+    "join_date": "2012-01-01 00:00:00",
+    "count300": "59217778",
+    "count100": "5282321",
+    "count50": "533948",
+    "playcount": "229370",
+    "ranked_score": "136752036074",
+    "total_score": "906920445086",
+    "pp_rank": "1",
+    "level": "108.8",
+    "pp_raw": "31811.7",
+    "accuracy": "98.231201171875",
+    "count_rank_ss": "30",
+    "count_rank_ssh": "46",
+    "count_rank_s": "295",
+    "count_rank_sh": "1383",
+    "count_rank_a": "2308",
+    "country": "US",
+    "total_seconds_played": "99999999",
+    "pp_country_rank": "1",
+    "events": []
+  }
+]
