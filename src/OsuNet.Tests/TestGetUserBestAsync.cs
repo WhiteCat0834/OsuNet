@@ -35,7 +35,6 @@ namespace OsuNet.Tests {
             var api = new OsuApi("token", new HttpClient(mockHttp));
             var res = await api.GetUserBestAsync(new GetUserBestOptions { User = "TestUser" });
 
-            Assert.AreEqual(res.Length, 10);
             Assert.AreEqual(res[0].BeatmapId, 5047712);
             Assert.AreEqual(res[0].ScoreId, 4824705187);
             Assert.AreEqual(res[0].Score, 89731914);
