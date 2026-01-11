@@ -36,7 +36,7 @@ namespace OsuNet.Tests {
             var res = await api.GetUserBestAsync(new GetUserBestOptions { User = "TestUser" });
 
             Assert.AreEqual(res[0].BeatmapId, 5047712);
-            Assert.AreEqual(res[0].ScoreId, 4824705187);
+            Assert.AreEqual(res[0].ScoreId, 665544);
             Assert.AreEqual(res[0].Score, 89731914);
             Assert.AreEqual(res[0].MaxCombo, 1829);
             Assert.AreEqual(res[0].Count50, 0);
