@@ -3,10 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using OsuNet.Enums;
-using OsuNet.Models;
 using OsuNet.Models.Options;
 using RichardSzalay.MockHttp;
 
