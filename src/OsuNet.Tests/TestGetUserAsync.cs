@@ -54,7 +54,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(user.TotalSecondsPlayed, 99999999);
             Assert.AreEqual(user.PPCountryRank, 1);
             Assert.IsEmpty(user.Events);
-            Assert.AreEqual(user.GetAvatar(), "http://s.ppy.sh/a/1");
+            Assert.AreEqual(user.GetAvatar(), "https://s.ppy.sh/a/1");
             Assert.AreEqual(user.GetUrl(), "https://osu.ppy.sh/users/1");
         }
     }

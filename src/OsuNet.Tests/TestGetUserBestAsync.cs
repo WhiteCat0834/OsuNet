@@ -52,7 +52,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(res[0].Rank, "A");
             Assert.AreEqual(res[0].PP, 1807.26f);
             Assert.AreEqual(res[0].ReplayAvailable, true);
-            Assert.AreEqual(res[0].GetAvatar(), "http://s.ppy.sh/a/9999999");
+            Assert.AreEqual(res[0].GetAvatar(), "https://s.ppy.sh/a/9999999");
             Assert.AreEqual(res[0].GetUrl(), "https://osu.ppy.sh/users/9999999");
         }
     }

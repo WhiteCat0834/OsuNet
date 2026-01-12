@@ -49,7 +49,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(score.Rank, "XH");
             Assert.AreEqual(score.PP, 383.067f);
             Assert.AreEqual(score.ReplayAvailable, true);
-            Assert.AreEqual(score.GetAvatar(), "http://s.ppy.sh/a/112233");
+            Assert.AreEqual(score.GetAvatar(), "https://s.ppy.sh/a/112233");
             Assert.AreEqual(score.GetUrl(), "https://osu.ppy.sh/users/112233");
         }
     }

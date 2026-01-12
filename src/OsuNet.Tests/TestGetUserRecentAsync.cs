@@ -51,7 +51,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(users[0].DateTime, new DateTime(2026, 01, 10, 16, 09, 14));
             Assert.AreEqual(users[0].Rank, "F");
             Assert.AreEqual(users[0].ScoreId, null);
-            Assert.AreEqual(users[0].GetAvatar(), "http://s.ppy.sh/a/225511");
+            Assert.AreEqual(users[0].GetAvatar(), "https://s.ppy.sh/a/225511");
             Assert.AreEqual(users[0].GetUrl(), "https://osu.ppy.sh/users/225511");
         }
     }

@@ -68,7 +68,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(match.Games[0].Scores[0].Perfect, false);
             Assert.AreEqual(match.Games[0].Scores[0].Pass, true);
             Assert.AreEqual(match.Games[0].Scores[0].EnabledMods, null);
-            Assert.AreEqual(match.Games[0].Scores[0].GetAvatar(), "http://s.ppy.sh/a/14125274");
+            Assert.AreEqual(match.Games[0].Scores[0].GetAvatar(), "https://s.ppy.sh/a/14125274");
             Assert.AreEqual(match.Games[0].Scores[0].GetUrl(), "https://osu.ppy.sh/users/14125274");
         }
     }
