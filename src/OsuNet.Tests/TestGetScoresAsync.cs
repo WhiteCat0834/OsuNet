@@ -52,7 +52,7 @@ namespace OsuNet.Tests {
         }
 
         [Test]
-        public async Task GetScoresAsyncGetAvatar() {
+        public async Task GetScoresAsync_GetAvatar() {
             var json = File.ReadAllText("../../../TestData/GetScoresAsync.json");
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_scores*")
@@ -65,7 +65,7 @@ namespace OsuNet.Tests {
         }
 
         [Test]
-        public async Task GetScoresAsyncGetUrl() {
+        public async Task GetScoresAsync_GetUrl() {
             var json = File.ReadAllText("../../../TestData/GetScoresAsync.json");
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_scores*")
