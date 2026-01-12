@@ -74,7 +74,7 @@ namespace OsuNet {
             return buildQuery(
                 ("k", accessToken),
                 ("u", options.User?.ToString()),
-                ("m", ((int)options.Mode).ToString()),
+                ("m", ((int?)options.Mode)?.ToString()),
                 ("type", options.Type),
                 ("event_days", options.EventDays)
             );
@@ -105,7 +105,7 @@ namespace OsuNet {
                 ("k", accessToken),
                 ("b", options.BeatmapId?.ToString()),
                 ("u", options.User),
-                ("m", ((int)options.Mode).ToString()),
+                ("m", ((int?)options.Mode)?.ToString()),
                 ("mods", options.Mods?.ToString()),
                 ("type", options.Type),
                 ("limit", options.Limit?.ToString())

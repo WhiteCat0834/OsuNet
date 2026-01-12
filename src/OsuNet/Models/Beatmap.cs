@@ -280,7 +280,7 @@ namespace OsuNet.Models {
         /// Gets the URL of this beatmap creator's avatar.
         /// </summary>
         /// <returns>A string representing the URL of the map creator's avatar.</returns>
-        public string GetCreatorAvatar() => $"http://s.ppy.sh/a/{CreatorId}";
+        public string GetCreatorAvatar() => $"https://s.ppy.sh/a/{CreatorId}";
 
         /// <summary>
         /// Gets the URL of the beatmap.
