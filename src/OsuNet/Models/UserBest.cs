@@ -112,7 +112,7 @@ namespace OsuNet.Models {
         /// Gets the avatar URL for this user.
         /// </summary>
         /// <returns>A string representing the user's avatar URL.</returns>
-        public string GetAvatar() => $"http://s.ppy.sh/a/{UserId}";
+        public string GetAvatar() => $"https://s.ppy.sh/a/{UserId}";
 
         /// <summary>
         /// Gets the URL of the user.

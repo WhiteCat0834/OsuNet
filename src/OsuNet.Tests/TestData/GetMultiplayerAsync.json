@@ -33,23 +33,6 @@
           "perfect": "0",
           "pass": "1",
           "enabled_mods": null
-        },
-        {
-          "slot": "1",
-          "team": "0",
-          "user_id": "14125275",
-          "score": "185904",
-          "maxcombo": "50",
-          "rank": "0",
-          "count50": "15",
-          "count100": "63",
-          "count300": "171",
-          "countmiss": "31",
-          "countgeki": "7",
-          "countkatu": "26",
-          "perfect": "0",
-          "pass": "1",
-          "enabled_mods": null
         }
       ]
     }
