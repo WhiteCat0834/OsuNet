@@ -54,33 +54,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(user.TotalSecondsPlayed, 99999999);
             Assert.AreEqual(user.PPCountryRank, 1);
             Assert.IsEmpty(user.Events);
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetAvatar() {
-            var json = File.ReadAllText("../../../TestData/GetUserAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserAsync(new GetUserOptions { User = "TestUser" })).First();
-
             Assert.AreEqual(user.GetAvatar(), "http://s.ppy.sh/a/1");
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetUrl() {
-            var json = File.ReadAllText("../../../TestData/GetUserAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserAsync(new GetUserOptions { User = "TestUser" })).First();
-
             Assert.AreEqual(user.GetUrl(), "https://osu.ppy.sh/users/1");
         }
     }

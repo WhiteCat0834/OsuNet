@@ -1,11 +1,13 @@
 ﻿using NUnit.Framework;
 using OsuNet.Enums;
+using OsuNet.Models;
 using OsuNet.Models.Options;
 using RichardSzalay.MockHttp;
 using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.ConstrainedExecution;
 using System.Threading.Tasks;
 
 namespace OsuNet.Tests {
@@ -49,34 +51,8 @@ namespace OsuNet.Tests {
             Assert.AreEqual(users[0].DateTime, new DateTime(2026, 01, 10, 16, 09, 14));
             Assert.AreEqual(users[0].Rank, "F");
             Assert.AreEqual(users[0].ScoreId, null);
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetAvatar() {
-            var json = File.ReadAllText("../../../TestData/GetUserRecentAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user_recent*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserRecentAsync(new GetUserRecentOptions { User = "TestUser" })).First();
-
-            Assert.AreEqual(user.GetAvatar(), "http://s.ppy.sh/a/225511");
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetUrl() {
-            var json = File.ReadAllText("../../../TestData/GetUserRecentAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user_recent*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserRecentAsync(new GetUserRecentOptions { User = "TestUser" })).First();
-
-            Assert.AreEqual(user.GetUrl(), "https://osu.ppy.sh/users/225511");
+            Assert.AreEqual(users[0].GetAvatar(), "http://s.ppy.sh/a/225511");
+            Assert.AreEqual(users[0].GetUrl(), "https://osu.ppy.sh/users/225511");
         }
     }
 }

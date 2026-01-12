@@ -74,70 +74,10 @@ namespace OsuNet.Tests {
             Assert.AreEqual(beatmap.DiffAim, null);
             Assert.AreEqual(beatmap.DiffSpeed, null);
             Assert.AreEqual(beatmap.DiffecultyRating, 5.5707f);
-        }
-
-        [Test]
-        public async Task GetBeatmapAsync_GetCover() {
-            var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
-
             Assert.AreEqual(beatmap.GetCover(), "https://assets.ppy.sh/beatmaps/5544332/covers/cover.jpg");
-        }
-
-        [Test]
-        public async Task GetBeatmapAsync_GetThumbnail() {
-            var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
-
             Assert.AreEqual(beatmap.GetThumbnail(), "https://b.ppy.sh/thumb/5544332l.jpg");
-        }
-
-        [Test]
-        public async Task GetBeatmapAsync_GetCreatorUrl() {
-            var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
-
             Assert.AreEqual(beatmap.GetCreatorUrl(), "https://osu.ppy.sh/users/11111111");
-        }
-
-        [Test]
-        public async Task GetBeatmapAsync_GetCreatorAvatar() {
-            var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
-
             Assert.AreEqual(beatmap.GetCreatorAvatar(), "https://s.ppy.sh/a/11111111");
-        }
-
-        [Test]
-        public async Task GetBeatmapAsync_GetUrl() {
-            var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
-
             Assert.AreEqual(beatmap.GetUrl(), "https://osu.ppy.sh/beatmapsets/5544332#osu/2233440");
         }
     }

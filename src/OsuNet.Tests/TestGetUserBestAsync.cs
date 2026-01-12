@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OsuNet.Enums;
+using OsuNet.Models;
 using OsuNet.Models.Options;
 using RichardSzalay.MockHttp;
 using System;
@@ -51,34 +52,8 @@ namespace OsuNet.Tests {
             Assert.AreEqual(res[0].Rank, "A");
             Assert.AreEqual(res[0].PP, 1807.26f);
             Assert.AreEqual(res[0].ReplayAvailable, true);
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetAvatar() {
-            var json = File.ReadAllText("../../../TestData/GetUserBestAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user_best*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserBestAsync(new GetUserBestOptions { User = "TestUser" })).First();
-
-            Assert.AreEqual(user.GetAvatar(), "http://s.ppy.sh/a/9999999");
-        }
-
-        [Test]
-        public async Task GetUserAsync_GetUrl() {
-            var json = File.ReadAllText("../../../TestData/GetUserBestAsync.json");
-
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_user_best*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var user = (await api.GetUserBestAsync(new GetUserBestOptions { User = "TestUser" })).First();
-
-            Assert.AreEqual(user.GetUrl(), "https://osu.ppy.sh/users/9999999");
+            Assert.AreEqual(res[0].GetAvatar(), "http://s.ppy.sh/a/9999999");
+            Assert.AreEqual(res[0].GetUrl(), "https://osu.ppy.sh/users/9999999");
         }
     }
 }

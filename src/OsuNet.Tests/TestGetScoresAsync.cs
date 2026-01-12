@@ -49,31 +49,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(score.Rank, "XH");
             Assert.AreEqual(score.PP, 383.067f);
             Assert.AreEqual(score.ReplayAvailable, true);
-        }
-
-        [Test]
-        public async Task GetScoresAsync_GetAvatar() {
-            var json = File.ReadAllText("../../../TestData/GetScoresAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_scores*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var score = (await api.GetScoresAsync(new GetScoresOptions { BeatmapId = 1 })).First();
-
             Assert.AreEqual(score.GetAvatar(), "http://s.ppy.sh/a/112233");
-        }
-
-        [Test]
-        public async Task GetScoresAsync_GetUrl() {
-            var json = File.ReadAllText("../../../TestData/GetScoresAsync.json");
-            var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("https://osu.ppy.sh/api/get_scores*")
-                    .Respond("application/json", json);
-
-            var api = new OsuApi("token", new HttpClient(mockHttp));
-            var score = (await api.GetScoresAsync(new GetScoresOptions { BeatmapId = 1 })).First();
-
             Assert.AreEqual(score.GetUrl(), "https://osu.ppy.sh/users/112233");
         }
     }
