@@ -58,7 +58,7 @@ namespace OsuNet.Models {
         /// The number of good combos that the player has hit.
         /// </summary>
         [JsonProperty("countkatu")]
-        public ulong Countkatu { get; set; }
+        public ulong CountKatu { get; set; }
 
         /// <summary>
         /// The number of perfect combos that the player has hit.
