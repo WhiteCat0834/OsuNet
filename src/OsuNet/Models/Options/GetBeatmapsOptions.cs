@@ -1,7 +1,7 @@
 ﻿using OsuNet.Enums;
 
 namespace OsuNet.Models.Options {
-    public class GetBeatmapOptions {
+    public class GetBeatmapsOptions {
         public DateTime? Since { get; set; }
         public ulong? BeatmapSetId { get; set; }
         public ulong? BeatmapId { get; set; }

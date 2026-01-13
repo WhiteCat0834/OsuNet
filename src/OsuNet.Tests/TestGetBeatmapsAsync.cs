@@ -9,28 +9,28 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace OsuNet.Tests {
-    public class TestGetBeatmapAsync {
+    public class TestGetBeatmapsAsync {
         [Test]
-        public async Task GetNonExistingBeatmapAsync() {
+        public async Task GetNonExistingBeatmapsAsync() {
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
                     .Respond("application/json", "[]");
 
             var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmaps = await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 0 });
+            var beatmaps = await api.GetBeatmapsAsync(new GetBeatmapsOptions { BeatmapId = 0 });
 
             Assert.IsEmpty(beatmaps);
         }
 
         [Test]
-        public async Task GetExistingBeatmapAsync() {
+        public async Task GetExistingBeatmapsAsync() {
             var json = File.ReadAllText("../../../TestData/GetBeatmapsAsync.json");
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_beatmaps*")
                     .Respond("application/json", json);
 
             var api = new OsuApi("token", new HttpClient(mockHttp));
-            var beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions { BeatmapId = 2233440 })).First();
+            var beatmap = (await api.GetBeatmapsAsync(new GetBeatmapsOptions { BeatmapId = 2233440 })).First();
 
             Assert.AreEqual(beatmap.BeatmapSetId, 5544332);
             Assert.AreEqual(beatmap.BeatmapId, 2233440);

@@ -8,37 +8,37 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace OsuNet.Tests {
-    public class TestGetMultiplayerAsync {
+    public class TestGetMatchAsync {
         [Test]
-        public async Task GetNonExistingMultiplayerAsync() {
+        public async Task GetNonExistingMatchAsync() {
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_match*")
                     .Respond("application/json", "{\"match\":0,\"games\":[]}");
 
             var api = new OsuApi("token", new HttpClient(mockHttp));
-            var match = await api.GetMultiplayerAsync(new GetMultiplayerOptions { MatchId = 1 });
+            var match = await api.GetMatchAsync(new GetMatchOptions { MatchId = 1 });
 
-            Assert.AreEqual(match.Match.MatchId, 0);
-            Assert.AreEqual(match.Match.Name, null);
-            Assert.AreEqual(match.Match.StartTime, new DateTime(0001, 01, 01, 00, 00, 00));
-            Assert.AreEqual(match.Match.EndTime, null);
+            Assert.AreEqual(match.MatchInfo.MatchId, 0);
+            Assert.AreEqual(match.MatchInfo.Name, null);
+            Assert.AreEqual(match.MatchInfo.StartTime, new DateTime(0001, 01, 01, 00, 00, 00));
+            Assert.AreEqual(match.MatchInfo.EndTime, null);
             Assert.IsEmpty(match.Games);
         }
 
         [Test]
-        public async Task GetExistingMultiplayerAsync() {
-            var json = File.ReadAllText("../../../TestData/GetMultiplayerAsync.json");
+        public async Task GetExistingMatchAsync() {
+            var json = File.ReadAllText("../../../TestData/GetMatchAsync.json");
             var mockHttp = new MockHttpMessageHandler();
             mockHttp.When("https://osu.ppy.sh/api/get_match*")
                     .Respond("application/json", json);
 
             var api = new OsuApi("token", new HttpClient(mockHttp));
-            var match = await api.GetMultiplayerAsync(new GetMultiplayerOptions { MatchId = 120285014 });
+            var match = await api.GetMatchAsync(new GetMatchOptions { MatchId = 120285014 });
 
-            Assert.AreEqual(match.Match.MatchId, 120285014);
-            Assert.AreEqual(match.Match.Name, "game");
-            Assert.AreEqual(match.Match.StartTime, new DateTime(2026, 01, 11, 05, 38, 55));
-            Assert.AreEqual(match.Match.EndTime, new DateTime(2026, 01, 11, 05, 52, 28));
+            Assert.AreEqual(match.MatchInfo.MatchId, 120285014);
+            Assert.AreEqual(match.MatchInfo.Name, "game");
+            Assert.AreEqual(match.MatchInfo.StartTime, new DateTime(2026, 01, 11, 05, 38, 55));
+            Assert.AreEqual(match.MatchInfo.EndTime, new DateTime(2026, 01, 11, 05, 52, 28));
 
             Assert.AreEqual(match.Games.Length, 1);
             Assert.AreEqual(match.Games[0].GameId, 631404958);

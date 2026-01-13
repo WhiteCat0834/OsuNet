@@ -54,7 +54,7 @@ namespace OsuNet {
             }
         }
 
-        private IEnumerable<KeyValuePair<string, string>> BeatmapQuery(GetBeatmapOptions options) {
+        private IEnumerable<KeyValuePair<string, string>> BeatmapQuery(GetBeatmapsOptions options) {
             return buildQuery(
                 ("k", accessToken),
                 ("since", options.Since?.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")),
@@ -112,7 +112,7 @@ namespace OsuNet {
             );
         }
 
-        private IEnumerable<KeyValuePair<string, string>> MultiplayerQuery(GetMultiplayerOptions options) {
+        private IEnumerable<KeyValuePair<string, string>> MultiplayerQuery(GetMatchOptions options) {
             return buildQuery(
                 ("k", accessToken),
                 ("mp", options.MatchId.ToString())
@@ -136,7 +136,7 @@ namespace OsuNet {
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of beatmap.</returns>
-        public async Task<Beatmap[]> GetBeatmapAsync(GetBeatmapOptions options) =>
+        public async Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options) =>
             await getAsync<Beatmap[]>("get_beatmaps", BeatmapQuery(options));
         
 
@@ -177,8 +177,8 @@ namespace OsuNet {
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Information about a multiplayer match.</returns>
-        public async Task<Multiplayer> GetMultiplayerAsync(GetMultiplayerOptions options) =>
-            await getAsync<Multiplayer>("get_match", MultiplayerQuery(options));
+        public async Task<Match> GetMatchAsync(GetMatchOptions options) =>
+            await getAsync<Match>("get_match", MultiplayerQuery(options));
 
         /// <summary>
         /// Get the replay data of a user's score on a beatmap.<br/>You are only allowed to do 10 requests per minute.
