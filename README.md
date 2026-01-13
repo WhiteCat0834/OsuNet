@@ -6,6 +6,7 @@ Documentation for this library: [link](https://github.com/WhiteCat0834/OsuNet/wi
 > [!NOTE]
 > The original repository belongs to Blackcat76iT
 
+
 ## Installation
 
 ```
@@ -27,19 +28,31 @@ using OsuNet.Models.Options;
 public class Program {
     private static readonly OsuApi api = new OsuApi("Your Token");
 
-    static async void Main(string[] args) {
-        Beatmap beatmap = await GetBeatmapAsync(3713514);
+    static async Task Main(string[] args) {
+        try {
+            Console.Write("Enter BeatmapId: ");
+            string input = Console.ReadLine();
 
-        Console.WriteLine(beatmap.Title);
-        Console.WriteLine(beatmap.GetThumbnail()); // Returns a link to the thumbnail beatmap.
-    }
+            if (!ulong.TryParse(input, out ulong beatmapId)) {
+                Console.WriteLine("Error: Invalid BeatmapId. Please enter a valid positive integer.");
+                return;
+            }
 
-    public static async Task<Beatmap> GetBeatmapAsync(ulong id) {
-        Beatmap beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions() {
-            BeatmapId = id
-        })).FirstOrDefault();
+            Beatmap beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions() {
+                BeatmapId = beatmapId
+            })).FirstOrDefault();
 
-        return beatmap;
+            if (beatmap is null) {
+                Console.WriteLine("Beatmap not found.");
+                return;
+            }
+
+            Console.WriteLine(beatmap.Title);
+            Console.WriteLine(beatmap.GetThumbnail()); // Returns a link to the thumbnail of the beatmap.
+        }
+        catch (Exception ex) {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+        }
     }
 }
 ```
