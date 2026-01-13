@@ -29,30 +29,25 @@ public class Program {
     private static readonly OsuApi api = new OsuApi("Your Token");
 
     static async Task Main(string[] args) {
-        try {
-            Console.Write("Enter BeatmapId: ");
-            string input = Console.ReadLine();
+        Console.Write("Enter BeatmapId: ");
+        string input = Console.ReadLine();
 
-            if (!ulong.TryParse(input, out ulong beatmapId)) {
-                Console.WriteLine("Error: Invalid BeatmapId. Please enter a valid positive integer.");
-                return;
-            }
-
-            Beatmap beatmap = (await api.GetBeatmapsAsync(new GetBeatmapsOptions() {
-                BeatmapId = beatmapId
-            })).FirstOrDefault();
-
-            if (beatmap is null) {
-                Console.WriteLine("Beatmap not found.");
-                return;
-            }
-
-            Console.WriteLine(beatmap.Title);
-            Console.WriteLine(beatmap.GetThumbnail()); // Returns a link to the thumbnail of the beatmap.
+        if (!ulong.TryParse(input, out ulong beatmapId)) {
+            Console.WriteLine("Error: Invalid BeatmapId. Please enter a valid positive integer.");
+            return;
         }
-        catch (Exception ex) {
-            Console.WriteLine($"An error occurred: {ex.Message}");
+
+        Beatmap beatmap = (await api.GetBeatmapsAsync(new GetBeatmapsOptions() {
+            BeatmapId = beatmapId
+        })).FirstOrDefault();
+
+        if (beatmap is null) {
+            Console.WriteLine("Beatmap not found.");
+            return;
         }
+
+        Console.WriteLine(beatmap.Title);
+        Console.WriteLine(beatmap.GetThumbnail()); // Returns a link to the thumbnail of the beatmap.
     }
 }
 ```
