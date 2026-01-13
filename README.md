@@ -38,7 +38,7 @@ public class Program {
                 return;
             }
 
-            Beatmap beatmap = (await api.GetBeatmapAsync(new GetBeatmapOptions() {
+            Beatmap beatmap = (await api.GetBeatmapsAsync(new GetBeatmapsOptions() {
                 BeatmapId = beatmapId
             })).FirstOrDefault();
 
