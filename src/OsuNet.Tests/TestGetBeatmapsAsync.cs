@@ -66,7 +66,7 @@ namespace OsuNet.Tests {
             Assert.AreEqual(beatmap.Storyboard, false);
             Assert.AreEqual(beatmap.Video, false);
             Assert.AreEqual(beatmap.DownloadUnavailable, false);
-            Assert.AreEqual(beatmap.AudioUnavailble, false);
+            Assert.AreEqual(beatmap.AudioUnavailable, false);
             Assert.AreEqual(beatmap.PlayCount, 0);
             Assert.AreEqual(beatmap.PassCount, 0);
             Assert.AreEqual(beatmap.Packs, null);

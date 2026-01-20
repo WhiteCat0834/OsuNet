@@ -214,7 +214,7 @@ namespace OsuNet.Models {
         /// If the audio for this beatmap is unavailable. (DMCA takedown, etc.)
         /// </summary>
         [JsonProperty("audio_unavailable")]
-        public bool AudioUnavailble { get; set; }
+        public bool AudioUnavailable { get; set; }
 
         /// <summary>
         /// Number of times the beatmap was played.
