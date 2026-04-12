@@ -256,7 +256,7 @@ namespace OsuNet.Models {
         /// The number of stars the map would have in-game and on the website.
         /// </summary>
         [JsonProperty("difficultyrating")]
-        public float DiffecultyRating { get; set; }
+        public float DifficultyRating { get; set; }
 
         /// <summary>
         /// Gets the cover URL for this Beatmap.

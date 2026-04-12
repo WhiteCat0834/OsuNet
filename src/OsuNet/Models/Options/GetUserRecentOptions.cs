@@ -2,10 +2,21 @@
 
 namespace OsuNet.Models.Options {
     public class GetUserRecentOptions {
+        private string user;
+
         /// <summary>
         /// User is a required option.
         /// </summary>
-        public string User { get; set; }
+        public string User {
+            get => user;
+            set {
+                if (string.IsNullOrWhiteSpace(value)) {
+                    throw new ArgumentException("User cannot be null or empty.");
+                }
+                user = value;
+            }
+        }
+
         public BeatmapMode? Mode { get; set; } = 0;
         public long? Limit { get; set; } = 10;
         public string Type { get; set; }
