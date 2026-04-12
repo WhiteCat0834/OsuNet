@@ -16,17 +16,19 @@ PM> Install-Package OsuNet
 
 ## Usage Example
 
-Before you can start using the library, you must obtain a [token](https://osu.ppy.sh/p/api/) (It is abcisable to log into your Osu acconunt in advence)
+Before you can start using the library, you must obtain a [token](https://osu.ppy.sh/p/api/). You can also log in to your Osu account in advance.
 
-**An example of using this library:**
+**Example:**
 ```cs
 using System;
+using System.Linq;
+using System.Net.Http;
 using OsuNet;
 using OsuNet.Models;
 using OsuNet.Models.Options;
 
 public class Program {
-    private static readonly OsuApi api = new OsuApi("Your Token");
+    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN_HERE", new HttpClient());
 
     static async Task Main(string[] args) {
         Console.Write("Enter BeatmapId: ");
