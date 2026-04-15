@@ -14,12 +14,12 @@ namespace OsuNet.Tests.Enums {
             Assert.Equal(64, (int)Mods.DoubleTime);
             Assert.Equal(128, (int)Mods.Relax);
             Assert.Equal(256, (int)Mods.HalfTime);
-            Assert.Equal(512, (int)Mods.Nightcore);
+            Assert.Equal(576, (int)Mods.Nightcore);
             Assert.Equal(1024, (int)Mods.Flashlight);
             Assert.Equal(2048, (int)Mods.Autoplay);
             Assert.Equal(4096, (int)Mods.SpunOut);
             Assert.Equal(8192, (int)Mods.Relax2);
-            Assert.Equal(16384, (int)Mods.Perfect);
+            Assert.Equal(16416, (int)Mods.Perfect);
             Assert.Equal(32768, (int)Mods.Key4);
             Assert.Equal(65536, (int)Mods.Key5);
             Assert.Equal(131072, (int)Mods.Key6);
