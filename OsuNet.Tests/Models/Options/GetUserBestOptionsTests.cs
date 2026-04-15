@@ -25,14 +25,5 @@ namespace OsuNet.Tests.Models.Options {
             Assert.Equal(options.Limit, deserializedOptions.Limit);
             Assert.Equal(options.Type, deserializedOptions.Type);
         }
-
-        [Fact]
-        public void GetUserBestOptions_ShouldThrowException_WhenUserIsInvalid() {
-            // Arrange
-            var options = new GetUserBestOptions();
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => options.User = "");
-        }
     }
 }

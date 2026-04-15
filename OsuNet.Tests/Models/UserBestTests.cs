@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
 using OsuNet.Enums;
 using OsuNet.Models;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace OsuNet.Tests.Models {
     public class UserBestTests {

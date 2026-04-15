@@ -2,7 +2,6 @@
 using OsuNet.Enums;
 using OsuNet.Models;
 using OsuNet.Models.Info;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace OsuNet.Tests.Models {
     public class MatchTests {

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
-using OsuNet.Models.Options;
 using OsuNet.Enums;
+using OsuNet.Models.Options;
 
 namespace OsuNet.Tests.Models.Options {
     public class GetBeatmapsOptionsTests {

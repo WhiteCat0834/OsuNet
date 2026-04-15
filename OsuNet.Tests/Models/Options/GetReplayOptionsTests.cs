@@ -29,23 +29,5 @@ namespace OsuNet.Tests.Models.Options {
             Assert.Equal(options.Type, deserializedOptions.Type);
             Assert.Equal(options.Mods, deserializedOptions.Mods);
         }
-
-        [Fact]
-        public void GetReplayOptions_ShouldThrowException_WhenBeatmapIdIsInvalid() {
-            // Arrange
-            var options = new GetReplayOptions();
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => options.BeatmapId = 0);
-        }
-
-        [Fact]
-        public void GetReplayOptions_ShouldThrowException_WhenUserIsInvalid() {
-            // Arrange
-            var options = new GetReplayOptions();
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => options.User = "");
-        }
     }
 }

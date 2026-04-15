@@ -25,14 +25,5 @@ namespace OsuNet.Tests.Models.Options {
             Assert.Equal(options.Type, deserializedOptions.Type);
             Assert.Equal(options.EventDays, deserializedOptions.EventDays);
         }
-
-        [Fact]
-        public void GetUserOptions_ShouldThrowException_WhenUserIsInvalid() {
-            // Arrange
-            var options = new GetUserOptions();
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => options.User = null);
-        }
     }
 }

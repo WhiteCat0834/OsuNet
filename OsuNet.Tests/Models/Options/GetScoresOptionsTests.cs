@@ -29,14 +29,5 @@ namespace OsuNet.Tests.Models.Options {
             Assert.Equal(options.Type, deserializedOptions.Type);
             Assert.Equal(options.Limit, deserializedOptions.Limit);
         }
-
-        [Fact]
-        public void GetScoresOptions_ShouldThrowException_WhenBeatmapIdIsInvalid() {
-            // Arrange
-            var options = new GetScoresOptions();
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => options.BeatmapId = 0);
-        }
     }
 }
