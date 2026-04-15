@@ -22,7 +22,7 @@ namespace OsuNet {
         /// </summary>
         /// <param name="accessToken">Your Osu!API token.</param>
         /// <param name="httpClient">HttpClient instance.</param>
-        public OsuApi(string accessToken, HttpClient httpClient) {
+        public OsuApi(string accessToken, HttpClient? httpClient = null) {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentNullException(nameof(accessToken), "Access token cannot be null or empty.");
 
