@@ -34,9 +34,10 @@ namespace OsuNet {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
             var url = $"{baseUrl}{endpoint}?{queryString}";
             using var response = await httpClient.GetAsync(url, cancellationToken);
-            string content = await response.Content.ReadAsStringAsync(cancellationToken);
 
             response.EnsureSuccessStatusCode();
+            string content = await response.Content.ReadAsStringAsync(cancellationToken);
+
             return JsonConvert.DeserializeObject<T>(content, jsonSettings)!;
         }
 
