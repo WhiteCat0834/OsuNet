@@ -30,15 +30,20 @@ namespace OsuNet {
             this.httpClient = httpClient ?? new HttpClient();
         }
 
+        private T fromJson<T>(Stream stream) {
+            using var reader = new StreamReader(stream);
+            using var jsonReader = new JsonTextReader(reader);
+            var serializer = JsonSerializer.Create(jsonSettings);
+            return serializer.Deserialize<T>(jsonReader)!;
+        }
+
         private async Task<T> getAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default) {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
             var url = $"{baseUrl}{endpoint}?{queryString}";
             using var response = await httpClient.GetAsync(url, cancellationToken);
-
             response.EnsureSuccessStatusCode();
-            string content = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            return JsonConvert.DeserializeObject<T>(content, jsonSettings)!;
+            await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+            return fromJson<T>(stream);
         }
 
         private static IEnumerable<KeyValuePair<string, string>> buildQuery(params (string Key, object? Value)[] parameters) {
