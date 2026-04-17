@@ -28,7 +28,7 @@ using OsuNet.Models;
 using OsuNet.Models.Options;
 
 public class Program {
-    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN_HERE", new HttpClient());
+    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN", new HttpClient());
 
     static async Task Main(string[] args) {
         Console.Write("Enter BeatmapId: ");
@@ -62,4 +62,5 @@ public class Program {
 
 ## Additionally
 
-[![.NET](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml)
+[![Dotnet Build](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml)
+[![nuget](https://img.shields.io/nuget/vpre/OsuNet?style=plastic&cacheSeconds=86400)](https://www.nuget.org/packages/OsuNet)
