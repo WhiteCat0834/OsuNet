@@ -1,5 +1,5 @@
 ﻿namespace OsuNet.Models.Options {
-    public class GetMultiplayerOptions {
+    public class GetMatchOptions {
         /// <summary>
         /// MatchId is a required option.
         /// </summary>
