@@ -28,7 +28,7 @@ namespace OsuNet.Models.Info {
         /// The number of points scored by this player.
         /// </summary>
         [JsonProperty("score")]
-        public ulong Score { get; set; }
+        public ulong TotalScore { get; set; }
 
         /// <summary>
         /// The number of maximum combos that the player has hit.
@@ -82,7 +82,7 @@ namespace OsuNet.Models.Info {
         /// True if score is perfect, false otherwise.
         /// </summary>
         [JsonProperty("perfect")]
-        public bool Perfect { get; set; }
+        public bool IsPerfect { get; set; }
 
         /// <summary>
         /// True if the player hasn't lost all their lives, otherwise false.

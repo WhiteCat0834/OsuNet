@@ -214,7 +214,7 @@ namespace OsuNet.Models {
         /// If the audio for this beatmap is unavailable. (DMCA takedown, etc.)
         /// </summary>
         [JsonProperty("audio_unavailable")]
-        public bool AudioUnavailble { get; set; }
+        public bool AudioUnavailable { get; set; }
 
         /// <summary>
         /// Number of times the beatmap was played.
@@ -256,7 +256,7 @@ namespace OsuNet.Models {
         /// The number of stars the map would have in-game and on the website.
         /// </summary>
         [JsonProperty("difficultyrating")]
-        public float DiffecultyRating { get; set; }
+        public float DifficultyRating { get; set; }
 
         /// <summary>
         /// Gets the cover URL for this Beatmap.

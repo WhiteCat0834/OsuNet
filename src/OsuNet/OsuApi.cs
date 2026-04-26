@@ -1,10 +1,8 @@
-﻿using System.Web;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using OsuNet.Models;
 using OsuNet.Converters;
 using OsuNet.Abstractions;
 using OsuNet.Models.Options;
-using System.Net;
 
 namespace OsuNet {
     /// <summary>
@@ -12,7 +10,7 @@ namespace OsuNet {
     /// </summary>
     public class OsuApi : IOsuApi {
         private const string baseUrl = "https://osu.ppy.sh/api/";
-        private readonly JsonSerializerSettings jsonSettings = new() {
+        private static readonly JsonSerializerSettings jsonSettings = new() {
             Converters = { new OsuBoolConverter() }
         };
 
@@ -20,13 +18,13 @@ namespace OsuNet {
         private readonly HttpClient httpClient;
 
         /// <summary>
-        /// Gives access to methods.
+        /// Initializes a new instance of the <see cref="OsuApi"/> class.
         /// </summary>
         /// <param name="accessToken">Your Osu!API token.</param>
-        /// <param name="httpClient">HttpClient.</param>
+        /// <param name="httpClient">HttpClient instance.</param>
         public OsuApi(string accessToken, HttpClient? httpClient = null) {
             if (string.IsNullOrWhiteSpace(accessToken))
-                throw new ArgumentException("Access token cannot be null or empty.", nameof(accessToken));
+                throw new ArgumentNullException(nameof(accessToken), "Access token cannot be null or empty.");
 
             this.accessToken = accessToken;
             this.httpClient = httpClient ?? new HttpClient();
@@ -39,19 +37,18 @@ namespace OsuNet {
             return serializer.Deserialize<T>(jsonReader)!;
         }
 
-        private async Task<T> getAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query) {
+        private async Task<T> getAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default) {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
-            using var response = await httpClient.GetAsync($"{baseUrl}{endpoint}?{queryString}");
+            var url = $"{baseUrl}{endpoint}?{queryString}";
+            using var response = await httpClient.GetAsync(url, cancellationToken);
             response.EnsureSuccessStatusCode();
-            await using var stream = await response.Content.ReadAsStreamAsync();
+            await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
             return fromJson<T>(stream);
         }
 
         private static IEnumerable<KeyValuePair<string, string>> buildQuery(params (string Key, object? Value)[] parameters) {
-            foreach (var (key, value) in parameters) {
-                if (value != null)
-                    yield return new KeyValuePair<string, string>(key, value.ToString()!);
-            }
+            return parameters.Where(p => p.Value != null)
+                             .Select(p => new KeyValuePair<string, string>(p.Key, p.Value!.ToString()!));
         }
 
         private IEnumerable<KeyValuePair<string, string>> BeatmapQuery(GetBeatmapsOptions options) {
@@ -136,56 +133,55 @@ namespace OsuNet {
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of beatmap.</returns>
-        public async Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options) =>
-            await getAsync<Beatmap[]>("get_beatmaps", BeatmapQuery(options));
+        public async Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<Beatmap[]>("get_beatmaps", BeatmapQuery(options), cancellationToken);
         
-
         /// <summary>
         /// Retrieve general user information.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of user.</returns>
-        public async Task<User[]> GetUserAsync(GetUserOptions options) =>
-            await getAsync<User[]>("get_user", UserQuery(options));
+        public async Task<User[]> GetUserAsync(GetUserOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<User[]>("get_user", UserQuery(options), cancellationToken);
 
         /// <summary>
         /// Get the top scores for the specified user.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of the user's best scores.</returns>
-        public async Task<UserBest[]> GetUserBestAsync(GetUserBestOptions options) =>
-            await getAsync<UserBest[]>("get_user_best", UserBestQuery(options));
+        public async Task<UserBest[]> GetUserBestAsync(GetUserBestOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<UserBest[]>("get_user_best", UserBestQuery(options), cancellationToken);
 
         /// <summary>
         /// Gets the user's ten most recent plays over the last 24 hours.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of the user's recent results.</returns>
-        public async Task<UserRecent[]> GetUserRecentAsync(GetUserRecentOptions options) =>
-            await getAsync<UserRecent[]>("get_user_recent", UserRecentQuery(options));
+        public async Task<UserRecent[]> GetUserRecentAsync(GetUserRecentOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<UserRecent[]>("get_user_recent", UserRecentQuery(options), cancellationToken);
 
         /// <summary>
         /// Retrieve information about the top 100 scores of a specified beatmap.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Array of scores.</returns>
-        public async Task<Scores[]> GetScoresAsync(GetScoresOptions options) =>
-            await getAsync<Scores[]>("get_scores", ScoresQuery(options));
+        public async Task<Score[]> GetScoresAsync(GetScoresOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<Score[]>("get_scores", ScoresQuery(options), cancellationToken);
 
         /// <summary>
         /// Retrieve information about a multiplayer match.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Information about a multiplayer match.</returns>
-        public async Task<Match> GetMatchAsync(GetMatchOptions options) =>
-            await getAsync<Match>("get_match", MultiplayerQuery(options));
+        public async Task<Match> GetMatchAsync(GetMatchOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<Match>("get_match", MultiplayerQuery(options), cancellationToken);
 
         /// <summary>
         /// Get the replay data of a user's score on a beatmap.<br/>You are only allowed to do 10 requests per minute.
         /// </summary>
         /// <param name="options"></param>
         /// <returns>Replay data of a user's score on a beatmap.</returns>
-        public async Task<Replay> GetReplayAsync(GetReplayOptions options) =>
-            await getAsync<Replay>("get_replay", ReplayQuery(options));
+        public async Task<Replay> GetReplayAsync(GetReplayOptions options, CancellationToken cancellationToken = default) =>
+            await getAsync<Replay>("get_replay", ReplayQuery(options), cancellationToken);
     }
 }

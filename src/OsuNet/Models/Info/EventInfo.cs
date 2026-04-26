@@ -9,7 +9,7 @@ namespace OsuNet.Models.Info {
         /// Event HTML code.
         /// </summary>
         [JsonProperty("display_html")]
-        public string DisplayHTML { get; set; }
+        public string DisplayHtml { get; set; }
 
         /// <summary>
         /// Unique beatmap SET ID.
@@ -21,7 +21,7 @@ namespace OsuNet.Models.Info {
         /// Unique beatmap ID.
         /// </summary>
         [JsonProperty("beatmapset_id")]
-        public ulong? BeatmapsSetId { get; set; }
+        public ulong? BeatmapSetId { get; set; }
 
         /// <summary>
         /// Date and time the event was received.

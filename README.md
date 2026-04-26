@@ -1,4 +1,25 @@
-# OsuNet
+<div align="center">
+
+  ![OsuNet Logo](/docs/logo/Light.svg#gh-light-mode-only)
+  ![OsuNet Logo](/docs/logo/Dark.svg#gh-dark-mode-only)
+
+  <br/>
+
+  <a href="https://www.nuget.org/packages/OsuNet">
+    <img src="https://img.shields.io/nuget/vpre/OsuNet?style=plastic&cacheSeconds=86400">
+  </a>
+
+  <a href="https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml">
+    <img src="https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml/badge.svg">
+  </a>
+
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/LICENSE-MIT-31c754">
+  </a>
+
+  #
+  
+</div>
 
 OsuNet is a library for the [Osu!API v1](https://github.com/ppy/osu-api/wiki)  
 Documentation for this library: [link](https://github.com/WhiteCat0834/OsuNet/wiki)
@@ -16,17 +37,19 @@ PM> Install-Package OsuNet
 
 ## Usage Example
 
-Before you can start using the library, you must obtain a [token](https://osu.ppy.sh/p/api/) (It is abcisable to log into your Osu acconunt in advence)
+Before you can start using the library, you must obtain a [token](https://osu.ppy.sh/p/api/). You can also log in to your Osu account in advance.
 
-**An example of using this library:**
+**Example:**
 ```cs
 using System;
+using System.Linq;
+using System.Net.Http;
 using OsuNet;
 using OsuNet.Models;
 using OsuNet.Models.Options;
 
 public class Program {
-    private static readonly OsuApi api = new OsuApi("Your Token");
+    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN", new HttpClient());
 
     static async Task Main(string[] args) {
         Console.Write("Enter BeatmapId: ");
@@ -51,13 +74,3 @@ public class Program {
     }
 }
 ```
-
-
-## License
-
-[MIT license](LICENSE)
-
-
-## Additionally
-
-[![.NET](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/WhiteCat0834/OsuNet/actions/workflows/dotnet.yml)

@@ -1,10 +1,39 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net10.0;net8.0;net6.0;</TargetFrameworks>
+		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<PackageId>OsuNet</PackageId>
+		<Authors>Blackcat76iT, WhiteCat0834</Authors>
+		<Description>Library for the osu! API.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/WhiteCat0834/OsuNet</PackageProjectUrl>
+		<Title>OsuNet</Title>
+		<Version>3.0.0</Version>
+		<RepositoryUrl>https://github.com/WhiteCat0834/OsuNet</RepositoryUrl>
+		<PackageReadmeFile>NUGET_README.md</PackageReadmeFile>
+		<PackageTags>osu; api; osu!api</PackageTags>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageIcon>PackageLogo.png</PackageIcon>
+		<Copyright>Blackcat76iT, WhiteCat0834</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\docs\logo\PackageLogo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\..\NUGET_README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
