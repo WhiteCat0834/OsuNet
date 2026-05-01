@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using Newtonsoft.Json;
 using OsuNet.Models;
 using OsuNet.Converters;
 using OsuNet.Abstractions;
@@ -21,13 +22,15 @@ namespace OsuNet {
         /// Initializes a new instance of the <see cref="OsuApi"/> class.
         /// </summary>
         /// <param name="accessToken">Your Osu!API token.</param>
-        /// <param name="httpClient">HttpClient instance.</param>
-        public OsuApi(string accessToken, HttpClient? httpClient = null) {
+        public OsuApi(string accessToken) {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentNullException(nameof(accessToken), "Access token cannot be null or empty.");
 
             this.accessToken = accessToken;
-            this.httpClient = httpClient ?? new HttpClient();
+            httpClient = new HttpClient(new HttpClientHandler { 
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+            });
+            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
         }
 
         private T fromJson<T>(Stream stream) {
@@ -131,56 +134,64 @@ namespace OsuNet {
         /// <summary>
         /// Retrieve general beatmap information.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Array of beatmap.</returns>
+        /// <param name="options">Configuration options for filtering and specifying beatmap search criteria.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns>Array of <see cref="Beatmap"/> objects matching the specified criteria.</returns>
         public async Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<Beatmap[]>("get_beatmaps", BeatmapQuery(options), cancellationToken);
-        
+
         /// <summary>
         /// Retrieve general user information.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Array of user.</returns>
+        /// <param name="options">Configuration options for specifying which user(s) to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns>Array of <see cref="User"/> objects matching the specified criteria.</returns>
         public async Task<User[]> GetUserAsync(GetUserOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<User[]>("get_user", UserQuery(options), cancellationToken);
 
         /// <summary>
         /// Get the top scores for the specified user.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Array of the user's best scores.</returns>
+        /// <param name="options">Configuration options for retrieving user's best scores.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns>Array of <see cref="UserBest"/> objects representing the user's highest-ranked scores.</returns>
         public async Task<UserBest[]> GetUserBestAsync(GetUserBestOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<UserBest[]>("get_user_best", UserBestQuery(options), cancellationToken);
 
         /// <summary>
         /// Gets the user's ten most recent plays over the last 24 hours.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Array of the user's recent results.</returns>
+        /// <param name="options">Configuration options for retrieving user's recent plays.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns>Array of <see cref="UserRecent"/> objects representing the user's most recent score submissions.</returns>
         public async Task<UserRecent[]> GetUserRecentAsync(GetUserRecentOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<UserRecent[]>("get_user_recent", UserRecentQuery(options), cancellationToken);
 
         /// <summary>
         /// Retrieve information about the top 100 scores of a specified beatmap.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Array of scores.</returns>
+        /// <param name="options">Configuration options for querying beatmap scores.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns>Array of <see cref="Score"/> objects representing the leaderboard entries for the specified beatmap.</returns>
         public async Task<Score[]> GetScoresAsync(GetScoresOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<Score[]>("get_scores", ScoresQuery(options), cancellationToken);
 
         /// <summary>
         /// Retrieve information about a multiplayer match.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Information about a multiplayer match.</returns>
+        /// <param name="options">Configuration options for specifying which multiplayer match to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns><see cref="Match"/> object containing detailed information about the specified multiplayer match.</returns>
         public async Task<Match> GetMatchAsync(GetMatchOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<Match>("get_match", MultiplayerQuery(options), cancellationToken);
 
         /// <summary>
-        /// Get the replay data of a user's score on a beatmap.<br/>You are only allowed to do 10 requests per minute.
+        /// Get the replay data of a user's score on a beatmap.<br/>
+        /// ⚠️ Rate limit: Maximum 10 requests per minute.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns>Replay data of a user's score on a beatmap.</returns>
+        /// <param name="options">Configuration options for specifying which replay to retrieve.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns><see cref="Replay"/> object containing the base64-encoded replay data.</returns>
         public async Task<Replay> GetReplayAsync(GetReplayOptions options, CancellationToken cancellationToken = default) =>
             await getAsync<Replay>("get_replay", ReplayQuery(options), cancellationToken);
     }
