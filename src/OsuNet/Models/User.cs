@@ -136,7 +136,7 @@ namespace OsuNet.Models {
         /// Contains events for this user.
         /// </summary>
         [JsonProperty("events")]
-        public EventInfo[] Events;
+        public EventInfo[] Events { get; set; }
 
         /// <summary>
         /// Gets the avatar URL for this user.
