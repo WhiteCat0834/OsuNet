@@ -18,7 +18,7 @@ using OsuNet.Models;
 using OsuNet.Models.Options;
 
 public class Program {
-    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN", new HttpClient());
+    private static readonly OsuApi api = new OsuApi("YOUR_TOKEN");
 
     static async Task Main(string[] args) {
         Console.Write("Enter BeatmapId: ");

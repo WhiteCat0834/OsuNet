@@ -7,12 +7,9 @@ namespace OsuNet.Tests {
     public class OsuApiTests {
         [Fact]
         public void OsuApi_ShouldThrowException_WhenAccessTokenIsNullOrEmpty() {
-            // Arrange
-            var httpClient = new HttpClient();
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new OsuApi(null, httpClient));
-            Assert.Throws<ArgumentNullException>(() => new OsuApi("", httpClient));
+            // Arrange & Act & Assert
+            Assert.Throws<ArgumentNullException>(() => new OsuApi(null));
+            Assert.Throws<ArgumentNullException>(() => new OsuApi(""));
         }
 
         [Fact]
