@@ -137,17 +137,5 @@ namespace OsuNet.Models {
         /// </summary>
         [JsonProperty("events")]
         public EventInfo[] Events { get; set; }
-
-        /// <summary>
-        /// Gets the avatar URL for this user.
-        /// </summary>
-        /// <returns>A string representing the user's avatar URL.</returns>
-        public string GetAvatar() => $"https://s.ppy.sh/a/{UserId}";
-
-        /// <summary>
-        /// Gets the URL of the user.
-        /// </summary>
-        /// <returns>A string representing the user's URL.</returns>
-        public string GetUrl() => $"https://osu.ppy.sh/users/{UserId}";
     }
 }
