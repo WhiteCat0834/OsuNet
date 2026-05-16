@@ -29,7 +29,7 @@
           "**/images/**",
           "logo/**.svg",
           "logo/**.png",
-          "favicon.png"
+          "favicon.ico"
         ]
       }
     ],
@@ -42,8 +42,9 @@
       "_appName": "OsuNet",
       "_appTitle": "OsuNet Documentation",
       "_enableSearch": true,
-      "_appLogoPath": "/logo/Logo.svg",
-      "_appFaviconPath": "favicon.png"
+      "_appLogoPath": "logo/Logo.svg",
+      "_appFaviconPath": "favicon.ico",
+      "_appFooter": "OsuNet © 2022-2026 by Blackcat76iT & WhiteCat0834"
     }
   }
 }
