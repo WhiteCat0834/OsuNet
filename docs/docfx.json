@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
   "metadata": [
     {
       "src": [
@@ -36,7 +35,8 @@
     "output": "_site",
     "template": [
       "default",
-      "modern"
+      "modern",
+      "_template/material"
     ],
     "globalMetadata": {
       "_appName": "OsuNet",
