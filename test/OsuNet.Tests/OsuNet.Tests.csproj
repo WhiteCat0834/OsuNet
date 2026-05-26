@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OsuNet\OsuNet.csproj" />
+    <ProjectReference Include="..\..\src\OsuNet\OsuNet.csproj" />
   </ItemGroup>
 
 </Project>
