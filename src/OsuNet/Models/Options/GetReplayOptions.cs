@@ -11,7 +11,7 @@ namespace OsuNet.Models.Options {
         /// User is a required option.
         /// </summary>
         public string User { get; set; }
-        public BeatmapMode? Mode { get; set; }
+        public BeatmapMode? Mode { get; set; } = 0;
         public string ScoreId { get; set; }
         public string Type { get; set; }
         public Mods? Mods { get; set; }
