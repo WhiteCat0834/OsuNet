@@ -1,27 +1,28 @@
-﻿using OsuNet.Models.Options;
+﻿using OsuNet.Abstractions;
+using OsuNet.Models.Options;
 using OsuNet.Replays.Utils;
 
 namespace OsuNet.Replays.Extensions {
     /// <summary>
     /// Extension methods for generating .osr replay files from OsuAPI data.
     /// </summary>
-    public static class OsuApiExtension {
+    public static class OsuApiExtensions {
         /// <summary>
         /// Gets replay as .osr stream.
         /// </summary>
-        public static async Task<Stream> GetOsrStreamAsync(this OsuApi api, GetReplayOptions options, CancellationToken ct = default) 
+        public static async Task<Stream> GetOsrStreamAsync(this IOsuApi api, GetReplayOptions options, CancellationToken ct = default) 
             => await api.GetOsrMemoryStreamAsync(options, ct);
 
         /// <summary>
         /// Gets replay as .osr byte array.
         /// </summary>
-        public static async Task<byte[]> GetOsrByteAsync(this OsuApi api, GetReplayOptions options, CancellationToken ct = default)
+        public static async Task<byte[]> GetOsrByteAsync(this IOsuApi api, GetReplayOptions options, CancellationToken ct = default)
             => (await api.GetOsrMemoryStreamAsync(options, ct)).ToArray();
 
         /// <summary>
         /// Internal method that builds the .osr MemoryStream.
         /// </summary>
-        private static async Task<MemoryStream> GetOsrMemoryStreamAsync(this OsuApi api, GetReplayOptions options, CancellationToken ct = default) {
+        internal static async Task<MemoryStream> GetOsrMemoryStreamAsync(this IOsuApi api, GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.GetReplayAsync(options, ct);
             var t2 = api.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
