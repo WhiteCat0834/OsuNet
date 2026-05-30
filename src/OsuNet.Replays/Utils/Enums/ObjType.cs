@@ -17,6 +17,6 @@
         Decimal,
         DateTime,
         ByteArray,
-        CharArray,
+        CharArray
     }
 }
