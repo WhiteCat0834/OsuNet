@@ -7,6 +7,9 @@ namespace OsuNet.Replays.Services {
     public class OsuOsrService : IOsuOsrService {
         private readonly IOsuApi api;
 
+        private const int osuVersion = 0;
+        private const string lifeBar = "";
+
         public OsuOsrService(IOsuApi api) { 
             this.api = api; 
         }
@@ -41,12 +44,12 @@ namespace OsuNet.Replays.Services {
             }, ct);
             await Task.WhenAll(t1, t2, t3);
 
-            var replay = await t1;
-            var score = (await t2).First();
-            var beatmap = (await t3).First();
+            var replay = await t1 ?? throw new InvalidOperationException("Replay not found");
+            var score = (await t2).FirstOrDefault() ?? throw new InvalidOperationException("Score not found");
+            var beatmap = (await t3).FirstOrDefault() ?? throw new InvalidOperationException("Beatmap not found");
 
-            var ms = new MemoryStream();
-            var bw = new SerializationWriter(ms);
+            using var ms = new MemoryStream();
+            using var bw = new SerializationWriter(ms);
 
             var content = Convert.FromBase64String(replay.Content);
             var replayHashData = CryptoHelper.ComputeMd5Hash(
@@ -55,7 +58,7 @@ namespace OsuNet.Replays.Services {
             );
 
             bw.Write((byte)options.Mode!);
-            bw.Write(0);                                      // OsuVersion (unable to get value via API)
+            bw.Write(osuVersion);
             bw.Write(beatmap.FileMD5);
             bw.Write(score.Username);
             bw.Write(replayHashData);
@@ -69,7 +72,7 @@ namespace OsuNet.Replays.Services {
             bw.Write(score.MaxCombo);
             bw.Write((byte)(score.IsPerfect ? 1 : 0));
             bw.Write((int)score.EnabledMods);
-            bw.Write("");                                     // lifebar (unable to get value via API)
+            bw.Write(lifeBar);
             bw.Write(score.DateTime);
             bw.Write(content.Length);
             bw.Write(content);

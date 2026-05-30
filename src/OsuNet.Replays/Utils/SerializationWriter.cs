@@ -36,74 +36,74 @@ namespace OsuNet.Replays.Utils {
                 Write((byte)ObjType.Null);
             }
             else {
-                switch (obj.GetType().Name) {
-                    case "Boolean":
+                switch (obj) {
+                    case bool x:
                         Write((byte)ObjType.Bool);
-                        Write((bool)obj);
+                        Write(x);
                         break;
-                    case "Byte":
+                    case byte x:
                         Write((byte)ObjType.Byte);
-                        Write((byte)obj);
+                        Write(x);
                         break;
-                    case "UInt16":
+                    case ushort x:
                         Write((byte)ObjType.UShort);
-                        Write((ushort)obj);
+                        Write(x);
                         break;
-                    case "UInt32":
+                    case uint x:
                         Write((byte)ObjType.UInt);
-                        Write((uint)obj);
+                        Write(x);
                         break;
-                    case "UInt64":
+                    case ulong x:
                         Write((byte)ObjType.ULong);
-                        Write((ulong)obj);
+                        Write(x);
                         break;
-                    case "SByte":
+                    case sbyte x:
                         Write((byte)ObjType.SByte);
-                        Write((sbyte)obj);
+                        Write(x);
                         break;
-                    case "Int16":
+                    case short x:
                         Write((byte)ObjType.Short);
-                        Write((short)obj);
+                        Write(x);
                         break;
-                    case "Int32":
+                    case int x:
                         Write((byte)ObjType.Int);
-                        Write((int)obj);
+                        Write(x);
                         break;
-                    case "Int64":
+                    case long x:
                         Write((byte)ObjType.Long);
-                        Write((long)obj);
+                        Write(x);
                         break;
-                    case "Char":
+                    case char x:
                         Write((byte)ObjType.Char);
-                        base.Write((char)obj);
+                        base.Write(x);
                         break;
-                    case "String":
+                    case string x:
                         Write((byte)ObjType.String);
-                        base.Write((string)obj);
+                        base.Write(x);
                         break;
-                    case "Single":
+                    case float x:
                         Write((byte)ObjType.Float);
-                        Write((float)obj);
+                        Write(x);
                         break;
-                    case "Double":
+                    case double x:
                         Write((byte)ObjType.Double);
-                        Write((double)obj);
+                        Write(x);
                         break;
-                    case "Decimal":
+                    case decimal x:
                         Write((byte)ObjType.Decimal);
-                        Write((decimal)obj);
+                        Write(x);
                         break;
-                    case "DateTime":
+                    case DateTime x:
                         Write((byte)ObjType.DateTime);
-                        Write((DateTime)obj);
+                        Write(x);
                         break;
-                    case "Byte[]":
+                    case byte[] x:
                         Write((byte)ObjType.ByteArray);
-                        base.Write((byte[])obj);
+                        base.Write(x);
                         break;
-                    case "Char[]":
+                    case char[] x:
                         Write((byte)ObjType.CharArray);
-                        base.Write((char[])obj);
+                        base.Write(x);
                         break;
                     default:
                         throw new NotImplementedException();
