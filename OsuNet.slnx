@@ -4,7 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/Extensions/" />
+  <Folder Name="/Extensions/">
+    <Project Path="src/OsuNet.Replays/OsuNet.Replays.csproj" />
+  </Folder>
   <Folder Name="/Tests/">
     <Project Path="test/OsuNet.Tests/OsuNet.Tests.csproj" />
   </Folder>
