@@ -37,7 +37,9 @@ jobs:
           files: ./**/*.trx
 
       - name: Pack
-        run: dotnet pack ./src/OsuNet/OsuNet.csproj -v minimal -c Release --no-restore --no-build -o artifacts
+        run: |
+          dotnet pack ./src/OsuNet/OsuNet.csproj -v minimal -c Release --no-restore --no-build -o artifacts
+          dotnet pack ./src/OsuNet.Replays/OsuNet.Replays.csproj -v minimal -c Release --no-restore --no-build -o artifacts
 
       - name: Publish Artifacts
         uses: actions/upload-artifact@v7
