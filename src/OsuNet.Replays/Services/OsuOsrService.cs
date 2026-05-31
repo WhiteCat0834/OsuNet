@@ -13,6 +13,7 @@ namespace OsuNet.Replays.Services {
         public OsuOsrService(IOsuApi api) { 
             this.api = api; 
         }
+
         /// <summary>
         /// Gets replay as .osr stream.
         /// </summary>
