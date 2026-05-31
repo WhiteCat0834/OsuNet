@@ -1,5 +1,5 @@
-﻿namespace OsuNet.Replays.Models {
-    public class ReplayFrame {
+﻿namespace OsuNet.Replays.Abstractions {
+    public abstract class ReplayFrame {
         public int TimeDiff { get; set; }
         public int Time { get; set; }
         public float X { get; set; }
