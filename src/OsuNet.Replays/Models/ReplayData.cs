@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using OsuNet.Replays.Abstractions;
 
 namespace OsuNet.Replays.Models {
     public class ReplayData {
