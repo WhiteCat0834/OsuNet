@@ -12,7 +12,7 @@ namespace OsuNet.Replays.Extensions {
             return await Task.Run(() => Decode(replay), ct);
         }
 
-        private static ReplayData Decode(this Replay replay) {
+        private static ReplayData Decode(Replay replay) {
             var content = Convert.FromBase64String(replay.Content);
 
             using var stream = new MemoryStream(content, false);
