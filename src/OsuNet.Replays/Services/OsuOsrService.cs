@@ -58,7 +58,7 @@ namespace OsuNet.Replays.Services {
                 beatmap.FileMD5 + score.TotalScore + score.Rank
             );
 
-            bw.Write((byte)options.Mode!);
+            bw.Write((byte)beatmap.Mode);
             bw.Write(osuVersion);
             bw.Write(beatmap.FileMD5);
             bw.Write(score.Username);
