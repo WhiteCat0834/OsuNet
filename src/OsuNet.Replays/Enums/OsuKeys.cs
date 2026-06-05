@@ -1,4 +1,7 @@
 ﻿namespace OsuNet.Replays.Enums {
+    /// <summary>
+    /// Osu Keys.
+    /// </summary>
     [Flags]
     public enum OsuKeys {
         None = 0,

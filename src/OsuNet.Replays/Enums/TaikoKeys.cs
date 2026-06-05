@@ -1,4 +1,7 @@
 ﻿namespace OsuNet.Replays.Enums {
+    /// <summary>
+    /// Taiko Keys.
+    /// </summary>
     [Flags]
     public enum TaikoKeys {
         None = 0,

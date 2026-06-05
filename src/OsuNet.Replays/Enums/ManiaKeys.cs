@@ -1,4 +1,7 @@
 ﻿namespace OsuNet.Replays.Enums {
+    /// <summary>
+    /// Mania Keys.
+    /// </summary>
     [Flags]
     public enum ManiaKeys {
         None = 0,
