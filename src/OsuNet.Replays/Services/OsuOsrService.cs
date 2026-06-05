@@ -15,21 +15,15 @@ namespace OsuNet.Replays.Services {
         }
 
         /// <summary>
-        /// Gets replay as .osr stream.
-        /// </summary>
-        public async Task<Stream> GetOsrStreamAsync(GetReplayOptions options, CancellationToken ct = default)
-            => await GetOsrMemoryStreamAsync(options, ct);
-
-        /// <summary>
         /// Gets replay as .osr byte array.
         /// </summary>
         public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default)
             => (await GetOsrMemoryStreamAsync(options, ct)).ToArray();
 
         /// <summary>
-        /// Internal method that builds the .osr MemoryStream.
+        /// Private method that builds the .osr MemoryStream.
         /// </summary>
-        internal async Task<MemoryStream> GetOsrMemoryStreamAsync(GetReplayOptions options, CancellationToken ct = default) {
+        private async Task<MemoryStream> GetOsrMemoryStreamAsync(GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.GetReplayAsync(options, ct);
             var t2 = api.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
