@@ -5,9 +5,18 @@ using System.Globalization;
 using System.Text;
 
 namespace OsuNet.Replays.Extensions {
+    /// <summary>
+    /// Extension methods for replay.
+    /// </summary>
     public static class ReplayExtensions {
         private const string seedMarker = "-12345";
 
+        /// <summary>
+        /// Decode replay data.
+        /// </summary>
+        /// <param name="replay">Class <see cref="Replay" /></param>
+        /// <param name="ct">A cancellation token that can be used to cancel the asynchronous operation.</param>
+        /// <returns></returns>
         public static async Task<ReplayData> DecodeAsync(this Replay replay, CancellationToken ct = default) {
             return await Task.Run(() => Decode(replay), ct);
         }
