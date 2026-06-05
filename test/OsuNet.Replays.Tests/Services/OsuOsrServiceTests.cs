@@ -19,7 +19,6 @@ namespace OsuNet.Replays.Tests.Services {
         public async Task GetOsrByteAsync_ShouldReturnByteArray_WhenApiReturnsValidData() {
             // Arrange
             var options = new GetReplayOptions { BeatmapId = 123, User = "TestUser" };
-            var ct = CancellationToken.None;
             var replay = new Replay {
                 Content = Convert.ToBase64String(new byte[] { 1, 2, 3 })
             };
@@ -57,7 +56,7 @@ namespace OsuNet.Replays.Tests.Services {
             mockApi.Setup(api => api.GetBeatmapsAsync(It.IsAny<GetBeatmapsOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(beatmaps);
 
             // Act
-            var result = await service.GetOsrByteAsync(options, ct);
+            var result = await service.GetOsrByteAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
