@@ -5,6 +5,12 @@ using OsuNet.Models.Options;
 
 namespace OsuNet.Tests {
     public class OsuApiTests {
+        private readonly Mock<IOsuApi> mockApi;
+        
+        public OsuApiTests() { 
+            mockApi = new Mock<IOsuApi>();
+        }
+
         [Fact]
         public void OsuApi_ShouldThrowException_WhenAccessTokenIsNullOrEmpty() {
             // Arrange & Act & Assert
@@ -15,7 +21,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetBeatmapsAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetBeatmapsOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -34,7 +39,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetUserOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -53,7 +57,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserBestAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetUserBestOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -72,7 +75,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserRecentAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetUserRecentOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -91,7 +93,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetScoresAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetScoresOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -110,7 +111,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetMatchAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetMatchOptions();
             var cancellationToken = CancellationToken.None;
 
@@ -129,7 +129,6 @@ namespace OsuNet.Tests {
         [Fact]
         public async Task IOsuApi_ShouldCallGetReplayAsync() {
             // Arrange
-            var mockApi = new Mock<IOsuApi>();
             var options = new GetReplayOptions();
             var cancellationToken = CancellationToken.None;
 
