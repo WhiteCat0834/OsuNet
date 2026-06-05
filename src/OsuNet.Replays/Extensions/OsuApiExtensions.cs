@@ -8,6 +8,11 @@ namespace OsuNet.Replays.Extensions {
     /// Extension methods for generating .osr replay files from OsuAPI data.
     /// </summary>
     public static class OsuApiExtensions {
+        /// <summary>
+        /// Create Osu Osr Service.
+        /// </summary>
+        /// <param name="api">Interface <see cref="IOsuApi" /></param>
+        /// <returns><see cref="IOsuOsrService"/>.</returns>
         public static IOsuOsrService CreateOsuOsrService(this IOsuApi api)
              => new OsuOsrService(api);
 
