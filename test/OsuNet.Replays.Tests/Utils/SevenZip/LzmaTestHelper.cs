@@ -13,16 +13,13 @@ namespace SevenZip {
             using var inStream = new MemoryStream(Encoding.ASCII.GetBytes(input));
             using var outStream = new MemoryStream();
 
-            // 1. Write LZMA properties (5 bytes)
             encoder.WriteCoderProperties(outStream);
 
-            // 2. Write uncompressed size (8 bytes, little-endian)
             long uncompressedSize = inStream.Length;
             for (int i = 0; i < 8; i++) {
                 outStream.WriteByte((byte)(uncompressedSize >> (8 * i)));
             }
 
-            // 3. Compress the actual data
             inStream.Position = 0;
             encoder.Code(inStream, outStream, -1, -1, null);
 
