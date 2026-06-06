@@ -1,9 +1,6 @@
 ﻿using OsuNet.Models;
 using OsuNet.Replays.Extensions;
 using SevenZip;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OsuNet.Replays.Tests.Extensions {
     public class ReplayExtensionsTests {
@@ -28,7 +25,7 @@ namespace OsuNet.Replays.Tests.Extensions {
             var replay = new Replay { Content = LzmaTestHelper.CompressToBase64(input) };
 
             // Act
-            var result = await replay.DecodeAsync();
+            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
@@ -56,7 +53,7 @@ namespace OsuNet.Replays.Tests.Extensions {
             var replay = new Replay { Content = LzmaTestHelper.CompressToBase64(input) };
 
             // Act
-            var result = await replay.DecodeAsync();
+            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
@@ -71,7 +68,7 @@ namespace OsuNet.Replays.Tests.Extensions {
             var replay = new Replay { Content = LzmaTestHelper.CompressToBase64(input) };
 
             // Act
-            var result = await replay.DecodeAsync();
+            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
@@ -85,7 +82,7 @@ namespace OsuNet.Replays.Tests.Extensions {
             var replay = new Replay { Content = LzmaTestHelper.CompressToBase64(input) };
 
             // Act
-            var result = await replay.DecodeAsync();
+            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
