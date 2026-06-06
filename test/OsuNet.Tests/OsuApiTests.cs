@@ -22,126 +22,105 @@ namespace OsuNet.Tests {
         public async Task IOsuApi_ShouldCallGetBeatmapsAsync() {
             // Arrange
             var options = new GetBeatmapsOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetBeatmapsAsync(options, cancellationToken))
-                   .ReturnsAsync(new Beatmap[0])
-                   .Verifiable();
+            mockApi.Setup(api => api.GetBeatmapsAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new Beatmap[0]);
 
             // Act
-            var result = await mockApi.Object.GetBeatmapsAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetBeatmapsAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Empty(result);
-            mockApi.Verify(api => api.GetBeatmapsAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetBeatmapsAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserAsync() {
             // Arrange
             var options = new GetUserOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetUserAsync(options, cancellationToken))
-                   .ReturnsAsync(new User[0])
-                   .Verifiable();
+            mockApi.Setup(api => api.GetUserAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new User[0]);
 
             // Act
-            var result = await mockApi.Object.GetUserAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetUserAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Empty(result);
-            mockApi.Verify(api => api.GetUserAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetUserAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserBestAsync() {
             // Arrange
             var options = new GetUserBestOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetUserBestAsync(options, cancellationToken))
-                   .ReturnsAsync(new UserBest[0])
-                   .Verifiable();
+            mockApi.Setup(api => api.GetUserBestAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new UserBest[0]);
 
             // Act
-            var result = await mockApi.Object.GetUserBestAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetUserBestAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Empty(result);
-            mockApi.Verify(api => api.GetUserBestAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetUserBestAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetUserRecentAsync() {
             // Arrange
             var options = new GetUserRecentOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetUserRecentAsync(options, cancellationToken))
-                   .ReturnsAsync(new UserRecent[0])
-                   .Verifiable();
+            mockApi.Setup(api => api.GetUserRecentAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new UserRecent[0]);
 
             // Act
-            var result = await mockApi.Object.GetUserRecentAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetUserRecentAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Empty(result);
-            mockApi.Verify(api => api.GetUserRecentAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetUserRecentAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetScoresAsync() {
             // Arrange
             var options = new GetScoresOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetScoresAsync(options, cancellationToken))
-                   .ReturnsAsync(new Score[0])
-                   .Verifiable();
+            mockApi.Setup(api => api.GetScoresAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new Score[0]);
 
             // Act
-            var result = await mockApi.Object.GetScoresAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetScoresAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Empty(result);
-            mockApi.Verify(api => api.GetScoresAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetScoresAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetMatchAsync() {
             // Arrange
             var options = new GetMatchOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetMatchAsync(options, cancellationToken))
-                   .ReturnsAsync(new OsuNet.Models.Match())
-                   .Verifiable();
+            mockApi.Setup(api => api.GetMatchAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new OsuNet.Models.Match());
 
             // Act
-            var result = await mockApi.Object.GetMatchAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetMatchAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            mockApi.Verify(api => api.GetMatchAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetMatchAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task IOsuApi_ShouldCallGetReplayAsync() {
             // Arrange
             var options = new GetReplayOptions();
-            var cancellationToken = CancellationToken.None;
 
-            mockApi.Setup(api => api.GetReplayAsync(options, cancellationToken))
-                   .ReturnsAsync(new Replay())
-                   .Verifiable();
+            mockApi.Setup(api => api.GetReplayAsync(options, It.IsAny<CancellationToken>())).ReturnsAsync(new Replay());
 
             // Act
-            var result = await mockApi.Object.GetReplayAsync(options, cancellationToken);
+            var result = await mockApi.Object.GetReplayAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);
-            mockApi.Verify(api => api.GetReplayAsync(options, cancellationToken), Times.Once);
+            mockApi.Verify(api => api.GetReplayAsync(options, It.IsAny<CancellationToken>()), Times.Once);
         }
     }
 }
