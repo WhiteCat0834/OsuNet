@@ -16,7 +16,7 @@ namespace OsuNet.Models {
         /// The number of points scored by this player.
         /// </summary>
         [JsonProperty("score")]
-        public ulong TotalScore { get; set; }
+        public int TotalScore { get; set; }
 
         /// <summary>
         /// Nickname of this player.
@@ -28,43 +28,43 @@ namespace OsuNet.Models {
         /// The number of 300 points that the player has hit.
         /// </summary>
         [JsonProperty("count300")]
-        public ulong Count300 { get; set; }
+        public ushort Count300 { get; set; }
 
         /// <summary>
         /// The number of 100 points that the player has hit.
         /// </summary>
         [JsonProperty("count100")]
-        public ulong Count100 { get; set; }
+        public ushort Count100 { get; set; }
 
         /// <summary>
         /// The number of 50 points that the player has hit.
         /// </summary>
         [JsonProperty("count50")]
-        public ulong Count50 { get; set; }
+        public ushort Count50 { get; set; }
 
         /// <summary>
         /// The number of misses the that player has hit.
         /// </summary>
         [JsonProperty("countmiss")]
-        public ulong CountMiss { get; set; }
+        public ushort CountMiss { get; set; }
 
         /// <summary>
         /// The number of maximum combos that the player has hit.
         /// </summary>
         [JsonProperty("maxcombo")]
-        public ulong MaxCombo { get; set; }
+        public ushort MaxCombo { get; set; }
 
         /// <summary>
         /// The number of good combos that the player has hit.
         /// </summary>
         [JsonProperty("countkatu")]
-        public ulong CountKatu { get; set; }
+        public ushort CountKatu { get; set; }
 
         /// <summary>
         /// The number of perfect combos that the player has hit.
         /// </summary>
         [JsonProperty("countgeki")]
-        public ulong CountGeki { get; set; }
+        public ushort CountGeki { get; set; }
 
         /// <summary>
         /// True if score is perfect, false otherwise.
