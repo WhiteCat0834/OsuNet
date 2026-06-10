@@ -6,7 +6,7 @@ namespace SevenZip.Compression.LZMA
 {
 	using RangeCoder;
 
-	public class Decoder : ICoder, ISetDecoderProperties // ,System.IO.Stream
+	public class Decoder : ISetDecoderProperties // ,System.IO.Stream
 	{
 		class LenDecoder
 		{
@@ -228,7 +228,7 @@ namespace SevenZip.Compression.LZMA
 		}
 
 		public void Code(System.IO.Stream inStream, System.IO.Stream outStream,
-			Int64 inSize, Int64 outSize, ICodeProgress progress)
+			Int64 inSize, Int64 outSize)
 		{
 			Init(inStream, outStream);
 
@@ -363,36 +363,5 @@ namespace SevenZip.Compression.LZMA
 			SetLiteralProperties(lp, lc);
 			SetPosBitsProperties(pb);
 		}
-
-		public bool Train(System.IO.Stream stream)
-		{
-			_solid = true;
-			return m_OutWindow.Train(stream);
-		}
-
-		/*
-		public override bool CanRead { get { return true; }}
-		public override bool CanWrite { get { return true; }}
-		public override bool CanSeek { get { return true; }}
-		public override long Length { get { return 0; }}
-		public override long Position
-		{
-			get { return 0;	}
-			set { }
-		}
-		public override void Flush() { }
-		public override int Read(byte[] buffer, int offset, int count) 
-		{
-			return 0;
-		}
-		public override void Write(byte[] buffer, int offset, int count)
-		{
-		}
-		public override long Seek(long offset, System.IO.SeekOrigin origin)
-		{
-			return 0;
-		}
-		public override void SetLength(long value) {}
-		*/
 	}
 }

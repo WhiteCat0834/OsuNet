@@ -20,7 +20,7 @@ namespace SevenZip {
             long compressedSize = inStream.Length - inStream.Position;
 
             var outStream = new MemoryStream();
-            decoder.Code(inStream, outStream, compressedSize, outSize, null);
+            decoder.Code(inStream, outStream, compressedSize, outSize);
             outStream.Flush();
             outStream.Position = 0;
             return outStream;
