@@ -3,8 +3,10 @@ using OsuNet.Converters;
 
 namespace OsuNet.Tests.Converters {
     public class OsuBoolConverterTests {
-        [Fact]
-        public void OsuBoolConverter_ShouldSerializeCorrectly() {
+        [Theory]
+        [InlineData(true, "\"1\"")]
+        [InlineData(false, "\"0\"")]
+        public void OsuBoolConverter_ShouldSerializeCorrectly(bool value, string expectedJson) {
             // Arrange
             var converter = new OsuBoolConverter();
             var settings = new JsonSerializerSettings {
@@ -12,16 +14,22 @@ namespace OsuNet.Tests.Converters {
             };
 
             // Act
-            var trueJson = JsonConvert.SerializeObject(true, settings);
-            var falseJson = JsonConvert.SerializeObject(false, settings);
+            var json = JsonConvert.SerializeObject(value, settings);
 
             // Assert
-            Assert.Equal("\"1\"", trueJson);
-            Assert.Equal("\"0\"", falseJson);
+            Assert.Equal(expectedJson, json);
         }
 
-        [Fact]
-        public void OsuBoolConverter_ShouldDeserializeCorrectly() {
+        [Theory]
+        [InlineData("\"1\"", true)]
+        [InlineData("\"0\"", false)]
+        [InlineData("\"\"", false)]
+        [InlineData("\"2\"", false)]
+        [InlineData("\"true\"", false)]
+        [InlineData("\"false\"", false)]
+        [InlineData("\"null\"", false)]
+        [InlineData("null", false)]
+        public void OsuBoolConverter_ShouldDeserializeCorrectly(string json, bool expectedValue) {
             // Arrange
             var converter = new OsuBoolConverter();
             var settings = new JsonSerializerSettings {
@@ -29,12 +37,10 @@ namespace OsuNet.Tests.Converters {
             };
 
             // Act
-            var trueValue = JsonConvert.DeserializeObject<bool>("\"1\"", settings);
-            var falseValue = JsonConvert.DeserializeObject<bool>("\"0\"", settings);
+            var result = JsonConvert.DeserializeObject<bool>(json, settings);
 
             // Assert
-            Assert.True(trueValue);
-            Assert.False(falseValue);
+            Assert.Equal(expectedValue, result);
         }
     }
 }

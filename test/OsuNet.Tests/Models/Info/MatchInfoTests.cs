@@ -4,6 +4,18 @@ using OsuNet.Models.Info;
 namespace OsuNet.Tests.Models.Info {
     public class MatchInfoTests {
         [Fact]
+        public void MatchInfo_ShouldBeNullIfZero() {
+            // Arrange & Act
+            var matchInfo = (MatchInfo)0;
+
+            // Assert
+            Assert.Equal(matchInfo.MatchId, (ulong)0);
+            Assert.Null(matchInfo.Name);
+            Assert.Equal(matchInfo.StartTime, new DateTime(0001, 01, 01));
+            Assert.Null(matchInfo.EndTime);
+        }
+
+        [Fact]
         public void MatchInfo_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
             var matchInfo = new MatchInfo {
