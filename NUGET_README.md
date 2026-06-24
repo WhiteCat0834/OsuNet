@@ -43,3 +43,9 @@ public class Program {
     }
 }
 ```
+
+
+## Components
+
+[OsuNet](https://www.nuget.org/packages/OsuNet) - The main package includes a set of methods for API requests
+[OsuNet.Replays](https://www.nuget.org/packages/OsuNet.Replays) - An additional package that allows you to build .osr files and decode replays

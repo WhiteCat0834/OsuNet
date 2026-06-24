@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Extensions/">
+    <Project Path="src/OsuNet.Replays/OsuNet.Replays.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="test/OsuNet.Replays.Tests/OsuNet.Replays.Tests.csproj" />
+    <Project Path="test/OsuNet.Tests/OsuNet.Tests.csproj" />
+  </Folder>
+  <Project Path="src/OsuNet/OsuNet.csproj" />
+</Solution>

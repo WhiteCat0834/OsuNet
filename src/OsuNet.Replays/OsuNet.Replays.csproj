@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <PackageId>OsuNet.Replays</PackageId>
+	  <Description>An extension for OsuNet that allows you to work with replays</Description>
+	  <Title>OsuNet.Replays</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OsuNet\OsuNet.csproj" />
+  </ItemGroup>
+
+</Project>

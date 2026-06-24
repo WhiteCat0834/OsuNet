@@ -50,8 +50,11 @@ namespace OsuNet {
         }
 
         private static IEnumerable<KeyValuePair<string, string>> buildQuery(params (string Key, object? Value)[] parameters) {
-            return parameters.Where(p => p.Value != null)
-                             .Select(p => new KeyValuePair<string, string>(p.Key, p.Value!.ToString()!));
+            foreach (var p in parameters) {
+                if (p.Value != null) {
+                    yield return new KeyValuePair<string, string>(p.Key, p.Value.ToString());
+                }
+            }
         }
 
         private IEnumerable<KeyValuePair<string, string>> BeatmapQuery(GetBeatmapsOptions options) {
