@@ -19,15 +19,15 @@ namespace OsuNet.Replays.Services {
         /// Gets replay as .osr byte array.
         /// </summary>
         public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
-            var t1 = api.GetReplayAsync(options, ct);
-            var t2 = api.GetScoresAsync(new GetScoresOptions() {
+            var t1 = api.Replay.GetReplayAsync(options, ct);
+            var t2 = api.Scores.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
                 User = options.User,
                 Mods = options.Mods,
                 Mode = options.Mode,
                 Type = options.Type
             }, ct);
-            var t3 = api.GetBeatmapsAsync(new GetBeatmapsOptions() {
+            var t3 = api.Beatmaps.GetBeatmapsAsync(new GetBeatmapsOptions() {
                 BeatmapId = options.BeatmapId,
                 Type = options.Type,
                 Mode = options.Mode

@@ -60,9 +60,9 @@ namespace OsuNet.Replays.Tests.Extensions {
                 }
             };
 
-            mockApi.Setup(api => api.GetReplayAsync(It.IsAny<GetReplayOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(replay);
-            mockApi.Setup(api => api.GetScoresAsync(It.IsAny<GetScoresOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(scores);
-            mockApi.Setup(api => api.GetBeatmapsAsync(It.IsAny<GetBeatmapsOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(beatmaps);
+            mockApi.Setup(api => api.Replay.GetReplayAsync(It.IsAny<GetReplayOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(replay);
+            mockApi.Setup(api => api.Scores.GetScoresAsync(It.IsAny<GetScoresOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(scores);
+            mockApi.Setup(api => api.Beatmaps.GetBeatmapsAsync(It.IsAny<GetBeatmapsOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(beatmaps);
 
             // Act
             var result = await mockApi.Object.GetOsrByteAsync(options, TestContext.Current.CancellationToken);
