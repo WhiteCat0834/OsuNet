@@ -24,21 +24,21 @@ namespace OsuNet.Replays.Services {
         /// Private method that builds the .osr MemoryStream.
         /// </summary>
         private async Task<MemoryStream> GetOsrMemoryStreamAsync(GetReplayOptions options, CancellationToken ct = default) {
-            var t1 = api.GetReplayAsync(options, ct);
-            var t2 = api.GetScoresAsync(new GetScoresOptions() {
+            var t1 = api.Replay.GetReplayAsync(options, ct);
+            var t2 = api.Scores.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
                 User = options.User,
                 Mods = options.Mods,
                 Mode = options.Mode,
                 Type = options.Type
             }, ct);
-            var t3 = api.GetBeatmapsAsync(new GetBeatmapsOptions() {
+            var t3 = api.Beatmaps.GetBeatmapsAsync(new GetBeatmapsOptions() {
                 BeatmapId = options.BeatmapId,
                 Type = options.Type,
                 Mode = options.Mode
             }, ct);
             await Task.WhenAll(t1, t2, t3);
-
+            
             var replay = await t1 ?? throw new InvalidOperationException("Replay not found");
             var score = (await t2).FirstOrDefault() ?? throw new InvalidOperationException("Score not found");
             var beatmap = (await t3).FirstOrDefault() ?? throw new InvalidOperationException("Beatmap not found");

@@ -1,9 +1,16 @@
-﻿using OsuNet.Core;
+﻿using OsuNet.Abstractions;
 using OsuNet.Models;
 using OsuNet.Models.Options;
+using OsuNet.Utils;
 
-namespace OsuNet {
-    public partial class OsuApi {
+namespace OsuNet.Modules {
+    internal class BeatmapsModule : IBeatmapModule {
+        private readonly IOsuApi osuApi;
+
+        internal BeatmapsModule(IOsuApi osuApi) {
+            this.osuApi = osuApi;
+        }
+
         /// <summary>
         /// Retrieve general beatmap information.
         /// </summary>
@@ -12,7 +19,7 @@ namespace OsuNet {
         /// <returns>Array of <see cref="Beatmap"/> objects matching the specified criteria.</returns>
         public async Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", accessToken),
+                ("k", osuApi.AccessToken),
                 ("since", options.Since?.ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")),
                 ("s", options.BeatmapSetId),
                 ("b", options.BeatmapId),
@@ -24,7 +31,7 @@ namespace OsuNet {
                 ("limit", options.Limit),
                 ("mods", options.Mods)
             );
-            return await getAsync<Beatmap[]>("get_beatmaps", query, cancellationToken);
+            return await osuApi.GetAsync<Beatmap[]>("get_beatmaps", query, cancellationToken);
         }
     }
 }

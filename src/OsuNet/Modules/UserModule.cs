@@ -1,9 +1,16 @@
-﻿using OsuNet.Core;
+﻿using OsuNet.Abstractions;
 using OsuNet.Models;
 using OsuNet.Models.Options;
+using OsuNet.Utils;
 
-namespace OsuNet {
-    public partial class OsuApi {
+namespace OsuNet.Modules {
+    internal class UserModule : IUserModule {
+        private readonly IOsuApi osuApi;
+
+        internal UserModule(IOsuApi osuApi) { 
+            this.osuApi = osuApi;
+        }
+
         /// <summary>
         /// Retrieve general user information.
         /// </summary>
@@ -12,14 +19,14 @@ namespace OsuNet {
         /// <returns>Array of <see cref="User"/> objects matching the specified criteria.</returns>
         public async Task<User[]> GetUserAsync(GetUserOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", accessToken),
+                ("k", osuApi.AccessToken),
                 ("u", options.User?.ToString()),
                 ("m", ((int?)options.Mode)?.ToString()),
                 ("type", options.Type),
                 ("event_days", options.EventDays)
             );
 
-            return await getAsync<User[]>("get_user", query, cancellationToken);
+            return await osuApi.GetAsync<User[]>("get_user", query, cancellationToken);
         }
 
         /// <summary>
@@ -30,14 +37,14 @@ namespace OsuNet {
         /// <returns>Array of <see cref="UserBest"/> objects representing the user's highest-ranked scores.</returns>
         public async Task<UserBest[]> GetUserBestAsync(GetUserBestOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", accessToken),
+                ("k", osuApi.AccessToken),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
                 ("limit", options.Limit?.ToString()),
                 ("type", options.Type)
             );
 
-            return await getAsync<UserBest[]>("get_user_best", query, cancellationToken);
+            return await osuApi.GetAsync<UserBest[]>("get_user_best", query, cancellationToken);
         }
 
         /// <summary>
@@ -48,14 +55,14 @@ namespace OsuNet {
         /// <returns>Array of <see cref="UserRecent"/> objects representing the user's most recent score submissions.</returns>
         public async Task<UserRecent[]> GetUserRecentAsync(GetUserRecentOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", accessToken),
+                ("k", osuApi.AccessToken),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
                 ("limit", options.Limit?.ToString()),
                 ("type", options.Type)
             );
 
-            return await getAsync<UserRecent[]>("get_user_recent", query, cancellationToken);
+            return await osuApi.GetAsync<UserRecent[]>("get_user_recent", query, cancellationToken);
         }
     }
 }
