@@ -1,4 +1,5 @@
 ﻿using OsuNet.Abstractions;
+using OsuNet.Models;
 using OsuNet.Models.Options;
 using OsuNet.Replays.Abstractions;
 using OsuNet.Replays.Utils;
@@ -17,13 +18,7 @@ namespace OsuNet.Replays.Services {
         /// <summary>
         /// Gets replay as .osr byte array.
         /// </summary>
-        public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default)
-            => (await GetOsrMemoryStreamAsync(options, ct)).ToArray();
-
-        /// <summary>
-        /// Private method that builds the .osr MemoryStream.
-        /// </summary>
-        private async Task<MemoryStream> GetOsrMemoryStreamAsync(GetReplayOptions options, CancellationToken ct = default) {
+        public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.GetReplayAsync(options, ct);
             var t2 = api.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
@@ -43,13 +38,23 @@ namespace OsuNet.Replays.Services {
             var score = (await t2).FirstOrDefault() ?? throw new InvalidOperationException("Score not found");
             var beatmap = (await t3).FirstOrDefault() ?? throw new InvalidOperationException("Beatmap not found");
 
+            return await Task.Run(() => BuildOsrFile(replay, score, beatmap));
+        }
+
+        /// <summary>
+        /// Build an .osr file based on the replay, score, and beatmap.
+        /// </summary>
+        /// <param name="replay"><see cref="Replay"/> data.</param>
+        /// <param name="score"><see cref="Score"/> data.</param>
+        /// <param name="beatmap"><see cref="Beatmap"/> data.</param>
+        /// <returns></returns>
+        public byte[] BuildOsrFile(Replay replay, Score score, Beatmap beatmap) {
             using var ms = new MemoryStream();
             using var bw = new SerializationWriter(ms);
 
             var content = Convert.FromBase64String(replay.Content);
             var replayHashData = CryptoHelper.ComputeMd5Hash(
-                score.MaxCombo + "osu" + score.Username +
-                beatmap.FileMD5 + score.TotalScore + score.Rank
+                $"{score.MaxCombo}osu{score.Username}{beatmap.FileMD5}{score.TotalScore}{score.Rank}"
             );
 
             bw.Write((byte)beatmap.Mode);
@@ -74,7 +79,7 @@ namespace OsuNet.Replays.Services {
             bw.Write(score.ScoreId);
 
             ms.Position = 0;
-            return ms;
+            return ms.ToArray();
         }
     }
 }
