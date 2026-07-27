@@ -5,10 +5,10 @@ using OsuNet.Utils;
 
 namespace OsuNet.Modules {
     internal class ScoresModule : IScoresModule {
-        private readonly IOsuApi osuApi;
+        private readonly IApiRequester requester;
 
-        internal ScoresModule(IOsuApi osuApi) {
-            this.osuApi = osuApi;
+        internal ScoresModule(IApiRequester requester) {
+            this.requester = requester;
         }
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace OsuNet.Modules {
         /// <returns>Array of <see cref="Score"/> objects representing the leaderboard entries for the specified beatmap.</returns>
         public async Task<Score[]> GetScoresAsync(GetScoresOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", osuApi.AccessToken),
+                ("k", requester.AccessToken),
                 ("b", options.BeatmapId?.ToString()),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
@@ -28,7 +28,7 @@ namespace OsuNet.Modules {
                 ("limit", options.Limit?.ToString())
             );
 
-            return await osuApi.GetAsync<Score[]>("get_scores", query, cancellationToken);
+            return await requester.GetAsync<Score[]>("get_scores", query, cancellationToken);
         }
     }
 }

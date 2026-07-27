@@ -1,8 +1,5 @@
 ﻿namespace OsuNet.Abstractions {
-    public interface IOsuApi {
-        string AccessToken { get; set; }
-        Task<T> GetAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default);
-
+    public interface IOsuApi : IApiRequester {
         IUserModule User { get; }
         IBeatmapModule Beatmaps { get; }
         IScoresModule Scores { get; }

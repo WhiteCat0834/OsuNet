@@ -5,10 +5,10 @@ using OsuNet.Utils;
 
 namespace OsuNet.Modules {
     internal class MultiplayerModule : IMultiplayerModule {
-        private readonly IOsuApi osuApi;
+        private readonly IApiRequester requester;
 
-        internal MultiplayerModule(IOsuApi osuApi) {
-            this.osuApi = osuApi;
+        internal MultiplayerModule(IApiRequester requester) {
+            this.requester = requester;
         }
 
         /// <summary>
@@ -19,11 +19,11 @@ namespace OsuNet.Modules {
         /// <returns><see cref="Match"/> object containing detailed information about the specified multiplayer match.</returns>
         public async Task<Match> GetMatchAsync(GetMatchOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", osuApi.AccessToken),
+                ("k", requester.AccessToken),
                 ("mp", options.MatchId.ToString())
             );
 
-            return await osuApi.GetAsync<Match>("get_match", query, cancellationToken);
+            return await requester.GetAsync<Match>("get_match", query, cancellationToken);
         }
     }
 }

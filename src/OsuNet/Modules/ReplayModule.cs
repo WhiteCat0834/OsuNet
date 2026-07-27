@@ -5,10 +5,10 @@ using OsuNet.Utils;
 
 namespace OsuNet.Modules {
     internal class ReplayModule : IReplayModule {
-        private readonly IOsuApi osuApi;
+        private readonly IApiRequester requester;
 
-        internal ReplayModule(IOsuApi osuApi) {
-            this.osuApi = osuApi;
+        internal ReplayModule(IApiRequester requester) {
+            this.requester = requester;
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace OsuNet.Modules {
         /// <returns><see cref="Replay"/> object containing the base64-encoded replay data.</returns>
         public async Task<Replay> GetReplayAsync(GetReplayOptions options, CancellationToken cancellationToken = default) {
             var query = QueryBuilder.Build(
-                ("k", osuApi.AccessToken),
+                ("k", requester.AccessToken),
                 ("b", options.BeatmapId.ToString()),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
@@ -29,7 +29,7 @@ namespace OsuNet.Modules {
                 ("mods", ((int?)options.Mods)?.ToString())
             );
 
-            return await osuApi.GetAsync<Replay>("get_replay", query, cancellationToken);
+            return await requester.GetAsync<Replay>("get_replay", query, cancellationToken);
         }
     }
 }
