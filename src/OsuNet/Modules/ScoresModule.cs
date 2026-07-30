@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class ScoresModule : IScoresModule {
+    public class ScoresModule : IScoresModule {
         private readonly IApiRequester requester;
 
-        internal ScoresModule(IApiRequester requester) {
+        public ScoresModule(IApiRequester requester) {
             this.requester = requester;
         }
 
@@ -23,7 +23,7 @@ namespace OsuNet.Modules {
                 ("b", options.BeatmapId?.ToString()),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
-                ("mods", options.Mods?.ToString()),
+                ("mods", ((int?)options.Mods)?.ToString()),
                 ("type", options.Type),
                 ("limit", options.Limit?.ToString())
             );

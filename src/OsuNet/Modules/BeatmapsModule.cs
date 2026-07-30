@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class BeatmapsModule : IBeatmapModule {
+    public class BeatmapsModule : IBeatmapModule {
         private readonly IApiRequester requester;
 
-        internal BeatmapsModule(IApiRequester requester) {
+        public BeatmapsModule(IApiRequester requester) {
             this.requester = requester;
         }
 
@@ -29,7 +29,7 @@ namespace OsuNet.Modules {
                 ("a", options.ConvertedBeatmaps == true ? "1" : "0"),
                 ("h", options.Hash),
                 ("limit", options.Limit),
-                ("mods", options.Mods)
+                ("mods", ((int?)options.Mods)?.ToString())
             );
             return await requester.GetAsync<Beatmap[]>("get_beatmaps", query, cancellationToken);
         }

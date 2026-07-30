@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class UserModule : IUserModule {
+    public class UserModule : IUserModule {
         private readonly IApiRequester requester;
 
-        internal UserModule(IApiRequester requester) { 
+        public UserModule(IApiRequester requester) { 
             this.requester = requester;
         }
 

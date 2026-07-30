@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class ReplayModule : IReplayModule {
+    public class ReplayModule : IReplayModule {
         private readonly IApiRequester requester;
 
-        internal ReplayModule(IApiRequester requester) {
+        public ReplayModule(IApiRequester requester) {
             this.requester = requester;
         }
 
