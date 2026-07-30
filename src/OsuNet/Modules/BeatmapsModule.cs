@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class BeatmapsModule : IBeatmapModule {
+    public class BeatmapsModule : IBeatmapModule {
         private readonly IApiRequester requester;
 
-        internal BeatmapsModule(IApiRequester requester) {
+        public BeatmapsModule(IApiRequester requester) {
             this.requester = requester;
         }
 

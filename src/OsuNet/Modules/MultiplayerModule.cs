@@ -4,10 +4,10 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
-    internal class MultiplayerModule : IMultiplayerModule {
+    public class MultiplayerModule : IMultiplayerModule {
         private readonly IApiRequester requester;
 
-        internal MultiplayerModule(IApiRequester requester) {
+        public MultiplayerModule(IApiRequester requester) {
             this.requester = requester;
         }
 
