@@ -24,9 +24,6 @@
 OsuNet is a library for the [Osu!API v1](https://github.com/ppy/osu-api/wiki)  
 Documentation for this library: [link](https://github.com/WhiteCat0834/OsuNet/wiki)
 
-> [!NOTE]
-> The original repository belongs to Blackcat76iT
-
 
 ## Installation
 
