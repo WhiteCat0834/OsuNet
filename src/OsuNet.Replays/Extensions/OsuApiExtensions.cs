@@ -19,6 +19,8 @@ namespace OsuNet.Replays.Extensions {
         /// <summary>
         /// Gets replay as .osr byte array.
         /// </summary>
+        ///
+        [Obsolete("Use api.CreateOsuOsrService() to use GetOsrByteAsync()")]
         public static async Task<byte[]> GetOsrByteAsync(this IOsuApi api, GetReplayOptions options, CancellationToken ct = default)
             => await api.CreateOsuOsrService().GetOsrByteAsync(options, ct);
     }
