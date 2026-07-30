@@ -29,7 +29,7 @@ namespace OsuNet.Modules {
                 ("a", options.ConvertedBeatmaps == true ? "1" : "0"),
                 ("h", options.Hash),
                 ("limit", options.Limit),
-                ("mods", options.Mods)
+                ("mods", ((int?)options.Mods)?.ToString())
             );
             return await requester.GetAsync<Beatmap[]>("get_beatmaps", query, cancellationToken);
         }

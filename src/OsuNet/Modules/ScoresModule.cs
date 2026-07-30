@@ -23,7 +23,7 @@ namespace OsuNet.Modules {
                 ("b", options.BeatmapId?.ToString()),
                 ("u", options.User),
                 ("m", ((int?)options.Mode)?.ToString()),
-                ("mods", options.Mods?.ToString()),
+                ("mods", ((int?)options.Mods)?.ToString()),
                 ("type", options.Type),
                 ("limit", options.Limit?.ToString())
             );
