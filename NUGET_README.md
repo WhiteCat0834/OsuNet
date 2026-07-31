@@ -29,7 +29,7 @@ public class Program {
             return;
         }
 
-        Beatmap beatmap = (await api.GetBeatmapsAsync(new GetBeatmapsOptions() {
+        Beatmap beatmap = (await api.Beatmaps.GetBeatmapsAsync(new GetBeatmapsOptions() {
             BeatmapId = beatmapId
         })).FirstOrDefault();
 
