@@ -1,5 +1,4 @@
 ﻿using Moq;
-using Newtonsoft.Json.Linq;
 using OsuNet.Abstractions;
 using OsuNet.Models;
 using OsuNet.Models.Options;
