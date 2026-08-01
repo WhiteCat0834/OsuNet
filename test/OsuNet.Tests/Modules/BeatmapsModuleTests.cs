@@ -54,7 +54,6 @@ namespace OsuNet.Tests.Modules {
             // Assert
             Assert.NotNull(capturedQuery);
 
-            // Преобразуем в словарь для удобной проверки
             var queryDict = capturedQuery.ToDictionary(x => x.Key, x => x.Value);
 
             Assert.Equal("test_access_token", queryDict["k"]);
@@ -101,12 +100,10 @@ namespace OsuNet.Tests.Modules {
             Assert.NotNull(capturedQuery);
             var queryDict = capturedQuery.ToDictionary(x => x.Key, x => x.Value);
 
-            // Проверяем наличие только ожидаемых ключей
             Assert.Contains("k", queryDict.Keys);
             Assert.Contains("b", queryDict.Keys);
             Assert.Contains("a", queryDict.Keys);
 
-            // Проверяем, что null-параметры отсутствуют
             Assert.DoesNotContain("since", queryDict.Keys);
             Assert.DoesNotContain("s", queryDict.Keys);
             Assert.DoesNotContain("u", queryDict.Keys);
@@ -118,7 +115,7 @@ namespace OsuNet.Tests.Modules {
 
             Assert.Equal("test_access_token", queryDict["k"]);
             Assert.Equal("67890", queryDict["b"]);
-            Assert.Equal("0", queryDict["a"]); // null == true -> false -> "0"
+            Assert.Equal("0", queryDict["a"]);
 
             Assert.Equal(expectedBeatmaps, result);
         }
