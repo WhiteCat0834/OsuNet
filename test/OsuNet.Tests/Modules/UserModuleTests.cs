@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Moq;
 using OsuNet.Abstractions;
 using OsuNet.Models;
 using OsuNet.Models.Options;
 using OsuNet.Modules;
-using Xunit;
 
 namespace OsuNet.Tests.Modules {
     public class UserModuleTests {
