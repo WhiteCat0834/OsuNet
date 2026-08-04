@@ -4,9 +4,16 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
+    /// <summary>
+    /// Represents a module that provides functionality for interacting with osu! beatmap scores and leaderboards.
+    /// </summary>
     public class ScoresModule : IScoresModule {
         private readonly IApiRequester requester;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScoresModule"/> class.
+        /// </summary>
+        /// <param name="requester">The <see cref="IApiRequester"/> implementation used to handle API requests.</param>
         public ScoresModule(IApiRequester requester) {
             this.requester = requester;
         }
