@@ -1,8 +1,11 @@
-﻿using Moq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Moq;
 using OsuNet.Abstractions;
 using OsuNet.Models;
 using OsuNet.Models.Options;
 using OsuNet.Modules;
+using Xunit;
 
 namespace OsuNet.Tests.Modules {
     public class UserModuleTests {
@@ -13,6 +16,12 @@ namespace OsuNet.Tests.Modules {
             _mockRequester = new Mock<IApiRequester>();
             _mockRequester.Setup(r => r.AccessToken).Returns("test_access_token");
             _module = new UserModule(_mockRequester.Object);
+        }
+
+        private static void AssertQuery(IEnumerable<KeyValuePair<string, string>> query, string key, string expectedValue) {
+            var pair = query.FirstOrDefault(q => q.Key == key);
+            Assert.True(pair.Key != null, $"Query does not contain expected key '{key}'");
+            Assert.Equal(expectedValue, pair.Value);
         }
 
         [Fact]
@@ -29,7 +38,10 @@ namespace OsuNet.Tests.Modules {
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<User[]>("get_user", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetAsync<IReadOnlyList<User>>( // <--- ИСПРАВЛЕНО
+                    "get_user",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
                 .ReturnsAsync(expectedUsers);
 
@@ -38,13 +50,13 @@ namespace OsuNet.Tests.Modules {
 
             // Assert
             Assert.NotNull(capturedQuery);
-            var queryDict = capturedQuery.ToDictionary(x => x.Key, x => x.Value);
 
-            Assert.Equal("test_access_token", queryDict["k"]);
-            Assert.Equal("test_user", queryDict["u"]);
-            Assert.Equal("0", queryDict["m"]);
-            Assert.Equal("id", queryDict["type"]);
-            Assert.Equal("7", queryDict["event_days"]);
+            AssertQuery(capturedQuery, "k", "test_access_token");
+            AssertQuery(capturedQuery, "u", "test_user");
+            AssertQuery(capturedQuery, "m", "0");
+            AssertQuery(capturedQuery, "type", "id");
+            AssertQuery(capturedQuery, "event_days", "7");
+
             Assert.Equal(expectedUsers, result);
         }
 
@@ -62,7 +74,10 @@ namespace OsuNet.Tests.Modules {
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<UserBest[]>("get_user_best", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetAsync<IReadOnlyList<UserBest>>(
+                    "get_user_best",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
                 .ReturnsAsync(expectedBests);
 
@@ -71,13 +86,13 @@ namespace OsuNet.Tests.Modules {
 
             // Assert
             Assert.NotNull(capturedQuery);
-            var queryDict = capturedQuery.ToDictionary(x => x.Key, x => x.Value);
 
-            Assert.Equal("test_access_token", queryDict["k"]);
-            Assert.Equal("test_user", queryDict["u"]);
-            Assert.Equal("0", queryDict["m"]);
-            Assert.Equal("10", queryDict["limit"]);
-            Assert.Equal("id", queryDict["type"]);
+            AssertQuery(capturedQuery, "k", "test_access_token");
+            AssertQuery(capturedQuery, "u", "test_user");
+            AssertQuery(capturedQuery, "m", "0");
+            AssertQuery(capturedQuery, "limit", "10");
+            AssertQuery(capturedQuery, "type", "id");
+
             Assert.Equal(expectedBests, result);
         }
 
@@ -95,7 +110,10 @@ namespace OsuNet.Tests.Modules {
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<UserRecent[]>("get_user_recent", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetAsync<IReadOnlyList<UserRecent>>(
+                    "get_user_recent",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
                 .ReturnsAsync(expectedRecents);
 
@@ -104,13 +122,13 @@ namespace OsuNet.Tests.Modules {
 
             // Assert
             Assert.NotNull(capturedQuery);
-            var queryDict = capturedQuery.ToDictionary(x => x.Key, x => x.Value);
 
-            Assert.Equal("test_access_token", queryDict["k"]);
-            Assert.Equal("test_user", queryDict["u"]);
-            Assert.Equal("0", queryDict["m"]);
-            Assert.Equal("5", queryDict["limit"]);
-            Assert.Equal("id", queryDict["type"]);
+            AssertQuery(capturedQuery, "k", "test_access_token");
+            AssertQuery(capturedQuery, "u", "test_user");
+            AssertQuery(capturedQuery, "m", "0");
+            AssertQuery(capturedQuery, "limit", "5");
+            AssertQuery(capturedQuery, "type", "id");
+
             Assert.Equal(expectedRecents, result);
         }
     }

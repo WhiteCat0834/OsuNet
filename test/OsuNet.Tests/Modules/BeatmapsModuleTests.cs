@@ -35,11 +35,10 @@ namespace OsuNet.Tests.Modules {
 
             var expectedBeatmaps = new[] { new Beatmap(), new Beatmap() };
 
-            // Переменная для захвата переданного query
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Beatmap[]>(
+                .Setup(r => r.GetAsync<IReadOnlyList<Beatmap>>(
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
@@ -80,11 +79,10 @@ namespace OsuNet.Tests.Modules {
             var token = TestContext.Current.CancellationToken;
 
             var expectedBeatmaps = new[] { new Beatmap() };
-
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Beatmap[]>(
+                .Setup(r => r.GetAsync<IReadOnlyList<Beatmap>>(
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
@@ -130,11 +128,10 @@ namespace OsuNet.Tests.Modules {
             var token = TestContext.Current.CancellationToken;
 
             var expectedBeatmaps = new[] { new Beatmap() };
-
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Beatmap[]>(
+                .Setup(r => r.GetAsync<IReadOnlyList<Beatmap>>(
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
@@ -161,11 +158,10 @@ namespace OsuNet.Tests.Modules {
             var token = TestContext.Current.CancellationToken;
 
             var expectedBeatmaps = new[] { new Beatmap() };
-
             CancellationToken capturedToken = default;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Beatmap[]>(
+                .Setup(r => r.GetAsync<IReadOnlyList<Beatmap>>(
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
