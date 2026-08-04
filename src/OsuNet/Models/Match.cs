@@ -10,12 +10,12 @@ namespace OsuNet.Models {
         /// Gets basic information about the match.
         /// </summary>
         [JsonProperty("match")]
-        public MatchInfo MatchInfo { get; set; }
+        public MatchInfo? MatchInfo { get; set; }
 
         /// <summary>
         /// Gets basic information about games.
         /// </summary>
         [JsonProperty("games")]
-        public GameInfo[] Games { get; set; }
+        public IReadOnlyList<GameInfo> Games { get; set; }
     }
 }

@@ -12,6 +12,6 @@ namespace OsuNet.Abstractions {
         /// <param name="options">Configuration options for querying beatmap scores.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>A task representing the asynchronous operation, containing an array of <see cref="Score"/> objects representing the leaderboard entries for the specified beatmap.</returns>
-        Task<Score[]> GetScoresAsync(GetScoresOptions options, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Score>> GetScoresAsync(GetScoresOptions options, CancellationToken cancellationToken = default);
     }
 }

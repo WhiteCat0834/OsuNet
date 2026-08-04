@@ -12,6 +12,6 @@ namespace OsuNet.Abstractions {
         /// <param name="options">Configuration options for filtering and specifying beatmap search criteria.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>A task representing the asynchronous operation, containing an array of <see cref="Beatmap"/> objects matching the specified criteria.</returns>
-        Task<Beatmap[]> GetBeatmapsAsync(GetBeatmapsOptions options, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<Beatmap>> GetBeatmapsAsync(GetBeatmapsOptions options, CancellationToken cancellationToken = default);
     }
 }

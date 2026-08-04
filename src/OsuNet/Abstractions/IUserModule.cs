@@ -12,7 +12,7 @@ namespace OsuNet.Abstractions {
         /// <param name="options">Configuration options for specifying which user(s) to retrieve.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>A task representing the asynchronous operation, containing an array of <see cref="User"/> objects matching the specified criteria.</returns>
-        Task<User[]> GetUserAsync(GetUserOptions options, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<User>> GetUserAsync(GetUserOptions options, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously retrieves the top scores for the specified user.
@@ -20,7 +20,7 @@ namespace OsuNet.Abstractions {
         /// <param name="options">Configuration options for retrieving user's best scores.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>A task representing the asynchronous operation, containing an array of <see cref="UserBest"/> objects representing the user's highest-ranked scores.</returns>
-        Task<UserBest[]> GetUserBestAsync(GetUserBestOptions options, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<UserBest>> GetUserBestAsync(GetUserBestOptions options, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously retrieves the user's most recent plays over the last 24 hours.
@@ -28,6 +28,6 @@ namespace OsuNet.Abstractions {
         /// <param name="options">Configuration options for retrieving user's recent plays.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
         /// <returns>A task representing the asynchronous operation, containing an array of <see cref="UserRecent"/> objects representing the user's most recent score submissions.</returns>
-        Task<UserRecent[]> GetUserRecentAsync(GetUserRecentOptions options, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<UserRecent>> GetUserRecentAsync(GetUserRecentOptions options, CancellationToken cancellationToken = default);
     }
 }
