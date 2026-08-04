@@ -72,6 +72,39 @@ namespace OsuNet {
             return serializer.Deserialize<T>(jsonReader)!;
         }
 
+        /// <summary>
+        /// Asynchronously executes an HTTP GET request to the specified API endpoint with the provided query parameters
+        /// and returns the deserialized JSON response. Query parameter values are automatically URL-encoded to ensure
+        /// safe transmission over HTTP. The method will throw an exception if the server returns a non-successful status code.
+        /// </summary>
+        /// <typeparam name="T">The expected type of the deserialized JSON response object.</typeparam>
+        /// <param name="endpoint">The relative API endpoint path (e.g., "get_beatmaps", "get_user") to append to the base URL.</param>
+        /// <param name="query">
+        /// A collection of key-value pairs representing the query string parameters to include in the request.
+        /// Both keys and values will be URL-encoded using <see cref="Uri.EscapeDataString"/>.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used to cancel the asynchronous operation, including the HTTP request
+        /// and the subsequent JSON deserialization.
+        /// </param>
+        /// <returns>
+        /// A task representing the asynchronous operation, containing the deserialized response object of type <typeparamref name="T"/>.
+        /// </returns>
+        /// <exception cref="HttpRequestException">
+        /// Thrown when the HTTP request completes with a non-successful status code (4xx or 5xx).
+        /// Propagated by <see cref="HttpResponseMessage.EnsureSuccessStatusCode"/>.
+        /// </exception>
+        /// <exception cref="OperationCanceledException">
+        /// Thrown when the <paramref name="cancellationToken"/> is signaled before the operation completes.
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when the underlying HTTP request times out or is canceled.
+        /// </exception>
+        /// <remarks>
+        /// The method constructs the full request URL by combining the configured base URL, the endpoint path,
+        /// and a URL-encoded query string. The response content is read as a stream and deserialized using the
+        /// configured JSON deserializer.
+        /// </remarks>
         public async Task<T> GetAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default) {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
             var url = $"{baseUrl}{endpoint}?{queryString}";
