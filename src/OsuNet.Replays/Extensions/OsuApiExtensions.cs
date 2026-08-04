@@ -1,5 +1,4 @@
 ﻿using OsuNet.Abstractions;
-using OsuNet.Models.Options;
 using OsuNet.Replays.Abstractions;
 using OsuNet.Replays.Services;
 
