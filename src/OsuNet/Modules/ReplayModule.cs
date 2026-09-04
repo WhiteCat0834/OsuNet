@@ -4,9 +4,16 @@ using OsuNet.Models.Options;
 using OsuNet.Utils;
 
 namespace OsuNet.Modules {
+    /// <summary>
+    /// Represents a module for interacting with replay-related endpoints in the osu! API.
+    /// </summary>
     public class ReplayModule : IReplayModule {
         private readonly IApiRequester requester;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReplayModule"/> class.
+        /// </summary>
+        /// <param name="requester">The API requester used to send requests to the osu! API.</param>
         public ReplayModule(IApiRequester requester) {
             this.requester = requester;
         }

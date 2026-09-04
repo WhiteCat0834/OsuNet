@@ -5,12 +5,19 @@ using OsuNet.Replays.Abstractions;
 using OsuNet.Replays.Utils;
 
 namespace OsuNet.Replays.Services {
+    /// <summary>
+    /// Allows to get replay as .osr byte array
+    /// </summary>
     public class OsuOsrService : IOsuOsrService {
         private readonly IOsuApi api;
 
         private const int osuVersion = 0;
         private const string lifeBar = "";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OsuOsrService"/> class.
+        /// </summary>
+        /// <param name="api"></param>
         public OsuOsrService(IOsuApi api) { 
             this.api = api; 
         }

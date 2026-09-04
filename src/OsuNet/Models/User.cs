@@ -136,6 +136,6 @@ namespace OsuNet.Models {
         /// Contains events for this user.
         /// </summary>
         [JsonProperty("events")]
-        public EventInfo[] Events { get; set; }
+        public IReadOnlyList<EventInfo> Events { get; set; }
     }
 }

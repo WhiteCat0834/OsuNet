@@ -21,6 +21,21 @@ namespace OsuNet.Replays.Extensions {
             return await Task.Run(() => Decode(replay), ct);
         }
 
+        /// <summary>
+        /// Decodes, decompresses, and parses the Base64-encoded and LZMA-compressed replay data 
+        /// from the specified <see cref="Replay"/> object into a structured <see cref="ReplayData"/> instance.
+        /// </summary>
+        /// <param name="replay">The <see cref="Replay"/> object containing the encoded and compressed replay content.</param>
+        /// <returns>
+        /// A <see cref="ReplayData"/> object containing the parsed replay frames and the RNG seed. 
+        /// If the content is empty, returns an empty <see cref="ReplayData"/> instance.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="replay"/> or its <c>Content</c> property is <c>null</c>.
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// Thrown if the Base64 string is invalid, or if the frame data cannot be parsed into the expected types (integers and floats).
+        /// </exception>
         private static ReplayData Decode(Replay replay) {
             var content = Convert.FromBase64String(replay.Content);
 
