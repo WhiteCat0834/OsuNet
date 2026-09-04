@@ -1,9 +1,8 @@
 ﻿namespace OsuNet.Abstractions {
     /// <summary>
     /// Represents the main entry point for interacting with the osu! API.
-    /// Inherits from <see cref="IApiRequester"/> and provides access to all available functional modules.
     /// </summary>
-    public interface IOsuApi : IApiRequester {
+    public interface IOsuApi {
         /// <summary>
         /// Gets the module responsible for retrieving osu! user information and play history.
         /// </summary>
