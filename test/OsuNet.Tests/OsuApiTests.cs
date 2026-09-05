@@ -48,18 +48,59 @@ namespace OsuNet.Tests {
         }
 
         [Fact]
-        public void Constructor_WithValidRequester_AccessTokenSetter_DelegatesToRequester() {
+        public void Constructor_WithNullAccessToken_ThrowsArgumentNullException() {
+            // Arrange
+            string nullAccessToken = null;
+
+            // Act & Assert
+            var exception = Assert.Throws<ArgumentNullException>(() => new OsuApi(nullAccessToken));
+
+            Assert.NotNull(exception.ParamName);
+            Assert.Contains("null", exception.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void Constructor_WithValidAccessToken_InitializesAllModules() {
+            // Arrange
+            string validToken = "valid_test_token";
+
+            // Act
+            var api = new OsuApi(validToken);
+
+            // Assert
+            Assert.NotNull(api.Beatmaps);
+            Assert.NotNull(api.User);
+            Assert.NotNull(api.Scores);
+            Assert.NotNull(api.Multiplayer);
+            Assert.NotNull(api.Replay);
+        }
+
+        [Fact]
+        public void Constructor_WithValidAccessToken_SetsAccessTokenPropertyCorrectly() {
+            // Arrange
+            string validToken = "my_secret_token_123";
+
+            // Act
+            var api = new OsuApi(validToken);
+
+            // Assert
+            Assert.Equal(validToken, api.AccessToken);
+        }
+
+        [Fact]
+        public void AccessToken_Setter_DelegatesToRequester() {
             // Arrange
             var mockRequester = new Mock<IApiRequester>();
             mockRequester.SetupProperty(r => r.AccessToken, "initial_token");
 
-            // Act
             var api = new OsuApi(mockRequester.Object);
-            api.AccessToken = "new_updated_token";
+            string newToken = "updated_secret_token_456";
+
+            api.AccessToken = newToken;
 
             // Assert
-            Assert.Equal("new_updated_token", api.AccessToken);
-            mockRequester.VerifySet(r => r.AccessToken = "new_updated_token", Times.Once);
+            Assert.Equal(newToken, api.AccessToken);
+            mockRequester.VerifySet(r => r.AccessToken = newToken, Times.Once);
         }
     }
 }

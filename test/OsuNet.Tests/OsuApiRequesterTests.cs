@@ -1,93 +1,112 @@
-﻿using Moq;
-using OsuNet.Abstractions;
+﻿using System.Net;
+using System.Text;
+using Moq;
+using Moq.Protected;
 using OsuNet.Models;
-using OsuNet.Models.Options;
 
 namespace OsuNet.Tests {
 
-    public class OsuApiWithMoqTests {
+    public class OsuApiRequesterTests {
 
         [Fact]
-        public void Constructor_WithNullRequester_ThrowsArgumentNullException() {
-            // Act & Assert
-            var ex = Assert.Throws<ArgumentNullException>(() => new OsuApi((IApiRequester)null));
-            Assert.Equal("requester", ex.ParamName);
-        }
-
-        [Fact]
-        public void Constructor_WithMockRequester_InitializesAllModules() {
+        public async Task GetAsync_FullCoverage_UsesJsonSettingsAndFromJson() {
             // Arrange
-            var mockRequester = new Mock<IApiRequester>();
-            mockRequester.Setup(r => r.AccessToken).Returns("test_token");
+            var mockJsonResponse = "[{\"beatmap_id\":123,\"title\":\"Freedom Dive\"}]";
+
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(mockJsonResponse, Encoding.UTF8, "application/json")
+                });
+
+            var requester = new OsuApiRequester("test_token_for_coverage", mockHandler.Object);
+
+            var query = new List<KeyValuePair<string, string>> {
+                new("beatmap_id", "123")
+            };
 
             // Act
-            var api = new OsuApi(mockRequester.Object);
-
-            // Assert
-            Assert.NotNull(api.Beatmaps);
-            Assert.NotNull(api.User);
-            Assert.NotNull(api.Scores);
-            Assert.NotNull(api.Multiplayer);
-            Assert.NotNull(api.Replay);
-        }
-
-        [Fact]
-        public void AccessToken_Getter_DelegatesToRequester() {
-            // Arrange
-            var mockRequester = new Mock<IApiRequester>();
-            mockRequester.Setup(r => r.AccessToken).Returns("mocked_token");
-
-            // Act
-            var api = new OsuApi(mockRequester.Object);
-            var result = api.AccessToken;
-
-            // Assert
-            Assert.Equal("mocked_token", result);
-            mockRequester.VerifyGet(r => r.AccessToken, Times.Once);
-        }
-
-        [Fact]
-        public void AccessToken_Setter_DelegatesToRequester() {
-            // Arrange
-            var mockRequester = new Mock<IApiRequester>();
-            mockRequester.SetupProperty(r => r.AccessToken, "initial_token");
-
-            // Act
-            var api = new OsuApi(mockRequester.Object);
-            api.AccessToken = "new_token";
-
-            // Assert
-            Assert.Equal("new_token", api.AccessToken);
-            mockRequester.VerifySet(r => r.AccessToken = "new_token", Times.Once);
-        }
-
-        [Fact]
-        public async Task BeatmapsModule_UsesRequesterForApiCalls() {
-            // Arrange
-            var mockRequester = new Mock<IApiRequester>();
-            mockRequester.Setup(r => r.AccessToken).Returns("test_token");
-
-            // ИСПРАВЛЕНИЕ: используем IReadOnlyList<Beatmap> вместо List<Beatmap>
-            mockRequester
-                .Setup(r => r.GetAsync<IReadOnlyList<Beatmap>>(
-                    "get_beatmaps",
-                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
-                    It.IsAny<CancellationToken>()))
-                .ReturnsAsync(new List<Beatmap> { new Beatmap { Title = "Test Beatmap" } });
-
-            var api = new OsuApi(mockRequester.Object);
-
-            // Act
-            var result = await api.Beatmaps.GetBeatmapsAsync(new GetBeatmapsOptions { BeatmapId = 123 }, TestContext.Current.CancellationToken);
+            var result = await requester.GetAsync<List<Beatmap>>("get_beatmaps", query, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.Single(result);
-            Assert.Equal("Test Beatmap", result[0].Title);
+            Assert.Equal("Freedom Dive", result[0].Title);
+            Assert.Equal(123UL, result[0].BeatmapId);
 
-            mockRequester.Verify(r => r.GetAsync<IReadOnlyList<Beatmap>>(
-                "get_beatmaps",
-                It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
-                It.IsAny<CancellationToken>()), Times.Once);
+            mockHandler.Protected().Verify(
+                "SendAsync",
+                Times.Once(),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.Method == HttpMethod.Get &&
+                    req.RequestUri.ToString().Contains("get_beatmaps?beatmap_id=123")),
+                ItExpr.IsAny<CancellationToken>()
+            );
+        }
+
+        [Fact]
+        public async Task GetAsync_HandlesHttpError_CoversEnsureSuccessStatusCode() {
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.NotFound
+                });
+
+            var requester = new OsuApiRequester("test_token", mockHandler.Object);
+            var query = new List<KeyValuePair<string, string>>();
+
+            // Act & Assert
+            await Assert.ThrowsAsync<HttpRequestException>(() =>
+                requester.GetAsync<string>("get_user", query, TestContext.Current.CancellationToken));
+
+            mockHandler.Protected().Verify(
+                "SendAsync",
+                Times.Once(),
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>()
+            );
+        }
+
+        [Fact]
+        public async Task GetAsync_EncodesQueryParametersCorrectly() {
+            HttpRequestMessage? capturedRequest = null;
+
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .Callback<HttpRequestMessage, CancellationToken>((req, ct) => capturedRequest = req)
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent("\"test_response\"", Encoding.UTF8, "application/json")
+                });
+
+            var requester = new OsuApiRequester("test_token", mockHandler.Object);
+
+            var query = new List<KeyValuePair<string, string>> {
+                new("search", "hello world & test")
+            };
+
+            // Act
+            await requester.GetAsync<string>("test_endpoint", query, TestContext.Current.CancellationToken);
+
+            // Assert
+            Assert.NotNull(capturedRequest);
+            Assert.Contains("search=hello%20world%20%26%20test", capturedRequest.RequestUri.Query);
+            Assert.StartsWith("https://osu.ppy.sh/api/test_endpoint?", capturedRequest.RequestUri.AbsoluteUri);
         }
     }
 }

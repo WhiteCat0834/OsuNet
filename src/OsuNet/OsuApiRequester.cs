@@ -26,16 +26,20 @@ namespace OsuNet {
         /// for optimized data transfer with the osu! API.
         /// </summary>
         /// <param name="accessToken">The osu! API v1 authentication token.</param>
-        public OsuApiRequester(string accessToken) {
+        public OsuApiRequester(string accessToken, HttpMessageHandler handler = null) {
             if (string.IsNullOrWhiteSpace(accessToken))
                 throw new ArgumentNullException(nameof(accessToken), "Access token cannot be null or empty.");
 
             this.AccessToken = accessToken;
 
-            this.httpClient = new HttpClient(new HttpClientHandler {
+            var innerHandler = handler ?? new HttpClientHandler {
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            });
-            this.httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            };
+
+            this.httpClient = new HttpClient(innerHandler);
+            if (handler == null) {
+                this.httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            }
         }
 
         private T fromJson<T>(Stream stream) {
