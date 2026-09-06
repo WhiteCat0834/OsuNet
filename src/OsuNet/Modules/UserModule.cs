@@ -10,7 +10,6 @@ namespace OsuNet.Modules {
     public class UserModule : IUserModule {
         private readonly IApiRequester requester;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="UserModule"/> class.
         /// </summary>
