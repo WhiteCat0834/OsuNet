@@ -1,56 +1,56 @@
 using Newtonsoft.Json;
-using OsuNet.Models;
 using OsuNet.Enums;
+using OsuNet.Models;
 
 namespace OsuNet.Tests.Models {
     public class BeatmapTests {
         [Fact]
         public void Beatmap_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var beatmap = new Beatmap {
-                BeatmapSetId = 12345,
-                BeatmapId = 67890,
-                Approved = ApproveStatus.Ranked,
-                TotalLength = 300,
-                HitLength = 250,
-                Version = "Hard",
-                ApprovedDate = DateTime.UtcNow,
-                Artist = "Artist Name",
-                ArtistUnicode = "アーティスト名",
-                AudioUnavailable = true,
-                DiffAim = 5.0f,
-                DiffApproach = 4.5f,
-                DiffOverall = 5.5f,
-                BPM = 180,
-                Creator = "Creator Name",
-                CreatorId = 54321,
-                CountNormal = 100,
-                CountSlider = 50,
-                CountSpinner = 5,
-                DiffSize = 4.0f,
-                DiffDrain = 3.5f,
-                DifficultyRating = 6.0f,
-                DiffSpeed = 100,
-                DownloadUnavailable = false,
-                FavouriteCount = 0,
-                FileMD5 = "abcdef1234567890",
-                GenreId = Genre.Pop,
-                LanguageId = Language.English,
-                LastUpdate = DateTime.UtcNow,
-                MaxCombo = 500,
-                Video = false,
-                Mode = BeatmapMode.Osu,
-                Packs = "",
-                PassCount = 0,
-                PlayCount = 0,
-                Rating = 0,
-                Source = "",
-                Storyboard = false,
-                SubmitDate = DateTime.UtcNow,
-                Tags = "",
-                Title = "Song Title",
-                TitleUnicode = "曲のタイトル",
-            };
+            var beatmap = new Beatmap(
+                BeatmapSetId: 12345,
+                BeatmapId: 67890,
+                Approved: ApproveStatus.Ranked,
+                TotalLength: 300,
+                HitLength: 250,
+                Version: "Hard",
+                FileMD5: "abcdef1234567890",
+                DiffSize: 4.0f,
+                DiffOverall: 5.5f,
+                DiffApproach: 4.5f,
+                DiffDrain: 3.5f,
+                Mode: BeatmapMode.Osu,
+                CountNormal: 100,
+                CountSlider: 50,
+                CountSpinner: 5,
+                SubmitDate: DateTime.UtcNow,
+                ApprovedDate: DateTime.UtcNow,
+                LastUpdate: DateTime.UtcNow,
+                Artist: "Artist Name",
+                ArtistUnicode: "アーティスト名",
+                Title: "Song Title",
+                TitleUnicode: "曲のタイトル",
+                Creator: "Creator Name",
+                CreatorId: 54321,
+                BPM: 180.0f,
+                Source: "",
+                Tags: "",
+                GenreId: Genre.Pop,
+                LanguageId: Language.English,
+                FavouriteCount: 0,
+                Rating: 0f,
+                Storyboard: false,
+                Video: false,
+                DownloadUnavailable: false,
+                AudioUnavailable: true,
+                PlayCount: 0,
+                PassCount: 0,
+                Packs: "",
+                MaxCombo: 500,
+                DiffAim: 5.0f,
+                DiffSpeed: 100.0f,
+                DifficultyRating: 6.0f
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(beatmap);
@@ -71,7 +71,7 @@ namespace OsuNet.Tests.Models {
             Assert.Equal(beatmap.DiffAim, deserializedBeatmap.DiffAim);
             Assert.Equal(beatmap.DiffApproach, deserializedBeatmap.DiffApproach);
             Assert.Equal(beatmap.DiffOverall, deserializedBeatmap.DiffOverall);
-            Assert.Equal(beatmap.BPM, deserializedBeatmap.BPM); 
+            Assert.Equal(beatmap.BPM, deserializedBeatmap.BPM);
             Assert.Equal(beatmap.Creator, deserializedBeatmap.Creator);
             Assert.Equal(beatmap.CreatorId, deserializedBeatmap.CreatorId);
             Assert.Equal(beatmap.CountNormal, deserializedBeatmap.CountNormal);

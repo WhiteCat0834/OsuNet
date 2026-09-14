@@ -2,10 +2,10 @@
     /// <summary>
     /// Represents the options for retrieving multiplayer match data.
     /// </summary>
-    public class GetMatchOptions {
+    public record GetMatchOptions {
         /// <summary>
         /// MatchId is a required option. The unique identifier of the multiplayer match.
         /// </summary>
-        public ulong? MatchId { get; set; }
+        public ulong? MatchId { get; init; }
     }
 }

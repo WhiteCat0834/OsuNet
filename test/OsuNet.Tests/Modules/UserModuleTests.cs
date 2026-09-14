@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using Moq;
+﻿using Moq;
 using OsuNet.Abstractions;
+using OsuNet.Enums;
 using OsuNet.Models;
+using OsuNet.Models.Info;
 using OsuNet.Models.Options;
 using OsuNet.Modules;
 
@@ -32,15 +33,15 @@ namespace OsuNet.Tests.Modules {
                 EventDays = 7
             };
             var token = TestContext.Current.CancellationToken;
-            var expectedUsers = new[] { new User() };
+            var expectedUsers = new[] { CreateTestUser() };
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<IReadOnlyList<User>>( // <--- ИСПРАВЛЕНО
+                .Setup(r => r.GetAsync<IReadOnlyList<User>>(
                     "get_user",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedUsers);
 
             // Act
@@ -68,7 +69,7 @@ namespace OsuNet.Tests.Modules {
                 Type = "id"
             };
             var token = TestContext.Current.CancellationToken;
-            var expectedBests = new[] { new UserBest() };
+            var expectedBests = new[] { CreateTestUserBest() };
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
@@ -76,7 +77,7 @@ namespace OsuNet.Tests.Modules {
                     "get_user_best",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedBests);
 
             // Act
@@ -104,7 +105,7 @@ namespace OsuNet.Tests.Modules {
                 Type = "id"
             };
             var token = TestContext.Current.CancellationToken;
-            var expectedRecents = new[] { new UserRecent() };
+            var expectedRecents = new[] { CreateTestUserRecent() };
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
@@ -112,7 +113,7 @@ namespace OsuNet.Tests.Modules {
                     "get_user_recent",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedRecents);
 
             // Act
@@ -129,5 +130,68 @@ namespace OsuNet.Tests.Modules {
 
             Assert.Equal(expectedRecents, result);
         }
+
+        private static User CreateTestUser() => new User(
+            UserId: 123456,
+            Username: "test_user",
+            JoinDate: DateTime.UtcNow,
+            Count300: 1000,
+            Count100: 500,
+            Count50: 100,
+            PlayCount: 2000,
+            RankedScore: 5000000,
+            TotalScore: 10000000,
+            PPRank: 100,
+            Level: 100.5f,
+            PPRaw: 5000.5f,
+            Accuracy: 95.5f,
+            CountRankSS: 10,
+            CountRankSSH: 5,
+            CountRankS: 50,
+            CountRankSH: 20,
+            CountRankA: 100,
+            Country: "US",
+            TotalSecondsPlayed: 500000,
+            PPCountryRank: 10,
+            Events: Array.Empty<EventInfo>()
+        );
+
+        private static UserBest CreateTestUserBest() => new UserBest(
+            BeatmapId: 12345,
+            ScoreId: 98765,
+            TotalScore: 1000000,
+            MaxCombo: 500,
+            Count50: 10,
+            Count100: 50,
+            Count300: 1000,
+            CountMiss: 2,
+            CountKatu: 20,
+            CountGeki: 100,
+            IsPerfect: false,
+            EnabledMods: Mods.None,
+            UserId: 123456,
+            DateTime: DateTime.UtcNow,
+            Rank: "S",
+            PP: 150.5f,
+            ReplayAvailable: true
+        );
+
+        private static UserRecent CreateTestUserRecent() => new UserRecent(
+            BeatmapId: 12345,
+            ScoreId: 98765,
+            TotalScore: 1000000,
+            MaxCombo: 500,
+            Count50: 10,
+            Count100: 50,
+            Count300: 1000,
+            CountMiss: 2,
+            CountKatu: 20,
+            CountGeki: 100,
+            IsPerfect: false,
+            EnabledMods: Mods.None,
+            UserId: 123456,
+            DateTime: DateTime.UtcNow,
+            Rank: "A"
+        );
     }
 }

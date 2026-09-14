@@ -3,259 +3,217 @@ using OsuNet.Enums;
 
 namespace OsuNet.Models {
     /// <summary>
-    /// Retrieve general beatmap information.
+    /// Represents beatmap information from the osu! API, containing metadata and difficulty settings.
     /// </summary>
-    public class Beatmap {
+    public record Beatmap(
         /// <summary>
-        /// Unique beatmap SET ID. (Used to identify an album)
+        /// Unique beatmap SET ID (used to identify an album).
         /// </summary>
-        [JsonProperty("beatmapset_id")]
-        public ulong BeatmapSetId { get; set; }
+        [JsonProperty("beatmapset_id")] ulong BeatmapSetId,
 
         /// <summary>
-        /// Unique beatmap ID. (Used to identify the beatmap)
+        /// Unique beatmap ID (used to identify the beatmap).
         /// </summary>
-        [JsonProperty("beatmap_id")]
-        public ulong BeatmapId { get; set; }
+        [JsonProperty("beatmap_id")] ulong BeatmapId,
 
         /// <summary>
         /// Map status.
         /// </summary>
-        [JsonProperty("approved")]
-        public ApproveStatus Approved { get; set; }
+        [JsonProperty("approved")] ApproveStatus Approved,
 
         /// <summary>
         /// The duration of the map in seconds.
         /// </summary>
-        [JsonProperty("total_length")]
-        public ulong TotalLength { get; set; }
+        [JsonProperty("total_length")] ulong TotalLength,
 
         /// <summary>
-        /// Seconds from first note to last note<br/>Not including breaks.
+        /// Seconds from first note to last note (not including breaks).
         /// </summary>
-        [JsonProperty("hit_length")]
-        public ulong HitLength { get; set; }
+        [JsonProperty("hit_length")] ulong HitLength,
 
         /// <summary>
         /// Difficulty name.
         /// </summary>
-        [JsonProperty("version")]
-        public string Version { get; set; }
+        [JsonProperty("version")] string Version,
 
         /// <summary>
         /// MD5 hash of the beatmap.
         /// </summary>
-        [JsonProperty("file_md5")]
-        public string FileMD5 { get; set; }
+        [JsonProperty("file_md5")] string FileMD5,
 
         /// <summary>
-        /// Circle size value. (CS)
+        /// Circle size value (CS).
         /// </summary>
-        [JsonProperty("diff_size")]
-        public float DiffSize { get; set; }
+        [JsonProperty("diff_size")] float DiffSize,
 
         /// <summary>
-        /// Overall difficulty. (OD)
+        /// Overall difficulty (OD).
         /// </summary>
-        [JsonProperty("diff_overall")]
-        public float DiffOverall { get; set; }
+        [JsonProperty("diff_overall")] float DiffOverall,
 
         /// <summary>
-        /// Approach Rate. (AR)
+        /// Approach rate (AR).
         /// </summary>
-        [JsonProperty("diff_approach")]
-        public float DiffApproach { get; set; }
+        [JsonProperty("diff_approach")] float DiffApproach,
 
         /// <summary>
-        /// Health drain. (HP)
+        /// Health drain (HP).
         /// </summary>
-        [JsonProperty("diff_drain")]
-        public float DiffDrain { get; set; }
+        [JsonProperty("diff_drain")] float DiffDrain,
 
         /// <summary>
         /// Game mode.
         /// </summary>
-        [JsonProperty("mode")]
-        public BeatmapMode Mode { get; set; }
+        [JsonProperty("mode")] BeatmapMode Mode,
 
         /// <summary>
         /// Count of notes on the map.
         /// </summary>
-        [JsonProperty("count_normal")]
-        public ulong CountNormal { get; set; }
+        [JsonProperty("count_normal")] ulong CountNormal,
 
         /// <summary>
         /// Count of sliders on the map.
         /// </summary>
-        [JsonProperty("count_slider")]
-        public ulong CountSlider { get; set; }
+        [JsonProperty("count_slider")] ulong CountSlider,
 
         /// <summary>
         /// Count of spinners on the map.
         /// </summary>
-        [JsonProperty("count_spinner")]
-        public ulong CountSpinner { get; set; }
+        [JsonProperty("count_spinner")] ulong CountSpinner,
 
         /// <summary>
         /// Date submitted.
         /// </summary>
-        [JsonProperty("submit_date")]
-        public DateTime? SubmitDate { get; set; }
+        [JsonProperty("submit_date")] DateTime? SubmitDate,
 
         /// <summary>
         /// Date ranked.
         /// </summary>
-        [JsonProperty("approved_date")]
-        public DateTime? ApprovedDate { get; set; }
+        [JsonProperty("approved_date")] DateTime? ApprovedDate,
 
         /// <summary>
-        /// Last update date, in UTC.<br/>May be after approved_date if map was unranked and reranked.
+        /// Last update date, in UTC. May be after approved_date if map was unranked and reranked.
         /// </summary>
-        [JsonProperty("last_update")]
-        public DateTime? LastUpdate { get; set; }
+        [JsonProperty("last_update")] DateTime? LastUpdate,
 
         /// <summary>
         /// Song artist.
         /// </summary>
-        [JsonProperty("artist")]
-        public string Artist { get; set; }
+        [JsonProperty("artist")] string Artist,
 
         /// <summary>
-        /// Same as artist.
+        /// Song artist in Unicode.
         /// </summary>
-        [JsonProperty("artist_unicode")]
-        public string ArtistUnicode { get; set; }
+        [JsonProperty("artist_unicode")] string ArtistUnicode,
 
         /// <summary>
         /// Song name.
         /// </summary>
-        [JsonProperty("title")]
-        public string Title { get; set; }
+        [JsonProperty("title")] string Title,
 
         /// <summary>
-        /// Same as title.
+        /// Song name in Unicode.
         /// </summary>
-        [JsonProperty("title_unicode")]
-        public string TitleUnicode { get; set; }
+        [JsonProperty("title_unicode")] string TitleUnicode,
 
         /// <summary>
         /// Creator nickname.
         /// </summary>
-        [JsonProperty("creator")]
-        public string Creator { get; set; }
+        [JsonProperty("creator")] string Creator,
 
         /// <summary>
         /// Creator ID.
         /// </summary>
-        [JsonProperty("creator_id")]
-        public ulong CreatorId { get; set; }
+        [JsonProperty("creator_id")] ulong CreatorId,
 
         /// <summary>
-        /// The BPM of this bitmap.
+        /// The BPM of this beatmap.
         /// </summary>
-        [JsonProperty("bpm")]
-        public float? BPM { get; set; }
+        [JsonProperty("bpm")] float? BPM,
 
         /// <summary>
-        /// * Did not find application
+        /// Source of the beatmap.
         /// </summary>
-        [JsonProperty("source")]
-        public string Source { get; set; }
+        [JsonProperty("source")] string Source,
 
         /// <summary>
         /// Beatmap tags separated by spaces.
         /// </summary>
-        [JsonProperty("tags")]
-        public string Tags { get; set; }
+        [JsonProperty("tags")] string Tags,
 
         /// <summary>
         /// Song genre.
         /// </summary>
-        [JsonProperty("genre_id")]
-        public Genre GenreId { get; set; }
+        [JsonProperty("genre_id")] Genre GenreId,
 
         /// <summary>
         /// Map language.
         /// </summary>
-        [JsonProperty("language_id")]
-        public Language LanguageId { get; set; }
+        [JsonProperty("language_id")] Language LanguageId,
 
         /// <summary>
-        /// Number of times the beatmap was favourited. (Americans: notice the ou!).
+        /// Number of times the beatmap was favourited.
         /// </summary>
-        [JsonProperty("favourite_count")]
-        public ulong FavouriteCount { get; set; }
+        [JsonProperty("favourite_count")] ulong FavouriteCount,
 
         /// <summary>
-        /// The number of stars of this beatmap.
+        /// The rating of this beatmap.
         /// </summary>
-        [JsonProperty("rating")]
-        public float Rating { get; set; }
+        [JsonProperty("rating")] float Rating,
 
         /// <summary>
         /// If this beatmap has a storyboard.
         /// </summary>
-        [JsonProperty("storyboard")]
-        public bool Storyboard { get; set; }
+        [JsonProperty("storyboard")] bool Storyboard,
 
         /// <summary>
         /// If this beatmap has a video.
         /// </summary>
-        [JsonProperty("video")]
-        public bool Video { get; set; }
+        [JsonProperty("video")] bool Video,
 
         /// <summary>
-        /// If the download for this beatmap is unavailable. (old map, etc.)
+        /// If the download for this beatmap is unavailable.
         /// </summary>
-        [JsonProperty("download_unavailable")]
-        public bool DownloadUnavailable { get; set; }
+        [JsonProperty("download_unavailable")] bool DownloadUnavailable,
 
         /// <summary>
-        /// If the audio for this beatmap is unavailable. (DMCA takedown, etc.)
+        /// If the audio for this beatmap is unavailable.
         /// </summary>
-        [JsonProperty("audio_unavailable")]
-        public bool AudioUnavailable { get; set; }
+        [JsonProperty("audio_unavailable")] bool AudioUnavailable,
 
         /// <summary>
         /// Number of times the beatmap was played.
         /// </summary>
-        [JsonProperty("playcount")]
-        public ulong PlayCount { get; set; }
+        [JsonProperty("playcount")] ulong PlayCount,
 
         /// <summary>
-        /// Number of times the beatmap was passed, completed. (the user didn't fail or retry)
+        /// Number of times the beatmap was passed.
         /// </summary>
-        [JsonProperty("passcount")]
-        public ulong PassCount { get; set; }
+        [JsonProperty("passcount")] ulong PassCount,
 
         /// <summary>
-        /// Maybe it's a pack of hitsounds.
+        /// Packs that contain this beatmap.
         /// </summary>
-        [JsonProperty("packs")]
-        public string Packs { get; set; }
+        [JsonProperty("packs")] string Packs,
 
         /// <summary>
         /// The maximum combo a user can reach playing this beatmap.
         /// </summary>
-        [JsonProperty("max_combo")]
-        public ulong? MaxCombo { get; set; }
+        [JsonProperty("max_combo")] ulong? MaxCombo,
 
         /// <summary>
-        /// The size of the notes of this beatmap.
+        /// The aim difficulty of this beatmap.
         /// </summary>
-        [JsonProperty("diff_aim")]
-        public float? DiffAim { get; set; }
+        [JsonProperty("diff_aim")] float? DiffAim,
 
         /// <summary>
-        /// The speed of the notes of this beatmap.
+        /// The speed difficulty of this beatmap.
         /// </summary>
-        [JsonProperty("diff_speed")]
-        public float? DiffSpeed { get; set; }
+        [JsonProperty("diff_speed")] float? DiffSpeed,
 
         /// <summary>
         /// The number of stars the map would have in-game and on the website.
         /// </summary>
-        [JsonProperty("difficultyrating")]
-        public float DifficultyRating { get; set; }
-    }
+        [JsonProperty("difficultyrating")] float DifficultyRating
+    );
 }

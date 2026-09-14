@@ -7,38 +7,38 @@ namespace OsuNet.Tests.Models {
         [Fact]
         public void User_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var user = new User {
-                UserId = 123,
-                Username = "TestUser",
-                Country = "US",
-                JoinDate = new DateTime(2023, 1, 1),
-                Count300 = 1000,
-                Count100 = 500,
-                Count50 = 200,
-                RankedScore = 1000000,
-                TotalScore = 5000000,
-                Accuracy = 98.5f,
-                PlayCount = 200,
-                CountRankA = 10,
-                CountRankS = 5,
-                CountRankSH = 5,
-                CountRankSS = 5,
-                CountRankSSH = 5,
-                Level = 100,
-                PPCountryRank = 5,
-                PPRank = 5,
-                PPRaw = 5000,
-                TotalSecondsPlayed = 3600,
-                Events = new[] {
-                    new EventInfo {
-                        DisplayHtml = "Test Event",
-                        BeatmapId = 1,
-                        BeatmapSetId = 1,
-                        DateTime = new DateTime(2023, 1, 1),
-                        EpicFactor = 1
-                    }
-                }
-            };
+            var user = new User(
+                UserId: 123,
+                Username:  "TestUser",
+                Country: "US",
+                JoinDate:  new DateTime(2023, 1, 1),
+                Count300:  1000,
+                Count100:  500,
+                Count50: 200,
+                RankedScore: 1000000,
+                TotalScore: 5000000,
+                Accuracy: 98.5f,
+                PlayCount: 200,
+                CountRankA: 10,
+                CountRankS: 5,
+                CountRankSH: 5,
+                CountRankSS: 5,
+                CountRankSSH: 5,
+                Level: 100,
+                PPCountryRank: 5,
+                PPRank: 5,
+                PPRaw: 5000,
+                TotalSecondsPlayed: 3600,
+                Events: [
+                    new EventInfo(
+                        DisplayHtml: "Test Event",
+                        BeatmapId: 1,
+                        BeatmapSetId: 1,
+                        DateTime: new DateTime(2023, 1, 1),
+                        EpicFactor: 1
+                    )
+                ]
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(user);

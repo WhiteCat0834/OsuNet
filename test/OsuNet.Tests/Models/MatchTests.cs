@@ -8,46 +8,46 @@ namespace OsuNet.Tests.Models {
         [Fact]
         public void Match_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var match = new Match {
-                MatchInfo = new MatchInfo {
-                    MatchId = 1,
-                    Name = "Test Match",
-                    StartTime = new DateTime(2023, 1, 1),
-                    EndTime = new DateTime(2023, 1, 2)
-                },
-                Games = new[] {
-                    new GameInfo {
-                        GameId = 789,
-                        StartTime = new DateTime(2023, 1, 1),
-                        EndTime = new DateTime(2023, 1, 2),
-                        BeatmapId = 101112,
-                        PlayMode = BeatmapMode.Osu,
-                        MatchType = "Osu",
-                        ScoringType = Scoring.Score,
-                        TeamType = TeamType.HeadToHead,
-                        Mods = Mods.Hidden | Mods.HardRock,
-                        Scores = new[] {
-                            new ScoreInfo {
-                                UserId = 131415,
-                                TotalScore = 1000000,
-                                MaxCombo = 500,
-                                Count300 = 300,
-                                Count100 = 50,
-                                Count50 = 10,
-                                CountMiss = 5,
-                                IsPerfect = false,
-                                EnabledMods = Mods.Hidden,
-                                CountGeki = 5,
-                                CountKatu = 5,
-                                Pass = true,
-                                Rank = "SH",
-                                Slot = 1,
-                                Team = Team.Unsupported
-                            }
-                        }
-                    }
+            var match = new Match(
+                MatchInfo: new MatchInfo(
+                    MatchId: 1,
+                    Name: "Test Match",
+                    StartTime: new DateTime(2023, 1, 1),
+                    EndTime: new DateTime(2023, 1, 2)
+                ),
+                Games: new[] {
+                    new GameInfo(
+                        GameId: 789,
+                        StartTime: new DateTime(2023, 1, 1),
+                        EndTime: new DateTime(2023, 1, 2),
+                        BeatmapId: 101112,
+                        MatchType: "Osu",
+                        ScoringType: Scoring.Score,
+                        TeamType: TeamType.HeadToHead,
+                        Mods: Mods.Hidden | Mods.HardRock,
+                        Scores: new[] {
+                            new ScoreInfo(
+                                Slot: 1,
+                                Team: Team.Unsupported,
+                                UserId: 131415,
+                                TotalScore: 1000000,
+                                MaxCombo: 500,
+                                Rank: "SH",
+                                Count50: 10,
+                                Count100: 50,
+                                Count300: 300,
+                                CountMiss: 5,
+                                CountGeki: 5,
+                                CountKatu: 5,
+                                IsPerfect: false,
+                                Pass: true,
+                                EnabledMods: Mods.Hidden
+                            )
+                        },
+                        PlayMode: BeatmapMode.Osu
+                    )
                 }
-            };
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(match);
