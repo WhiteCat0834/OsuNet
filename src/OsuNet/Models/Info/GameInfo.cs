@@ -5,65 +5,55 @@ namespace OsuNet.Models.Info {
     /// <summary>
     /// Get general information about the game.
     /// </summary>
-    public class GameInfo {
+    public record GameInfo(
         /// <summary>
         /// Unique game ID.
         /// </summary>
-        [JsonProperty("game_id")]
-        public ulong GameId { get; set; }
+        [JsonProperty("game_id")] ulong GameId,
 
         /// <summary>
         /// Date and time the game started.
         /// </summary>
-        [JsonProperty("start_time")]
-        public DateTime StartTime { get; set; }
+        [JsonProperty("start_time")] DateTime StartTime,
 
         /// <summary>
         /// Date and time the game ended.
         /// </summary>
-        [JsonProperty("end_time")]
-        public DateTime? EndTime { get; set; }
+        [JsonProperty("end_time")] DateTime? EndTime,
 
         /// <summary>
         /// Unique beatmap ID.
         /// </summary>
-        [JsonProperty("beatmap_id")]
-        public ulong BeatmapId { get; set; }
-
-        /// <summary>
-        /// Game Mode. (Default Osu)
-        /// </summary>
-        [JsonProperty("play_mode")]
-        public BeatmapMode PlayMode { get; set; } = 0;
+        [JsonProperty("beatmap_id")] ulong BeatmapId,
 
         /// <summary>
         /// Couldn't find.
         /// </summary>
-        [JsonProperty("match_type")]
-        public string MatchType { get; set; }
+        [JsonProperty("match_type")] string? MatchType,
 
         /// <summary>
         /// The type of evaluation in this game.
         /// </summary>
-        [JsonProperty("scoring_type")]
-        public Scoring ScoringType { get; set; }
+        [JsonProperty("scoring_type")] Scoring ScoringType,
 
         /// <summary>
         /// Team type.
         /// </summary>
-        [JsonProperty("team_type")]
-        public TeamType TeamType { get; set; }
+        [JsonProperty("team_type")] TeamType TeamType,
 
         /// <summary>
         /// Mods used on this game.
         /// </summary>
-        [JsonProperty("mods")]
-        public Mods Mods { get; set; }
+        [JsonProperty("mods")] Mods Mods,
 
         /// <summary>
         /// Information about the players.
         /// </summary>
-        [JsonProperty("scores")]
-        public IReadOnlyList<ScoreInfo> Scores { get; set; }
-    }
+        [JsonProperty("scores")] IReadOnlyList<ScoreInfo> Scores,
+
+        /// <summary>
+        /// Game Mode. (Default Osu)
+        /// </summary>
+        [JsonProperty("play_mode")] BeatmapMode PlayMode = BeatmapMode.Osu
+    );
 }

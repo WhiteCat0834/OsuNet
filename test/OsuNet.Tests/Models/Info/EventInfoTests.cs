@@ -1,22 +1,18 @@
 using Newtonsoft.Json;
 using OsuNet.Models.Info;
 
-namespace OsuNet.Tests.Models.Info
-{
-    public class EventInfoTests
-    {
+namespace OsuNet.Tests.Models.Info {
+    public class EventInfoTests {
         [Fact]
-        public void EventInfo_ShouldSerializeAndDeserializeCorrectly()
-        {
+        public void EventInfo_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var eventInfo = new EventInfo
-            {
-                DisplayHtml = "Event",
-                BeatmapId = 123,
-                BeatmapSetId = 456,
-                DateTime = new DateTime(2023, 1, 1),
-                EpicFactor = 10
-            };
+            var eventInfo = new EventInfo(
+                DisplayHtml: "Event",
+                BeatmapId: 123,
+                BeatmapSetId: 456,
+                DateTime: new DateTime(2023, 1, 1),
+                EpicFactor: 10
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(eventInfo);

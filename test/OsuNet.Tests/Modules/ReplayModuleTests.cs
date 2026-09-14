@@ -27,13 +27,17 @@ namespace OsuNet.Tests.Modules {
                 Type = "id",
                 Mods = Mods.DoubleTime | Mods.Hidden
             };
-            var expectedReplay = new Replay();
+
+            var expectedReplay = CreateTestReplay();
             var token = TestContext.Current.CancellationToken;
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Replay>("get_replay", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Setup(r => r.GetAsync<Replay>(
+                    "get_replay",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedReplay);
 
             // Act
@@ -50,7 +54,13 @@ namespace OsuNet.Tests.Modules {
             Assert.Equal("999999", queryDict["s"]);
             Assert.Equal("id", queryDict["type"]);
             Assert.Equal("72", queryDict["mods"]);
+
             Assert.Equal(expectedReplay, result);
         }
+
+        private static Replay CreateTestReplay() => new Replay(
+            Content: "eJzT0+MqLS4pyswrtwUAHKQF8A==",
+            Encoding: "LZMA"
+        );
     }
 }

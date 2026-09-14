@@ -6,10 +6,10 @@ namespace OsuNet.Tests.Models {
         [Fact]
         public void Replay_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var replay = new Replay {
-                Content = "ReplayContent",
-                Encoding = "Base64"
-            };
+            var replay = new Replay(
+                Content: "ReplayContent",
+                Encoding: "Base64"
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(replay);

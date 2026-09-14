@@ -22,64 +22,85 @@ namespace OsuNet.Replays.Extensions {
         }
 
         /// <summary>
-        /// Decodes, decompresses, and parses the Base64-encoded and LZMA-compressed replay data 
-        /// from the specified <see cref="Replay"/> object into a structured <see cref="ReplayData"/> instance.
+        /// Decodes and parses the compressed base64 replay content into an immutable <see cref="ReplayData"/> object.
         /// </summary>
-        /// <param name="replay">The <see cref="Replay"/> object containing the encoded and compressed replay content.</param>
+        /// <param name="replay">The replay object containing the base64 encoded and LZMA compressed replay data.</param>
         /// <returns>
-        /// A <see cref="ReplayData"/> object containing the parsed replay frames and the RNG seed. 
-        /// If the content is empty, returns an empty <see cref="ReplayData"/> instance.
+        /// A fully parsed <see cref="ReplayData"/> instance containing the RNG seed and a list of replay frames. 
+        /// Returns an empty <see cref="ReplayData"/> if the content is empty.
         /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="replay"/> or its <c>Content</c> property is <c>null</c>.
-        /// </exception>
-        /// <exception cref="FormatException">
-        /// Thrown if the Base64 string is invalid, or if the frame data cannot be parsed into the expected types (integers and floats).
-        /// </exception>
+        /// <remarks>
+        /// This method utilizes <see cref="ReadOnlySpan{Char}"/> for zero-allocation string parsing, 
+        /// significantly reducing Garbage Collector pressure compared to traditional <c>string.Split</c>.
+        /// </remarks>
         private static ReplayData Decode(Replay replay) {
+            if (string.IsNullOrEmpty(replay.Content)) {
+                return new ReplayData(0, Array.Empty<ReplayFrame>());
+            }
+
             var content = Convert.FromBase64String(replay.Content);
+            if (content.Length == 0) {
+                return new ReplayData(0, Array.Empty<ReplayFrame>());
+            }
 
             using var stream = new MemoryStream(content, false);
+            byte[] decompressedBytes = LZMAHelper.Decompress(stream).ToArray();
+            string decompressedString = Encoding.ASCII.GetString(decompressedBytes);
 
-            var replayData = new ReplayData();
+            ReadOnlySpan<char> span = decompressedString.AsSpan();
 
-            if (content.Length > 0) {
-                byte[] decompressedBytes = LZMAHelper.Decompress(stream).ToArray();
-                string decompressedString = Encoding.ASCII.GetString(decompressedBytes);
-                int lastTime = 0;
+            int seed = 0;
+            var frames = new List<ReplayFrame>();
+            int lastTime = 0;
 
-                foreach (string frame in decompressedString.Split(',')) {
-                    if (string.IsNullOrEmpty(frame))
-                        continue;
+            ReadOnlySpan<char> seedMarkerSpan = seedMarker.AsSpan();
 
-                    string[] split = frame.Split('|');
+            while (span.Length > 0) {
+                int commaIndex = span.IndexOf(',');
+                ReadOnlySpan<char> frameSpan = commaIndex >= 0 ? span.Slice(0, commaIndex) : span;
+                span = commaIndex >= 0 ? span.Slice(commaIndex + 1) : ReadOnlySpan<char>.Empty;
 
-                    if (split.Length < 4)
-                        continue;
+                if (frameSpan.IsEmpty) continue;
 
-                    if (split[0] == seedMarker) {
-                        replayData.Seed = Convert.ToInt32(split[3]);
-                        continue;
-                    }
+                int pipe1 = frameSpan.IndexOf('|');
+                if (pipe1 < 0) continue;
 
-                    int timeDiff = int.Parse(split[0], NumberStyles.Integer, CultureInfo.InvariantCulture);
-                    float x = float.Parse(split[1], NumberStyles.Float, CultureInfo.InvariantCulture);
-                    float y = float.Parse(split[2], NumberStyles.Float, CultureInfo.InvariantCulture);
-                    int rawKeys = Convert.ToInt32(split[3]);
+                ReadOnlySpan<char> part0 = frameSpan.Slice(0, pipe1);
+                frameSpan = frameSpan.Slice(pipe1 + 1);
 
-                    var replayFrame = new ReplayFrame {
-                        TimeDiff = timeDiff,
-                        Time = lastTime + timeDiff,
-                        X = x,
-                        Y = y,
-                        RawKeys = rawKeys
-                    };
+                int pipe2 = frameSpan.IndexOf('|');
+                if (pipe2 < 0) continue;
 
-                    replayData.ReplayFrames.Add(replayFrame);
-                    lastTime += timeDiff;
+                ReadOnlySpan<char> part1 = frameSpan.Slice(0, pipe2);
+                frameSpan = frameSpan.Slice(pipe2 + 1);
+
+                int pipe3 = frameSpan.IndexOf('|');
+                if (pipe3 < 0) continue;
+
+                ReadOnlySpan<char> part2 = frameSpan.Slice(0, pipe3);
+                ReadOnlySpan<char> part3 = frameSpan.Slice(pipe3 + 1);
+
+                if (part0.SequenceEqual(seedMarkerSpan)) {
+                    seed = int.Parse(part3, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                    continue;
                 }
+
+                int timeDiff = int.Parse(part0, NumberStyles.Integer, CultureInfo.InvariantCulture);
+                float x = float.Parse(part1, NumberStyles.Float, CultureInfo.InvariantCulture);
+                float y = float.Parse(part2, NumberStyles.Float, CultureInfo.InvariantCulture);
+                int rawKeys = int.Parse(part3, NumberStyles.Integer, CultureInfo.InvariantCulture);
+
+                frames.Add(new ReplayFrame(
+                    TimeDiff: timeDiff,
+                    Time: lastTime + timeDiff,
+                    X: x,
+                    Y: y,
+                    RawKeys: rawKeys
+                ));
+                lastTime += timeDiff;
             }
-            return replayData;
+
+            return new ReplayData(seed, frames);
         }
     }
 }
