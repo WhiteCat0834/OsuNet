@@ -7,25 +7,25 @@ namespace OsuNet.Tests.Models {
         [Fact]
         public void Scores_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var score = new Score {
-                ScoreId = 12345,
-                TotalScore = 98765,
-                Username = "TestUser",
-                Count300 = 1000,
-                Count100 = 500,
-                Count50 = 200,
-                CountMiss = 10,
-                CountGeki = 10,
-                CountKatu = 5,
-                MaxCombo = 300,
-                DateTime = DateTime.UtcNow,
-                UserId = 67890,
-                ReplayAvailable = false,
-                EnabledMods = Mods.HardRock,
-                IsPerfect = false,
-                PP = 250.5f,
-                Rank = "A"
-            };
+            var score = new Score(
+                ScoreId: 12345,
+                TotalScore: 98765,
+                Username: "TestUser",
+                Count300: 1000,
+                Count100: 500,
+                Count50: 200,
+                CountMiss: 10,
+                MaxCombo: 300,
+                CountKatu: 5,
+                CountGeki: 10,
+                IsPerfect: false,
+                EnabledMods: Mods.HardRock,
+                UserId: 67890,
+                DateTime: DateTime.UtcNow,
+                Rank: "A",
+                PP: 250.5f,
+                ReplayAvailable: false
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(score);

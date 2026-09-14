@@ -9,21 +9,21 @@ namespace OsuNet.Tests.Models.Info {
             var matchInfo = (MatchInfo)0;
 
             // Assert
-            Assert.Equal(matchInfo.MatchId, (ulong)0);
+            Assert.Equal((ulong)0, matchInfo.MatchId);
             Assert.Null(matchInfo.Name);
-            Assert.Equal(matchInfo.StartTime, new DateTime(0001, 01, 01));
+            Assert.Equal(new DateTime(0001, 01, 01), matchInfo.StartTime);
             Assert.Null(matchInfo.EndTime);
         }
 
         [Fact]
         public void MatchInfo_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var matchInfo = new MatchInfo {
-                MatchId = 789,
-                Name = "Test Match",
-                StartTime = new DateTime(2023, 1, 1),
-                EndTime = new DateTime(2023, 1, 2)
-            };
+            var matchInfo = new MatchInfo(
+                MatchId: 789,
+                Name: "Test Match",
+                StartTime: new DateTime(2023, 1, 1),
+                EndTime: new DateTime(2023, 1, 2)
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(matchInfo);

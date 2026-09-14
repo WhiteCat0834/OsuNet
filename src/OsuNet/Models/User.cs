@@ -3,139 +3,117 @@ using OsuNet.Models.Info;
 
 namespace OsuNet.Models {
     /// <summary>
-    /// Retrieve general user information.
+    /// Represents user information from the osu! API, containing player statistics and profile data.
     /// </summary>
-    public class User {
+    public record User(
         /// <summary>
         /// Unique user ID.
         /// </summary>
-        [JsonProperty("user_id")]
-        public ulong UserId { get; set; }
+        [JsonProperty("user_id")] ulong UserId,
 
         /// <summary>
         /// Nickname of this player.
         /// </summary>
-        [JsonProperty("username")]
-        public string Username { get; set; }
+        [JsonProperty("username")] string Username,
 
         /// <summary>
         /// Date and time the account was created.
         /// </summary>
-        [JsonProperty("join_date")]
-        public DateTime JoinDate { get; set; }
+        [JsonProperty("join_date")] DateTime JoinDate,
 
         /// <summary>
         /// The number of 300 points that the player has accumulated over the entire time.
         /// </summary>
-        [JsonProperty("count300")]
-        public ulong Count300 { get; set; }
+        [JsonProperty("count300")] ulong Count300,
 
         /// <summary>
         /// The number of 100 points that the player has accumulated over the entire time.
         /// </summary>
-        [JsonProperty("count100")]
-        public ulong Count100 { get; set; }
+        [JsonProperty("count100")] ulong Count100,
 
         /// <summary>
         /// The number of 50 points that the player has accumulated over the entire time.
         /// </summary>
-        [JsonProperty("count50")]
-        public ulong Count50 { get; set; }
+        [JsonProperty("count50")] ulong Count50,
 
         /// <summary>
-        /// Only counts ranked, approved, and loved beatmap.
+        /// Only counts ranked, approved, and loved beatmaps.
         /// </summary>
-        [JsonProperty("playcount")]
-        public ulong PlayCount { get; set; }
+        [JsonProperty("playcount")] ulong PlayCount,
 
         /// <summary>
         /// Counts the best individual score on each ranked, approved, and loved beatmaps.
         /// </summary>
-        [JsonProperty("ranked_score")]
-        public ulong RankedScore { get; set; }
+        [JsonProperty("ranked_score")] ulong RankedScore,
 
         /// <summary>
         /// Counts every score on ranked, approved, and loved beatmaps.
         /// </summary>
-        [JsonProperty("total_score")]
-        public ulong TotalScore { get; set; }
+        [JsonProperty("total_score")] ulong TotalScore,
 
         /// <summary>
         /// Place in the world top.
         /// </summary>
-        [JsonProperty("pp_rank")]
-        public ulong PPRank { get; set; }
+        [JsonProperty("pp_rank")] ulong PPRank,
 
         /// <summary>
         /// This player's level.
         /// </summary>
-        [JsonProperty("level")]
-        public float Level { get; set; }
+        [JsonProperty("level")] float Level,
 
         /// <summary>
         /// The number of PP that the player has accumulated over the entire time.
         /// </summary>
-        [JsonProperty("pp_raw")]
-        public float PPRaw { get; set; }
+        [JsonProperty("pp_raw")] float PPRaw,
 
         /// <summary>
         /// The accuracy of this player.
         /// </summary>
-        [JsonProperty("accuracy")]
-        public float Accuracy { get; set; }
+        [JsonProperty("accuracy")] float Accuracy,
 
         /// <summary>
         /// Count for SS ranks on maps.
         /// </summary>
-        [JsonProperty("count_rank_ss")]
-        public ulong CountRankSS { get; set; }
+        [JsonProperty("count_rank_ss")] ulong CountRankSS,
 
         /// <summary>
         /// Count for SSH ranks on maps.
         /// </summary>
-        [JsonProperty("count_rank_ssh")]
-        public ulong CountRankSSH { get; set; }
+        [JsonProperty("count_rank_ssh")] ulong CountRankSSH,
 
         /// <summary>
         /// Count for S ranks on maps.
         /// </summary>
-        [JsonProperty("count_rank_s")]
-        public ulong CountRankS { get; set; }
+        [JsonProperty("count_rank_s")] ulong CountRankS,
 
         /// <summary>
         /// Count for SH ranks on maps.
         /// </summary>
-        [JsonProperty("count_rank_sh")]
-        public ulong CountRankSH { get; set; }
+        [JsonProperty("count_rank_sh")] ulong CountRankSH,
 
         /// <summary>
-        /// Count A ranks on maps.
+        /// Count for A ranks on maps.
         /// </summary>
-        [JsonProperty("count_rank_a")]
-        public ulong CountRankA { get; set; }
+        [JsonProperty("count_rank_a")] ulong CountRankA,
 
         /// <summary>
         /// Place in the top of the country.
         /// </summary>
-        [JsonProperty("country")]
-        public string Country { get; set; }
+        [JsonProperty("country")] string Country,
 
         /// <summary>
         /// The number of seconds played.
         /// </summary>
-        [JsonProperty("total_seconds_played")]
-        public ulong TotalSecondsPlayed { get; set; }
+        [JsonProperty("total_seconds_played")] ulong TotalSecondsPlayed,
 
         /// <summary>
         /// The user's rank in the country.
         /// </summary>
-        [JsonProperty("pp_country_rank")]
-        public ulong PPCountryRank { get; set; }
+        [JsonProperty("pp_country_rank")] ulong PPCountryRank,
 
         /// <summary>
         /// Contains events for this user.
         /// </summary>
-        [JsonProperty("events")]
-        public IReadOnlyList<EventInfo> Events { get; set; }
-    }
+        [JsonProperty("events")] IReadOnlyList<EventInfo> Events
+    );
 }

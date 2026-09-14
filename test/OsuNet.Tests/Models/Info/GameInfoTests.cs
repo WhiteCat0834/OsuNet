@@ -2,39 +2,41 @@ using Newtonsoft.Json;
 using OsuNet.Models.Info;
 using OsuNet.Enums;
 
-namespace OsuNet.Tests.Models.Info
-{
-    public class GameInfoTests
-    {
+namespace OsuNet.Tests.Models.Info {
+    public class GameInfoTests {
         [Fact]
-        public void GameInfo_ShouldSerializeAndDeserializeCorrectly()
-        {
+        public void GameInfo_ShouldSerializeAndDeserializeCorrectly() {
             // Arrange
-            var gameInfo = new GameInfo
-            {
-                GameId = 123,
-                StartTime = new DateTime(2023, 1, 1),
-                EndTime = new DateTime(2023, 1, 2),
-                BeatmapId = 456,
-                PlayMode = BeatmapMode.Osu,
-                MatchType = "Osu",
-                ScoringType = Scoring.Score,
-                TeamType = TeamType.HeadToHead,
-                Mods = Mods.Hidden | Mods.HardRock,
-                Scores = new[] {
-                    new ScoreInfo {
-                        UserId = 789,
-                        TotalScore = 1000000,
-                        MaxCombo = 500,
-                        Count300 = 300,
-                        Count100 = 50,
-                        Count50 = 10,
-                        CountMiss = 5,
-                        IsPerfect = false,
-                        EnabledMods = Mods.Hidden
-                    }
-                }
-            };
+            var gameInfo = new GameInfo(
+                GameId: 123,
+                StartTime: new DateTime(2023, 1, 1),
+                EndTime: new DateTime(2023, 1, 2),
+                BeatmapId: 456,
+                MatchType: "Osu",
+                ScoringType: Scoring.Score,
+                TeamType: TeamType.HeadToHead,
+                Mods: Mods.Hidden | Mods.HardRock,
+                Scores: [
+                    new ScoreInfo(
+                        Slot: 0,
+                        Team: Team.Unsupported,
+                        UserId: 789,
+                        TotalScore: 1000000,
+                        MaxCombo: 500,
+                        Rank: null,
+                        Count50: 10,
+                        Count100: 50,
+                        Count300: 300,
+                        CountMiss: 5,
+                        CountGeki: 0,
+                        CountKatu: 0,
+                        IsPerfect: false,
+                        Pass: true,
+                        EnabledMods: Mods.Hidden
+                    )
+                ],
+                PlayMode: BeatmapMode.Osu
+            );
 
             // Act
             var json = JsonConvert.SerializeObject(gameInfo);
@@ -51,6 +53,7 @@ namespace OsuNet.Tests.Models.Info
             Assert.Equal(gameInfo.ScoringType, deserializedGameInfo.ScoringType);
             Assert.Equal(gameInfo.TeamType, deserializedGameInfo.TeamType);
             Assert.Equal(gameInfo.Mods, deserializedGameInfo.Mods);
+
             Assert.NotNull(deserializedGameInfo.Scores);
             Assert.Single(deserializedGameInfo.Scores);
             Assert.Equal(gameInfo.Scores[0].UserId, deserializedGameInfo.Scores[0].UserId);

@@ -4,7 +4,27 @@ namespace OsuNet.Models.Info {
     /// <summary>
     /// Get general information about the match.
     /// </summary>
-    public class MatchInfo {
+    public record MatchInfo(
+        /// <summary>
+        /// The unique ID of the match.
+        /// </summary>
+        [JsonProperty("match_id")] ulong MatchId,
+
+        /// <summary>
+        /// Lobby Name.
+        /// </summary>
+        [JsonProperty("name")] string? Name,
+
+        /// <summary>
+        /// Date and time the lobby was created.
+        /// </summary>
+        [JsonProperty("start_time")] DateTime StartTime,
+
+        /// <summary>
+        /// Date and time the lobby was deleted.
+        /// </summary>
+        [JsonProperty("end_time")] DateTime? EndTime
+    ) {
         /// <summary>
         /// Allows explicit casting of a numeric value (typically <c>0</c>) to a <see cref="MatchInfo"/> object.
         /// </summary>
@@ -17,30 +37,6 @@ namespace OsuNet.Models.Info {
         /// deserializer to gracefully convert that <c>0</c> into an empty <see cref="MatchInfo"/> 
         /// instance rather than throwing a deserialization exception.
         /// </remarks>
-        public static explicit operator MatchInfo(long v) => new MatchInfo();
-
-        /// <summary>
-        /// The unique ID of the match.
-        /// </summary>
-        [JsonProperty("match_id")]
-        public ulong MatchId { get; set; }
-
-        /// <summary>
-        /// Lobby Name
-        /// </summary>
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Date and time the lobby was created.
-        /// </summary>
-        [JsonProperty("start_time")]
-        public DateTime StartTime { get; set; }
-
-        /// <summary>
-        /// Date and time the lobby was deleted.
-        /// </summary>
-        [JsonProperty("end_time")]
-        public DateTime? EndTime { get; set; }
+        public static explicit operator MatchInfo(long v) => new MatchInfo(0, null, default, null);
     }
 }

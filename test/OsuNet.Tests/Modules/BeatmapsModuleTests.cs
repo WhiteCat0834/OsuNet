@@ -1,4 +1,8 @@
-﻿using Moq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Moq;
 using OsuNet.Abstractions;
 using OsuNet.Enums;
 using OsuNet.Models;
@@ -33,7 +37,7 @@ namespace OsuNet.Tests.Modules {
             };
             var token = TestContext.Current.CancellationToken;
 
-            var expectedBeatmaps = new[] { new Beatmap(), new Beatmap() };
+            var expectedBeatmaps = new[] { CreateTestBeatmap(), CreateTestBeatmap() };
 
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
@@ -42,7 +46,7 @@ namespace OsuNet.Tests.Modules {
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => {
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => {
                     capturedQuery = query;
                 })
                 .ReturnsAsync(expectedBeatmaps);
@@ -78,7 +82,7 @@ namespace OsuNet.Tests.Modules {
             };
             var token = TestContext.Current.CancellationToken;
 
-            var expectedBeatmaps = new[] { new Beatmap() };
+            var expectedBeatmaps = new[] { CreateTestBeatmap() };
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
@@ -86,7 +90,7 @@ namespace OsuNet.Tests.Modules {
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => {
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => {
                     capturedQuery = query;
                 })
                 .ReturnsAsync(expectedBeatmaps);
@@ -127,7 +131,7 @@ namespace OsuNet.Tests.Modules {
             };
             var token = TestContext.Current.CancellationToken;
 
-            var expectedBeatmaps = new[] { new Beatmap() };
+            var expectedBeatmaps = new[] { CreateTestBeatmap() };
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
@@ -135,7 +139,7 @@ namespace OsuNet.Tests.Modules {
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => {
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => {
                     capturedQuery = query;
                 })
                 .ReturnsAsync(expectedBeatmaps);
@@ -157,7 +161,7 @@ namespace OsuNet.Tests.Modules {
             var options = new GetBeatmapsOptions { BeatmapId = 67890 };
             var token = TestContext.Current.CancellationToken;
 
-            var expectedBeatmaps = new[] { new Beatmap() };
+            var expectedBeatmaps = new[] { CreateTestBeatmap() };
             CancellationToken capturedToken = default;
 
             _mockRequester
@@ -165,8 +169,8 @@ namespace OsuNet.Tests.Modules {
                     "get_beatmaps",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, tok) => {
-                    capturedToken = tok;
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => {
+                    capturedToken = ct;
                 })
                 .ReturnsAsync(expectedBeatmaps);
 
@@ -177,5 +181,50 @@ namespace OsuNet.Tests.Modules {
             Assert.Equal(token, capturedToken);
             Assert.Equal(expectedBeatmaps, result);
         }
+
+        private static Beatmap CreateTestBeatmap() => new Beatmap(
+            BeatmapSetId: 12345,
+            BeatmapId: 67890,
+            Approved: ApproveStatus.Ranked,
+            TotalLength: 120,
+            HitLength: 110,
+            Version: "Normal",
+            FileMD5: "abcdef123456",
+            DiffSize: 4.0f,
+            DiffOverall: 7.0f,
+            DiffApproach: 8.5f,
+            DiffDrain: 6.0f,
+            Mode: BeatmapMode.Osu,
+            CountNormal: 200,
+            CountSlider: 50,
+            CountSpinner: 2,
+            SubmitDate: DateTime.UtcNow,
+            ApprovedDate: DateTime.UtcNow,
+            LastUpdate: DateTime.UtcNow,
+            Artist: "Test Artist",
+            ArtistUnicode: "Test Artist Unicode",
+            Title: "Test Title",
+            TitleUnicode: "Test Title Unicode",
+            Creator: "Test Creator",
+            CreatorId: 123456,
+            BPM: 180.0f,
+            Source: "Test Source",
+            Tags: "test tags",
+            GenreId: Genre.Pop,
+            LanguageId: Language.Japanese,
+            FavouriteCount: 100,
+            Rating: 9.5f,
+            Storyboard: true,
+            Video: false,
+            DownloadUnavailable: false,
+            AudioUnavailable: false,
+            PlayCount: 5000,
+            PassCount: 1000,
+            Packs: "S1,S2",
+            MaxCombo: 300,
+            DiffAim: 2.5f,
+            DiffSpeed: 2.5f,
+            DifficultyRating: 5.0f
+        );
     }
 }

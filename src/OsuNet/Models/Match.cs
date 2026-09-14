@@ -5,17 +5,15 @@ namespace OsuNet.Models {
     /// <summary>
     /// Retrieve information about a multiplayer match.
     /// </summary>
-    public class Match {
+    public record Match(
         /// <summary>
         /// Gets basic information about the match.
         /// </summary>
-        [JsonProperty("match")]
-        public MatchInfo? MatchInfo { get; set; }
+        [JsonProperty("match")] MatchInfo MatchInfo,
 
         /// <summary>
         /// Gets basic information about games.
         /// </summary>
-        [JsonProperty("games")]
-        public IReadOnlyList<GameInfo> Games { get; set; }
-    }
+        [JsonProperty("games")] IReadOnlyList<GameInfo> Games
+    );
 }

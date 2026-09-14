@@ -27,7 +27,7 @@ namespace OsuNet.Tests.Modules {
                 Type = "id",
                 Limit = 50
             };
-            var expectedScores = new[] { new Score(), new Score() };
+            var expectedScores = new[] { CreateTestScore(), CreateTestScore() };
             var token = TestContext.Current.CancellationToken;
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
@@ -36,7 +36,7 @@ namespace OsuNet.Tests.Modules {
                     "get_scores",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedScores);
 
             // Act
@@ -53,6 +53,7 @@ namespace OsuNet.Tests.Modules {
             Assert.Equal("80", queryDict["mods"]);
             Assert.Equal("id", queryDict["type"]);
             Assert.Equal("50", queryDict["limit"]);
+
             Assert.Equal(expectedScores, result);
         }
 
@@ -60,7 +61,7 @@ namespace OsuNet.Tests.Modules {
         public async Task GetScoresAsync_WithMinimalOptions_OmitsNullValues() {
             // Arrange
             var options = new GetScoresOptions { BeatmapId = 12345 };
-            var expectedScores = new[] { new Score() };
+            var expectedScores = new[] { CreateTestScore() };
             var token = TestContext.Current.CancellationToken;
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
@@ -69,7 +70,7 @@ namespace OsuNet.Tests.Modules {
                     "get_scores",
                     It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
                     It.IsAny<CancellationToken>()))
-                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
+                .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, ct) => capturedQuery = query)
                 .ReturnsAsync(expectedScores);
 
             // Act
@@ -90,5 +91,25 @@ namespace OsuNet.Tests.Modules {
 
             Assert.Equal(expectedScores, result);
         }
+
+        private static Score CreateTestScore() => new Score(
+            ScoreId: 123456789,
+            TotalScore: 1000000,
+            Username: "test_player",
+            Count300: 500,
+            Count100: 50,
+            Count50: 10,
+            CountMiss: 1,
+            MaxCombo: 300,
+            CountKatu: 15,
+            CountGeki: 50,
+            IsPerfect: false,
+            EnabledMods: Mods.None,
+            UserId: 987654,
+            DateTime: DateTime.UtcNow,
+            Rank: "A",
+            PP: 120.5f,
+            ReplayAvailable: true
+        );
     }
 }

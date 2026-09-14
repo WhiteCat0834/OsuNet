@@ -43,12 +43,9 @@ namespace OsuNet.Replays.Tests.Models {
         [Fact]
         public void AllKeysProperties_ShouldReflectRawKeysChanges() {
             // Arrange
-            var frame = new ReplayFrame();
+            var frame = new ReplayFrame { RawKeys = 7 };
 
-            // Act
-            frame.RawKeys = 7;
-
-            // Assert
+            // Act & Assert
             Assert.Equal((OsuKeys)7, frame.OsuKeys);
             Assert.Equal((TaikoKeys)7, frame.TaikoKeys);
             Assert.Equal((ManiaKeys)7, frame.ManiaKeys);

@@ -3,109 +3,92 @@ using OsuNet.Enums;
 
 namespace OsuNet.Models {
     /// <summary>
-    /// Retrieve information about the top 100 scores of a specified beatmap.
+    /// Represents a score record from the osu! API, containing player performance data for a specific beatmap.
     /// </summary>
-    public class Score {
+    public record Score(
         /// <summary>
         /// Unique score ID.
         /// </summary>
-        [JsonProperty("score_id")]
-        public ulong ScoreId { get; set; }
+        [JsonProperty("score_id")] ulong ScoreId,
 
         /// <summary>
         /// The number of points scored by this player.
         /// </summary>
-        [JsonProperty("score")]
-        public int TotalScore { get; set; }
+        [JsonProperty("score")] int TotalScore,
 
         /// <summary>
         /// Nickname of this player.
         /// </summary>
-        [JsonProperty("username")]
-        public string Username { get; set; }
+        [JsonProperty("username")] string Username,
 
         /// <summary>
         /// The number of 300 points that the player has hit.
         /// </summary>
-        [JsonProperty("count300")]
-        public ushort Count300 { get; set; }
+        [JsonProperty("count300")] ushort Count300,
 
         /// <summary>
         /// The number of 100 points that the player has hit.
         /// </summary>
-        [JsonProperty("count100")]
-        public ushort Count100 { get; set; }
+        [JsonProperty("count100")] ushort Count100,
 
         /// <summary>
         /// The number of 50 points that the player has hit.
         /// </summary>
-        [JsonProperty("count50")]
-        public ushort Count50 { get; set; }
+        [JsonProperty("count50")] ushort Count50,
 
         /// <summary>
-        /// The number of misses the that player has hit.
+        /// The number of misses that the player has hit.
         /// </summary>
-        [JsonProperty("countmiss")]
-        public ushort CountMiss { get; set; }
+        [JsonProperty("countmiss")] ushort CountMiss,
 
         /// <summary>
-        /// The number of maximum combos that the player has hit.
+        /// The maximum combo that the player has hit.
         /// </summary>
-        [JsonProperty("maxcombo")]
-        public ushort MaxCombo { get; set; }
+        [JsonProperty("maxcombo")] ushort MaxCombo,
 
         /// <summary>
-        /// The number of good combos that the player has hit.
+        /// The number of katu hits.
         /// </summary>
-        [JsonProperty("countkatu")]
-        public ushort CountKatu { get; set; }
+        [JsonProperty("countkatu")] ushort CountKatu,
 
         /// <summary>
-        /// The number of perfect combos that the player has hit.
+        /// The number of geki hits.
         /// </summary>
-        [JsonProperty("countgeki")]
-        public ushort CountGeki { get; set; }
+        [JsonProperty("countgeki")] ushort CountGeki,
 
         /// <summary>
         /// True if score is perfect, false otherwise.
         /// </summary>
-        [JsonProperty("perfect")]
-        public bool IsPerfect { get; set; }
+        [JsonProperty("perfect")] bool IsPerfect,
 
         /// <summary>
         /// Mods used by this player.
         /// </summary>
-        [JsonProperty("enabled_mods")]
-        public Mods? EnabledMods { get; set; }
+        [JsonProperty("enabled_mods")] Mods? EnabledMods,
 
         /// <summary>
         /// Unique user ID.
         /// </summary>
-        [JsonProperty("user_id")]
-        public ulong UserId { get; set; }
+        [JsonProperty("user_id")] ulong UserId,
 
         /// <summary>
         /// Date and time the record was set.
         /// </summary>
-        [JsonProperty("date")]
-        public DateTime DateTime { get; set; }
+        [JsonProperty("date")] DateTime DateTime,
 
         /// <summary>
         /// The rank the player has received.
         /// </summary>
-        [JsonProperty("rank")]
-        public string Rank { get; set; }
+        [JsonProperty("rank")] string Rank,
 
         /// <summary>
-        /// The number of PP that the player has hit.
+        /// The number of PP that the player has hit. Can be null for older scores or failed attempts.
         /// </summary>
-        [JsonProperty("pp")]
-        public float PP { get; set; }
+        [JsonProperty("pp")] float? PP,
 
         /// <summary>
         /// True if you can watch the replay, otherwise false.
         /// </summary>
-        [JsonProperty("replay_available")]
-        public bool ReplayAvailable { get; set; }
-    }
+        [JsonProperty("replay_available")] bool ReplayAvailable
+    );
 }
