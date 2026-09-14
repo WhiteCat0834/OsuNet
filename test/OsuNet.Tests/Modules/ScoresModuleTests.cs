@@ -32,7 +32,10 @@ namespace OsuNet.Tests.Modules {
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Score[]>("get_scores", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetAsync<IReadOnlyList<Score>>(
+                    "get_scores",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
                 .ReturnsAsync(expectedScores);
 
@@ -62,7 +65,10 @@ namespace OsuNet.Tests.Modules {
             IEnumerable<KeyValuePair<string, string>> capturedQuery = null;
 
             _mockRequester
-                .Setup(r => r.GetAsync<Score[]>("get_scores", It.IsAny<IEnumerable<KeyValuePair<string, string>>>(), It.IsAny<CancellationToken>()))
+                .Setup(r => r.GetAsync<IReadOnlyList<Score>>(
+                    "get_scores",
+                    It.IsAny<IEnumerable<KeyValuePair<string, string>>>(),
+                    It.IsAny<CancellationToken>()))
                 .Callback<string, IEnumerable<KeyValuePair<string, string>>, CancellationToken>((endpoint, query, token) => capturedQuery = query)
                 .ReturnsAsync(expectedScores);
 

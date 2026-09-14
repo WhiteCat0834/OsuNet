@@ -64,6 +64,6 @@ namespace OsuNet.Models.Info {
         /// Information about the players.
         /// </summary>
         [JsonProperty("scores")]
-        public ScoreInfo[] Scores { get; set; }
+        public IReadOnlyList<ScoreInfo> Scores { get; set; }
     }
 }

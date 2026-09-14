@@ -65,7 +65,7 @@ namespace OsuNet.Replays.Tests.Extensions {
             mockApi.Setup(api => api.Beatmaps.GetBeatmapsAsync(It.IsAny<GetBeatmapsOptions>(), It.IsAny<CancellationToken>())).ReturnsAsync(beatmaps);
 
             // Act
-            var result = await mockApi.Object.GetOsrByteAsync(options, TestContext.Current.CancellationToken);
+            var result = await mockApi.Object.CreateOsuOsrService().GetOsrByteAsync(options, TestContext.Current.CancellationToken);
 
             // Assert
             Assert.NotNull(result);

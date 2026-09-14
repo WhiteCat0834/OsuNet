@@ -1,10 +1,13 @@
 ﻿namespace OsuNet.Enums {
     /// <summary>
-    /// Which team did the player belong to.
+    /// Represents the team a player belongs to in a multiplayer match.
     /// </summary>
     public enum Team {
-        Unsupported,
-        Blue,
-        Red
+        /// <summary>No team (unsupported or head-to-head without teams).</summary>
+        Unsupported = 0,
+        /// <summary>Blue team.</summary>
+        Blue = 1,
+        /// <summary>Red team.</summary>
+        Red = 2
     }
 }
