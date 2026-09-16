@@ -5,12 +5,12 @@ using SevenZip;
 namespace OsuNet.Replays.Tests.Extensions {
     public class ReplayExtensionsTests {
         [Fact]
-        public async Task DecodeAsync_EmptyContent_ShouldReturnEmptyReplayData() {
+        public async Task Decode_EmptyContent_ShouldReturnEmptyReplayData() {
             // Arrange
             var replay = new Replay(Content: "", Encoding: "LZMA");
 
             // Act
-            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
+            var result = replay.Decode();
 
             // Assert
             Assert.NotNull(result);
@@ -19,13 +19,13 @@ namespace OsuNet.Replays.Tests.Extensions {
         }
 
         [Fact]
-        public async Task DecodeAsync_ValidContent_ShouldParseFramesAndAccumulateTime() {
+        public async Task Decode_ValidContent_ShouldParseFramesAndAccumulateTime() {
             // Arrange
             var input = "0|100.5|200.5|1,10|150.0|250.0|2";
             var replay = new Replay(Content: LzmaTestHelper.CompressToBase64(input), Encoding: "LZMA");
 
             // Act
-            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
+            var result = replay.Decode();
 
             // Assert
             Assert.NotNull(result);
@@ -47,13 +47,13 @@ namespace OsuNet.Replays.Tests.Extensions {
         }
 
         [Fact]
-        public async Task DecodeAsync_ContentWithSeedMarker_ShouldParseSeed() {
+        public async Task Decode_ContentWithSeedMarker_ShouldParseSeed() {
             // Arrange
             var input = "-12345|0|0|12345";
             var replay = new Replay(Content: LzmaTestHelper.CompressToBase64(input), Encoding: "LZMA");
 
             // Act
-            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
+            var result = replay.Decode();
 
             // Assert
             Assert.NotNull(result);
@@ -62,13 +62,13 @@ namespace OsuNet.Replays.Tests.Extensions {
         }
 
         [Fact]
-        public async Task DecodeAsync_ContentWithInvalidFrame_ShouldSkipInvalidFrame() {
+        public async Task Decode_ContentWithInvalidFrame_ShouldSkipInvalidFrame() {
             // Arrange
             var input = "0|100.5|200.5|1,invalid_frame,0|150.0|250.0|2";
             var replay = new Replay(Content: LzmaTestHelper.CompressToBase64(input), Encoding: "LZMA");
 
             // Act
-            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
+            var result = replay.Decode();
 
             // Assert
             Assert.NotNull(result);
@@ -76,13 +76,13 @@ namespace OsuNet.Replays.Tests.Extensions {
         }
 
         [Fact]
-        public async Task DecodeAsync_ContentWithEmptySegments_ShouldSkipEmpty() {
+        public async Task Decode_ContentWithEmptySegments_ShouldSkipEmpty() {
             // Arrange
             var input = ",0|100.5|200.5|1,";
             var replay = new Replay(Content: LzmaTestHelper.CompressToBase64(input), Encoding: "LZMA");
 
             // Act
-            var result = await replay.DecodeAsync(TestContext.Current.CancellationToken);
+            var result = replay.Decode();
 
             // Assert
             Assert.NotNull(result);

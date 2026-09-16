@@ -12,16 +12,6 @@ namespace OsuNet.Replays.Extensions {
         private const string seedMarker = "-12345";
 
         /// <summary>
-        /// Decode replay data.
-        /// </summary>
-        /// <param name="replay">Class <see cref="Replay" /></param>
-        /// <param name="ct">A cancellation token that can be used to cancel the asynchronous operation.</param>
-        /// <returns></returns>
-        public static async Task<ReplayData> DecodeAsync(this Replay replay, CancellationToken ct = default) {
-            return await Task.Run(() => Decode(replay), ct);
-        }
-
-        /// <summary>
         /// Decodes and parses the compressed base64 replay content into an immutable <see cref="ReplayData"/> object.
         /// </summary>
         /// <param name="replay">The replay object containing the base64 encoded and LZMA compressed replay data.</param>
@@ -29,11 +19,7 @@ namespace OsuNet.Replays.Extensions {
         /// A fully parsed <see cref="ReplayData"/> instance containing the RNG seed and a list of replay frames. 
         /// Returns an empty <see cref="ReplayData"/> if the content is empty.
         /// </returns>
-        /// <remarks>
-        /// This method utilizes <see cref="ReadOnlySpan{Char}"/> for zero-allocation string parsing, 
-        /// significantly reducing Garbage Collector pressure compared to traditional <c>string.Split</c>.
-        /// </remarks>
-        private static ReplayData Decode(Replay replay) {
+        public static ReplayData Decode(this Replay replay) {
             if (string.IsNullOrEmpty(replay.Content)) {
                 return new ReplayData(0, Array.Empty<ReplayFrame>());
             }
