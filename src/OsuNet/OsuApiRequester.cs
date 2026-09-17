@@ -77,11 +77,6 @@ namespace OsuNet {
         /// <exception cref="TaskCanceledException">
         /// Thrown when the underlying HTTP request times out or is canceled.
         /// </exception>
-        /// <remarks>
-        /// The method constructs the full request URL by combining the configured base URL, the endpoint path,
-        /// and a URL-encoded query string. The response content is read as a stream and deserialized using the
-        /// configured JSON deserializer.
-        /// </remarks>
         public async Task<T> GetAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default) {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
             var url = $"{baseUrl}{endpoint}?{queryString}";

@@ -30,13 +30,6 @@ namespace OsuNet.Models.Info {
         /// </summary>
         /// <param name="v">The numeric value returned by the osu! API.</param>
         /// <returns>A new, empty <see cref="MatchInfo"/> instance.</returns>
-        /// <remarks>
-        /// This operator is specifically designed to handle edge cases in the osu! API response. 
-        /// When a multiplayer match does not exist, is invalid, or has no data, the API returns 
-        /// the integer <c>0</c> instead of a JSON object. This explicit conversion allows the JSON 
-        /// deserializer to gracefully convert that <c>0</c> into an empty <see cref="MatchInfo"/> 
-        /// instance rather than throwing a deserialization exception.
-        /// </remarks>
         public static explicit operator MatchInfo(long v) => new MatchInfo(0, null, default, null);
     }
 }
