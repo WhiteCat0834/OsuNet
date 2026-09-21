@@ -25,7 +25,7 @@ namespace OsuNet.Replays.Services {
         /// <summary>
         /// Gets replay as .osr byte array.
         /// </summary>
-        public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
+        public async Task<byte[]?> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.Replay.GetReplayAsync(options, ct);
             var t2 = api.Scores.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
@@ -41,11 +41,14 @@ namespace OsuNet.Replays.Services {
             }, ct);
             await Task.WhenAll(t1, t2, t3);
 
-            var replay = await t1 ?? throw new InvalidOperationException("Replay not found");
-            var score = (await t2).FirstOrDefault() ?? throw new InvalidOperationException("Score not found");
-            var beatmap = (await t3).FirstOrDefault() ?? throw new InvalidOperationException("Beatmap not found");
+            var replay = await t1;
+            var score = (await t2).FirstOrDefault();
+            var beatmap = (await t3).FirstOrDefault();
 
-            return await Task.Run(() => BuildOsrFile(replay, score, beatmap));
+            if (replay is null || score is null || beatmap is null)
+                return null;
+
+            return BuildOsrFile(replay, score, beatmap);
         }
 
         /// <summary>
