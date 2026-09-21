@@ -1,4 +1,5 @@
-﻿using OsuNet.Models.Info;
+﻿using OsuNet.Converters;
+using OsuNet.Models.Info;
 using System.Text.Json.Serialization;
 
 namespace OsuNet.Models {
@@ -9,7 +10,9 @@ namespace OsuNet.Models {
         /// <summary>
         /// Gets basic information about the match.
         /// </summary>
-        [property: JsonPropertyName("match")] MatchInfo MatchInfo,
+        [property: JsonPropertyName("match")]
+        [property: JsonConverter(typeof(MatchInfoConverter))]
+        MatchInfo? MatchInfo,
 
         /// <summary>
         /// Gets basic information about games.
