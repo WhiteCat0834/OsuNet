@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace OsuNet.Models.Info {
     /// <summary>
@@ -8,22 +8,22 @@ namespace OsuNet.Models.Info {
         /// <summary>
         /// The unique ID of the match.
         /// </summary>
-        [JsonProperty("match_id")] ulong MatchId,
+        [property: JsonPropertyName("match_id")] ulong MatchId,
 
         /// <summary>
         /// Lobby Name.
         /// </summary>
-        [JsonProperty("name")] string? Name,
+        [property: JsonPropertyName("name")] string? Name,
 
         /// <summary>
         /// Date and time the lobby was created.
         /// </summary>
-        [JsonProperty("start_time")] DateTime StartTime,
+        [property: JsonPropertyName("start_time")] DateTime StartTime,
 
         /// <summary>
         /// Date and time the lobby was deleted.
         /// </summary>
-        [JsonProperty("end_time")] DateTime? EndTime
+        [property: JsonPropertyName("end_time")] DateTime? EndTime
     ) {
         /// <summary>
         /// Allows explicit casting of a numeric value (typically <c>0</c>) to a <see cref="MatchInfo"/> object.

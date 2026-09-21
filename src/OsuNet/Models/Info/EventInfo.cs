@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace OsuNet.Models.Info {
     /// <summary>
@@ -8,26 +8,26 @@ namespace OsuNet.Models.Info {
         /// <summary>
         /// Event HTML code.
         /// </summary>
-        [JsonProperty("display_html")] string DisplayHtml,
+        [property: JsonPropertyName("display_html")] string DisplayHtml,
 
         /// <summary>
         /// Unique beatmap SET ID.
         /// </summary>
-        [JsonProperty("beatmap_id")] ulong? BeatmapId,
+        [property: JsonPropertyName("beatmap_id")] ulong? BeatmapId,
 
         /// <summary>
         /// Unique beatmap ID.
         /// </summary>
-        [JsonProperty("beatmapset_id")] ulong? BeatmapSetId,
+        [property: JsonPropertyName("beatmapset_id")] ulong? BeatmapSetId,
 
         /// <summary>
         /// Date and time the event was received.
         /// </summary>
-        [JsonProperty("date")] DateTime DateTime,
+        [property: JsonPropertyName("date")] DateTime DateTime,
 
         /// <summary>
         /// How "epic" this event is (between 1 and 32).
         /// </summary>
-        [JsonProperty("epicfactor")] byte EpicFactor
+        [property: JsonPropertyName("epicfactor")] byte EpicFactor
     );
 }
