@@ -24,12 +24,5 @@ namespace OsuNet.Models.Info {
         /// Date and time the lobby was deleted.
         /// </summary>
         [property: JsonPropertyName("end_time")] DateTime? EndTime
-    ) {
-        /// <summary>
-        /// Allows explicit casting of a numeric value (typically <c>0</c>) to a <see cref="MatchInfo"/> object.
-        /// </summary>
-        /// <param name="v">The numeric value returned by the osu! API.</param>
-        /// <returns>A new, empty <see cref="MatchInfo"/> instance.</returns>
-        public static explicit operator MatchInfo(long v) => new MatchInfo(0, null, default, null);
-    }
+    );
 }
