@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OsuNet.Converters {
     /// <summary>
@@ -8,26 +9,24 @@ namespace OsuNet.Converters {
     /// </summary>
     public class OsuBoolConverter : JsonConverter<bool> {
         /// <summary>
-        /// Writes a boolean value to the JSON output as a string "1" for true or "0" for false.
+        /// Reads a JSON value and converts it to a boolean. Returns true if the value is "1", otherwise false.
         /// </summary>
-        /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
-        /// <param name="value">The boolean value to serialize.</param>
-        /// <param name="serializer">The calling <see cref="JsonSerializer"/>.</param>
-        public override void WriteJson(JsonWriter writer, bool value, JsonSerializer serializer) {
-            writer.WriteValue(value ? "1" : "0");
+        /// <param name="reader">The <see cref="Utf8JsonReader"/> to read from.</param>
+        /// <param name="typeToConvert">The type of the object to convert to.</param>
+        /// <param name="options">The calling <see cref="JsonSerializerOptions"/>.</param>
+        /// <returns>True if the JSON value is the string "1"; otherwise, false.</returns>
+        public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            return reader.GetString() == "1";
         }
 
         /// <summary>
-        /// Reads a JSON value and converts it to a boolean. Returns true if the value is "1", otherwise false.
+        /// Writes a boolean value to the JSON output as a string "1" for true or "0" for false.
         /// </summary>
-        /// <param name="reader">The <see cref="JsonReader"/> to read from.</param>
-        /// <param name="objectType">The type of the object to convert to.</param>
-        /// <param name="existingValue">The existing value of the object being read.</param>
-        /// <param name="hasExistingValue">Indicates whether the existing value has a valid value.</param>
-        /// <param name="serializer">The calling <see cref="JsonSerializer"/>.</param>
-        /// <returns>True if the JSON value is the string "1"; otherwise, false.</returns>
-        public override bool ReadJson(JsonReader reader, Type objectType, bool existingValue, bool hasExistingValue, JsonSerializer serializer) {
-            return reader.Value?.ToString() == "1";
+        /// <param name="writer">The <see cref="Utf8JsonWriter"/> to write to.</param>
+        /// <param name="value">The boolean value to serialize.</param>
+        /// <param name="options">The calling <see cref="JsonSerializerOptions"/>.</param>
+        public override void Write(Utf8JsonWriter writer, bool value, JsonSerializerOptions options) {
+            writer.WriteStringValue(value ? "1" : "0");
         }
     }
 }
