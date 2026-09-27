@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using OsuNet.Abstractions;
 using OsuNet.Converters;
-using System.Net;
 
 namespace OsuNet {
     /// <summary>
@@ -16,8 +18,19 @@ namespace OsuNet {
         public string AccessToken { get; set; }
         private readonly HttpClient httpClient;
         private const string baseUrl = "https://osu.ppy.sh/api/";
-        private static readonly JsonSerializerSettings jsonSettings = new() {
-            Converters = { new OsuBoolConverter() }
+
+        /// <summary>
+        /// Shared JSON serialization options configured for the osu! API.
+        /// </summary>
+        private static readonly JsonSerializerOptions jsonOptions = new() {
+            PropertyNameCaseInsensitive = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+            Converters = {
+                new JsonStringEnumConverter(),
+                new OsuBoolConverter(),
+                new OsuDateTimeConverter()
+            }
         };
 
         /// <summary>
@@ -26,8 +39,9 @@ namespace OsuNet {
         /// for optimized data transfer with the osu! API.
         /// </summary>
         /// <param name="accessToken">The osu! API v1 authentication token.</param>
-        public OsuApiRequester(string accessToken, HttpMessageHandler handler = null) {
-            if (string.IsNullOrWhiteSpace(accessToken))
+        /// <param name="handler">Optional custom <see cref="HttpMessageHandler"/>.</param>
+        public OsuApiRequester(string accessToken, HttpMessageHandler? handler = null) {
+            if (string.IsNullOrWhiteSpace(accessToken)) 
                 throw new ArgumentNullException(nameof(accessToken), "Access token cannot be null or empty.");
 
             this.AccessToken = accessToken;
@@ -40,13 +54,6 @@ namespace OsuNet {
             if (handler == null) {
                 this.httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             }
-        }
-
-        private T fromJson<T>(Stream stream) {
-            using var reader = new StreamReader(stream);
-            using var jsonReader = new JsonTextReader(reader);
-            var serializer = JsonSerializer.Create(jsonSettings);
-            return serializer.Deserialize<T>(jsonReader)!;
         }
 
         /// <summary>
@@ -74,9 +81,6 @@ namespace OsuNet {
         /// <exception cref="OperationCanceledException">
         /// Thrown when the <paramref name="cancellationToken"/> is signaled before the operation completes.
         /// </exception>
-        /// <exception cref="TaskCanceledException">
-        /// Thrown when the underlying HTTP request times out or is canceled.
-        /// </exception>
         public async Task<T> GetAsync<T>(string endpoint, IEnumerable<KeyValuePair<string, string>> query, CancellationToken cancellationToken = default) {
             var queryString = string.Join("&", query.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"));
             var url = $"{baseUrl}{endpoint}?{queryString}";
@@ -84,8 +88,9 @@ namespace OsuNet {
             using var response = await httpClient.GetAsync(url, cancellationToken);
             response.EnsureSuccessStatusCode();
 
-            await using var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-            return fromJson<T>(stream);
+            var result = await response.Content.ReadFromJsonAsync<T>(jsonOptions, cancellationToken);
+
+            return result!;
         }
     }
 }

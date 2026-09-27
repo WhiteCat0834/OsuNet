@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace OsuNet.Models {
     /// <summary>
@@ -8,11 +8,11 @@ namespace OsuNet.Models {
         /// <summary>
         /// Gets information about the replay (Base64 encoded and LZMA compressed).
         /// </summary>
-        [JsonProperty("content")] string Content,
+        [property: JsonPropertyName("content")] string Content,
 
         /// <summary>
         /// Gets encoding information.
         /// </summary>
-        [JsonProperty("encoding")] string Encoding
+        [property: JsonPropertyName("encoding")] string Encoding
     );
 }
