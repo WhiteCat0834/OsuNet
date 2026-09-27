@@ -23,8 +23,21 @@ namespace OsuNet.Replays.Services {
         }
 
         /// <summary>
-        /// Gets replay as .osr byte array.
+        /// Asynchronously retrieves and builds a complete .osr replay file as a byte array.
+        /// This method concurrently fetches the replay data, score information, and beatmap details 
+        /// required to construct the file.
         /// </summary>
+        /// <param name="options">
+        /// The <see cref="GetReplayOptions"/> specifying the beatmap, user, mods, mode, and type 
+        /// needed to fetch the corresponding replay, score, and beatmap data.
+        /// </param>
+        /// <param name="ct">
+        /// A <see cref="CancellationToken"/> to observe for cancellation requests.
+        /// </param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the .osr file 
+        /// as a byte array, or <c>null</c> if the replay, score, or beatmap data could not be found.
+        /// </returns>
         public async Task<byte[]?> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.Replay.GetReplayAsync(options, ct);
             var t2 = api.Scores.GetScoresAsync(new GetScoresOptions() {
