@@ -5,8 +5,9 @@ namespace OsuNet {
     /// <summary>
     /// The main class of this library.
     /// </summary>
-    public partial class OsuApi : IOsuApi {        
+    public class OsuApi : IOsuApi, IDisposable {        
         private readonly IApiRequester apiRequester;
+        private bool disposed;
 
         /// <summary>
         /// Gets or sets the Osu!API token. 
@@ -75,6 +76,17 @@ namespace OsuNet {
             this.Scores = scores ?? new ScoresModule(this.apiRequester);
             this.Multiplayer = multiplayer ?? new MultiplayerModule(this.apiRequester);
             this.Replay = replay ?? new ReplayModule(this.apiRequester);
+        }
+
+        /// <summary>
+        /// Releases all resources used by the current instance of the <see cref="OsuApi"/> class.
+        /// This method synchronously disposes the underlying <see cref="IApiRequester"/>, which in turn
+        /// releases the <see cref="HttpClient"/> and its associated resources, closing all active HTTP connections.
+        /// </summary>
+        public void Dispose() {
+            if (disposed) return;
+            disposed = true;
+            apiRequester.Dispose();
         }
     }
 }

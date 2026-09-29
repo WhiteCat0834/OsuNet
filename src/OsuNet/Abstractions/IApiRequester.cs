@@ -2,7 +2,7 @@
     /// <summary>
     /// Represents a contract for an HTTP client capable of executing requests to the osu! API.
     /// </summary>
-    public interface IApiRequester {
+    public interface IApiRequester : IDisposable {
         /// <summary>
         /// Gets or sets the API access token used for authentication when making requests to the osu! API.
         /// </summary>

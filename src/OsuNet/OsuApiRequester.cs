@@ -18,6 +18,7 @@ namespace OsuNet {
         public string AccessToken { get; set; }
         private readonly HttpClient httpClient;
         private const string baseUrl = "https://osu.ppy.sh/api/";
+        private bool disposed;
 
         /// <summary>
         /// Shared JSON serialization options configured for the osu! API.
@@ -91,6 +92,17 @@ namespace OsuNet {
             var result = await response.Content.ReadFromJsonAsync<T>(jsonOptions, cancellationToken);
 
             return result!;
+        }
+
+        /// <summary>
+        /// Releases all resources used by the current instance of the <see cref="OsuApiRequester"/> class.
+        /// This method synchronously disposes the underlying <see cref="HttpClient"/> and its associated 
+        /// <see cref="HttpMessageHandler"/>, closing all active HTTP connections and freeing socket resources.
+        /// </summary>
+        public void Dispose() {
+            if (disposed) return;
+            disposed = true;
+            httpClient.Dispose();
         }
     }
 }
