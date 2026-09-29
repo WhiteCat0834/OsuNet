@@ -5,10 +5,6 @@ namespace OsuNet.Replays.Models {
     /// Represents a single frame (snapshot in time) within an osu! replay, 
     /// capturing cursor position, timing, and key states.
     /// </summary>
-    /// <remarks>
-    /// This is a <c>readonly record struct</c> to ensure immutability and 
-    /// zero heap allocations when stored in collections like <see cref="List{T}"/>.
-    /// </remarks>
     public readonly record struct ReplayFrame(
         int TimeDiff,
         int Time,

@@ -23,9 +23,22 @@ namespace OsuNet.Replays.Services {
         }
 
         /// <summary>
-        /// Gets replay as .osr byte array.
+        /// Asynchronously retrieves and builds a complete .osr replay file as a byte array.
+        /// This method concurrently fetches the replay data, score information, and beatmap details 
+        /// required to construct the file.
         /// </summary>
-        public async Task<byte[]> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
+        /// <param name="options">
+        /// The <see cref="GetReplayOptions"/> specifying the beatmap, user, mods, mode, and type 
+        /// needed to fetch the corresponding replay, score, and beatmap data.
+        /// </param>
+        /// <param name="ct">
+        /// A <see cref="CancellationToken"/> to observe for cancellation requests.
+        /// </param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the .osr file 
+        /// as a byte array, or <c>null</c> if the replay, score, or beatmap data could not be found.
+        /// </returns>
+        public async Task<byte[]?> GetOsrByteAsync(GetReplayOptions options, CancellationToken ct = default) {
             var t1 = api.Replay.GetReplayAsync(options, ct);
             var t2 = api.Scores.GetScoresAsync(new GetScoresOptions() {
                 BeatmapId = options.BeatmapId,
@@ -41,11 +54,14 @@ namespace OsuNet.Replays.Services {
             }, ct);
             await Task.WhenAll(t1, t2, t3);
 
-            var replay = await t1 ?? throw new InvalidOperationException("Replay not found");
-            var score = (await t2).FirstOrDefault() ?? throw new InvalidOperationException("Score not found");
-            var beatmap = (await t3).FirstOrDefault() ?? throw new InvalidOperationException("Beatmap not found");
+            var replay = await t1;
+            var score = (await t2).FirstOrDefault();
+            var beatmap = (await t3).FirstOrDefault();
 
-            return await Task.Run(() => BuildOsrFile(replay, score, beatmap));
+            if (replay is null || score is null || beatmap is null)
+                return null;
+
+            return BuildOsrFile(replay, score, beatmap);
         }
 
         /// <summary>

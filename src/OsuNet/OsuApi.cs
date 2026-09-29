@@ -5,8 +5,9 @@ namespace OsuNet {
     /// <summary>
     /// The main class of this library.
     /// </summary>
-    public partial class OsuApi : IOsuApi {        
+    public class OsuApi : IOsuApi, IDisposable {        
         private readonly IApiRequester apiRequester;
+        private bool disposed;
 
         /// <summary>
         /// Gets or sets the Osu!API token. 
@@ -45,28 +46,47 @@ namespace OsuNet {
         /// Initializes a new instance of the <see cref="OsuApi"/> class with a default HTTP requester.
         /// </summary>
         /// <param name="accessToken">Your Osu!API token.</param>
-        public OsuApi(string accessToken) {
-            this.apiRequester = new OsuApiRequester(accessToken);
-            
-            this.Beatmaps = new BeatmapsModule(this.apiRequester);
-            this.User = new UserModule(this.apiRequester);
-            this.Scores = new ScoresModule(this.apiRequester);
-            this.Multiplayer = new MultiplayerModule(this.apiRequester);
-            this.Replay = new ReplayModule(this.apiRequester);
+        public OsuApi(string accessToken) : this(accessToken, null) {
+
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OsuApi"/> class with a custom requester.
         /// </summary>
+        /// <param name="accessToken">Your Osu!API token.</param>
         /// <param name="requester">A custom implementation of <see cref="IApiRequester"/>.</param>
-        public OsuApi(IApiRequester requester) {
-            this.apiRequester = requester ?? throw new ArgumentNullException(nameof(requester));
-            
-            this.Beatmaps = new BeatmapsModule(this.apiRequester);
-            this.User = new UserModule(this.apiRequester);
-            this.Scores = new ScoresModule(this.apiRequester);
-            this.Multiplayer = new MultiplayerModule(this.apiRequester);
-            this.Replay = new ReplayModule(this.apiRequester);
+        /// <param name="beatmaps">A custom implementation of <see cref="IBeatmapModule"/>.</param>
+        /// <param name="user">A custom implementation of <see cref="IUserModule"/>.</param>
+        /// <param name="scores">A custom implementation of <see cref="IScoresModule"/>.</param>
+        /// <param name="multiplayer">A custom implementation of <see cref="IMultiplayerModule"/>.</param>
+        /// <param name="replay">A custom implementation of <see cref="IReplayModule"/>.</param>
+
+        public OsuApi(
+            string accessToken,
+            IApiRequester? requester = null,
+            IBeatmapModule? beatmaps = null,
+            IUserModule? user = null,
+            IScoresModule? scores = null,
+            IMultiplayerModule? multiplayer = null,
+            IReplayModule? replay = null) {
+            this.apiRequester = requester ?? new OsuApiRequester(accessToken);
+
+            this.Beatmaps = beatmaps ?? new BeatmapsModule(this.apiRequester);
+            this.User = user ?? new UserModule(this.apiRequester);
+            this.Scores = scores ?? new ScoresModule(this.apiRequester);
+            this.Multiplayer = multiplayer ?? new MultiplayerModule(this.apiRequester);
+            this.Replay = replay ?? new ReplayModule(this.apiRequester);
+        }
+
+        /// <summary>
+        /// Releases all resources used by the current instance of the <see cref="OsuApi"/> class.
+        /// This method synchronously disposes the underlying <see cref="IApiRequester"/>, which in turn
+        /// releases the <see cref="HttpClient"/> and its associated resources, closing all active HTTP connections.
+        /// </summary>
+        public void Dispose() {
+            if (disposed) return;
+            disposed = true;
+            apiRequester.Dispose();
         }
     }
 }
